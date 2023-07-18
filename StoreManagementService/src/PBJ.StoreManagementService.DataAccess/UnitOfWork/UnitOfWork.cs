@@ -16,7 +16,7 @@ namespace PBJ.StoreManagementService.DataAccess.UnitOfWork
         private IUserSubscriptionRepository _userSubscriptionRepository;
         private IUserFollowingRepository _userFollowingRepository;
 
-        private bool disposed = false;
+        private bool _disposed = false;
 
         public IUserRepository UserRepository
         {
@@ -114,14 +114,14 @@ namespace PBJ.StoreManagementService.DataAccess.UnitOfWork
             _databaseContext = databaseContext;
         }
 
-        public Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await _databaseContext.SaveChangesAsync();
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
@@ -129,7 +129,7 @@ namespace PBJ.StoreManagementService.DataAccess.UnitOfWork
                 }
             }
 
-            disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()
