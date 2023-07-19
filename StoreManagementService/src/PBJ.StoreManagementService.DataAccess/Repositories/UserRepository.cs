@@ -10,5 +10,17 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         public UserRepository(DatabaseContext databaseContext)
             : base(databaseContext)
         { }
+
+        public async Task<List<User>> GetFollowersAsync(int userId, int amount)
+        {
+            return await _databaseContext.Users.Include(x => x.Followers)
+                .Where(x => x.Id == userId).Take(amount).ToListAsync();
+        }
+
+        public async Task<List<User>> GetFollowingsAsync(int userId, int amount)
+        {
+            return await _databaseContext.Users.Include(x => x.Followings)
+                .Where(x => x.Id == userId).Take(amount).ToListAsync();
+        }
     }
 }
