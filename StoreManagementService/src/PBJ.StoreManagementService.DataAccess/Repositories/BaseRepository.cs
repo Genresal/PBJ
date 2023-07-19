@@ -18,20 +18,26 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
 
         public virtual async Task<List<TEntity>> GetAmountAsync(int amount)
         {
-            return await _databaseContext.Set<TEntity>().AsNoTracking()
+            return await _databaseContext.Set<TEntity>()
                 .Take(amount).ToListAsync();
+        }
+
+        public virtual async Task<List<TEntity>> GetAmountAsync(Expression<Func<TEntity, bool>> whereExpression, int amount)
+        {
+            return await _databaseContext.Set<TEntity>()
+                .Where(whereExpression).Take(amount).ToListAsync();
         }
 
         public virtual async Task<TEntity> GetAsync(int id)
         {
-            return await _databaseContext.Set<TEntity>().AsNoTracking()
+            return await _databaseContext.Set<TEntity>()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> where)
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
             return await _databaseContext.Set<TEntity>()
-                .FirstOrDefaultAsync(where);
+                .FirstOrDefaultAsync(whereExpression);
         }
 
         public virtual async Task CreateAsync(TEntity entity)

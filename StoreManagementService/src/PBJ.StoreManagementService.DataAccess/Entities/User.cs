@@ -18,12 +18,8 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
 
         public IReadOnlyCollection<Comment>? Comments { get; set; }
 
-        public Subscription Subscription { get; set; }
+        public IReadOnlyCollection<UserFollowers>? Followings { get; set; }
 
-        public Following Following { get; set; }
-
-        public IReadOnlyCollection<UserSubscription>? UserSubscriptions { get; set; }
-
-        public IReadOnlyCollection<UserFollowing>? UserFollowings { get; set; }
+        public IReadOnlyCollection<UserFollowers>? Followers { get; set; }
     }
 }

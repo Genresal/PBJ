@@ -37,14 +37,6 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .HasMaxLength(50)
                 .HasColumnType("nchar");
 
-            builder.HasOne(u => u.Subscription)
-                .WithOne(s => s.SubscribedUser)
-                .HasForeignKey<Subscription>(s => s.SubscribedUserId);
-
-            builder.HasOne(u => u.Following)
-                .WithOne(s => s.FollowingUser)
-                .HasForeignKey<Following>(s => s.FollowingUserId);
-
             builder.HasData(
                 new User()
                 {

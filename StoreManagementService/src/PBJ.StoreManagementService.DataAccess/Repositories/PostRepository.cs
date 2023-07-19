@@ -10,11 +10,5 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         public PostRepository(DatabaseContext databaseContext)
             : base(databaseContext)
         { }
-
-        public async Task<List<Post>> GetUserPostsAsync(int userId, int amount)
-        {
-            return await _databaseContext.Posts.AsNoTracking()
-                .Where(x => x.UserId == userId).Take(amount).ToListAsync();
-        }
     }
 }
