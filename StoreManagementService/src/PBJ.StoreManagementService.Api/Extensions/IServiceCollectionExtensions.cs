@@ -1,4 +1,6 @@
-﻿namespace PBJ.StoreManagementService.Api
+﻿using PBJ.StoreManagementService.Api.Extensions;
+
+namespace PBJ.StoreManagementService.Api.Extensions
 {
     public static class IServiceCollectionExtensions
     {
