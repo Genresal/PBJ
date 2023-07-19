@@ -22,12 +22,6 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
                 .Take(amount).ToListAsync();
         }
 
-        public virtual async Task<List<TEntity>> GetAmountAsync(Expression<Func<TEntity, bool>> whereExpression, int amount)
-        {
-            return await _databaseContext.Set<TEntity>()
-                .Where(whereExpression).Take(amount).ToListAsync();
-        }
-
         public virtual async Task<TEntity> GetAsync(int id)
         {
             return await _databaseContext.Set<TEntity>()

@@ -8,11 +8,11 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<List<UserDto>> GetFollowersAsync(int userId, int amount);
 
-        Task<List<UserDto>> GetFollowingsAsync(int followerId, int amount);
+        Task<List<UserDto>> GetFollowingsAsync(int userId, int amount);
 
         Task<UserDto> GetAsync(int id);
 
-        Task<UserDto> GetAsync(string email);
+        Task<UserDto> GetAsync(string login);
 
         Task<bool> CreateAsync(UserDto userDto);
 
