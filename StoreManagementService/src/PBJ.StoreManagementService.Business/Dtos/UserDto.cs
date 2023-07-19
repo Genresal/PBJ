@@ -18,12 +18,8 @@
 
         public IReadOnlyCollection<CommentDto>? Comments { get; set; }
 
-        public SubscriptionDto? Subscription { get; set; }
+        public IReadOnlyCollection<UserFollowersDto>? Followings { get; set; }
 
-        public FollowingDto? Following { get; set; }
-
-        public IReadOnlyCollection<UserSubscriptionDto>? UserSubscriptions { get; set; }
-
-        public IReadOnlyCollection<UserFollowingDto>? UserFollowings { get; set; }
+        public IReadOnlyCollection<UserFollowersDto>? Followers { get; set; }
     }
 }

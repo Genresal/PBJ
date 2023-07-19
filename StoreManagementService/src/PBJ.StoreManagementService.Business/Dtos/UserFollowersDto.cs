@@ -1,6 +1,6 @@
 ﻿namespace PBJ.StoreManagementService.Business.Dtos
 {
-    public class UserSubscriptionDto
+    public class UserFollowersDto
     {
         public int Id { get; set; }
 
@@ -8,8 +8,8 @@
 
         public UserDto? User { get; set; }
 
-        public int SubscriptionId { get; set; }
+        public int FollowerId { get; set; }
 
-        public SubscriptionDto? Subscription { get; set; }
+        public UserDto? Follower { get; set; }
     }
 }
