@@ -8,8 +8,6 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable(nameof(User));
-
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
