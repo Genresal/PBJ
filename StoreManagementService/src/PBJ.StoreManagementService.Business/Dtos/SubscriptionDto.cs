@@ -2,12 +2,14 @@
 {
     public class SubscriptionDto
     {
-        public DateTime SubscriptionDate { get; set; }
+        public int Id { get; set; }
+
+        public DateTime CreatedAt { get; set; }
 
         public int SubscribedUserId { get; set; }
 
         public UserDto? SubscribedUser { get; set; }
 
-        public ICollection<UserSubscriptionDto>? UserSubscriptions { get; set; }
+        public IReadOnlyCollection<UserSubscriptionDto>? UserSubscriptions { get; set; }
     }
 }

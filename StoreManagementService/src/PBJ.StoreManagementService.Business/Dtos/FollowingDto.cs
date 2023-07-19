@@ -2,12 +2,14 @@
 {
     public class FollowingDto
     {
-        public DateTime FollowingDate { get; set; }
+        public int Id { get; set; }
+
+        public DateTime CreatedAt { get; set; }
 
         public int FollowingUserId { get; set; }
 
         public UserDto? FollowingUser { get; set; }
 
-        public ICollection<UserFollowingDto>? UserFollowings { get; set; }
+        public IReadOnlyCollection<UserFollowingDto>? UserFollowings { get; set; }
     }
 }
