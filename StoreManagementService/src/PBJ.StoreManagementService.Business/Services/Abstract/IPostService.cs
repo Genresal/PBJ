@@ -6,8 +6,6 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
     {
         Task<List<PostDto>> GetAmountAsync(int amount);
 
-        Task<List<PostDto>> GetUserPostsAsync(int userId, int amount);
-
         Task<PostDto> GetAsync(int id);
 
         Task<bool> CreateAsync(PostDto postDto);

@@ -6,8 +6,6 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
     {
         Task<List<CommentDto>> GetAmountAsync(int amount);
 
-        Task<List<CommentDto>> GetPostCommentsAsync(int postId, int amount);
-
         Task<CommentDto> GetAsync(int id);
 
         Task<bool> CreateAsync(CommentDto commentDto);
