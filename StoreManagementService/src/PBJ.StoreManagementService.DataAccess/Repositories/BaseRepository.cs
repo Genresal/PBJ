@@ -54,5 +54,12 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
 
             await _databaseContext.SaveChangesAsync();
         }
+
+        public virtual async Task DeleteRangeAsync(ICollection<TEntity> collection)
+        {
+            _databaseContext.Set<TEntity>().RemoveRange(collection);
+
+            await _databaseContext.SaveChangesAsync();
+        }
     }
 }

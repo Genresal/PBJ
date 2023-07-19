@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PBJ.StoreManagementService.DataAccess.Context;
+﻿using PBJ.StoreManagementService.DataAccess.Context;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 
