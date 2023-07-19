@@ -11,10 +11,7 @@ namespace PBJ.StoreManagementService.Business.Mappers
             CreateMap<UserDto, User>().ReverseMap();
             CreateMap<CommentDto, Comment>().ReverseMap();
             CreateMap<PostDto, Post>().ReverseMap();
-            CreateMap<FollowingDto, Following>().ReverseMap();
-            CreateMap<SubscriptionDto, Subscription>().ReverseMap();
-            CreateMap<UserSubscriptionDto, UserSubscription>().ReverseMap();
-            CreateMap<UserFollowingDto, UserFollowing>().ReverseMap();
+            CreateMap<UserFollowersDto, UserFollowers>().ReverseMap();
         }
     }
 }
