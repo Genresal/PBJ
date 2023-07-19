@@ -12,18 +12,18 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
 
         public DateTime? BirthDate { get; set; }
 
-        public string? Login { get; set; }
+        public string? Email { get; set; }
 
-        public ICollection<Post>? Posts { get; set; }
+        public IReadOnlyCollection<Post>? Posts { get; set; }
 
-        public ICollection<Comment>? Comments { get; set; }
+        public IReadOnlyCollection<Comment>? Comments { get; set; }
 
         public Subscription Subscription { get; set; }
 
         public Following Following { get; set; }
 
-        public ICollection<UserSubscription>? UserSubscriptions { get; set; }
+        public IReadOnlyCollection<UserSubscription>? UserSubscriptions { get; set; }
 
-        public ICollection<UserFollowing>? UserFollowings { get; set; }
+        public IReadOnlyCollection<UserFollowing>? UserFollowings { get; set; }
     }
 }

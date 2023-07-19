@@ -6,7 +6,7 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
     {
         public string? Content { get; set; }
 
-        public DateTime CommentDate { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public int UserId { get; set; }
 

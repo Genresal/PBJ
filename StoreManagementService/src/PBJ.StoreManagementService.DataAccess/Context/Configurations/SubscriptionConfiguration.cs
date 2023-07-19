@@ -13,7 +13,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(x => x.SubscriptionDate)
+            builder.Property(x => x.CreatedAt)
                 .IsRequired()
                 .HasColumnType("date");
 
@@ -22,13 +22,13 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 {
                     Id = 1,
                     SubscribedUserId = 1,
-                    SubscriptionDate = DateTime.Now
+                    CreatedAt = DateTime.Now
                 },
                 new Subscription()
                 {
                     Id = 2,
                     SubscribedUserId = 2,
-                    SubscriptionDate = DateTime.Now
+                    CreatedAt = DateTime.Now
                 }
                 );
         }

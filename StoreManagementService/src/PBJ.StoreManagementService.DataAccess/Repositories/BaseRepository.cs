@@ -2,6 +2,7 @@
 using PBJ.StoreManagementService.DataAccess.Context;
 using PBJ.StoreManagementService.DataAccess.Entities.Abstract;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using System.Linq.Expressions;
 
 namespace PBJ.StoreManagementService.DataAccess.Repositories
 {
@@ -25,6 +26,12 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         {
             return await _databaseContext.Set<TEntity>().AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> where)
+        {
+            return await _databaseContext.Set<TEntity>()
+                .FirstOrDefaultAsync(where);
         }
 
         public virtual async Task CreateAsync(TEntity entity)

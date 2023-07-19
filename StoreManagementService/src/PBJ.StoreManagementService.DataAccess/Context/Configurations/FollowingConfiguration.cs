@@ -13,7 +13,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(x => x.FollowingDate)
+            builder.Property(x => x.CreatedAt)
                 .IsRequired()
                 .HasColumnType("date");
 
@@ -22,13 +22,13 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 {
                     Id = 1,
                     FollowingUserId = 1,
-                    FollowingDate = DateTime.Now
+                    CreatedAt = DateTime.Now
                 },
                 new Following()
                 {
                     Id = 2,
                     FollowingUserId = 2,
-                    FollowingDate = DateTime.Now
+                    CreatedAt = DateTime.Now
                 }
             );
         }

@@ -30,13 +30,13 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CommentDate")
-                        .HasColumnType("date");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nchar");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("date");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -50,22 +50,22 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment", (string)null);
+                    b.ToTable("Comments");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CommentDate = new DateTime(2023, 7, 18, 15, 35, 47, 839, DateTimeKind.Local).AddTicks(9223),
                             Content = "CommentContent1",
+                            CreatedAt = new DateTime(2023, 7, 19, 12, 25, 1, 787, DateTimeKind.Local).AddTicks(3969),
                             PostId = 2,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CommentDate = new DateTime(2023, 7, 18, 15, 35, 47, 839, DateTimeKind.Local).AddTicks(9237),
                             Content = "CommentContent2",
+                            CreatedAt = new DateTime(2023, 7, 19, 12, 25, 1, 787, DateTimeKind.Local).AddTicks(3981),
                             PostId = 1,
                             UserId = 2
                         });
@@ -79,7 +79,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("FollowingDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("date");
 
                     b.Property<int>("FollowingUserId")
@@ -90,19 +90,19 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                     b.HasIndex("FollowingUserId")
                         .IsUnique();
 
-                    b.ToTable("Following", (string)null);
+                    b.ToTable("Followings");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            FollowingDate = new DateTime(2023, 7, 18, 15, 35, 47, 840, DateTimeKind.Local).AddTicks(1924),
+                            CreatedAt = new DateTime(2023, 7, 19, 12, 25, 1, 787, DateTimeKind.Local).AddTicks(6362),
                             FollowingUserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            FollowingDate = new DateTime(2023, 7, 18, 15, 35, 47, 840, DateTimeKind.Local).AddTicks(1928),
+                            CreatedAt = new DateTime(2023, 7, 19, 12, 25, 1, 787, DateTimeKind.Local).AddTicks(6366),
                             FollowingUserId = 2
                         });
                 });
@@ -120,7 +120,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nchar");
 
-                    b.Property<DateTime>("PostDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("date");
 
                     b.Property<int>("UserId")
@@ -130,21 +130,21 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Post", (string)null);
+                    b.ToTable("Posts");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            PostDate = new DateTime(2023, 7, 18, 15, 35, 47, 840, DateTimeKind.Local).AddTicks(6035),
+                            CreatedAt = new DateTime(2023, 7, 19, 12, 25, 1, 787, DateTimeKind.Local).AddTicks(9785),
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            PostDate = new DateTime(2023, 7, 18, 15, 35, 47, 840, DateTimeKind.Local).AddTicks(6042),
+                            CreatedAt = new DateTime(2023, 7, 19, 12, 25, 1, 787, DateTimeKind.Local).AddTicks(9790),
                             UserId = 2
                         });
                 });
@@ -157,31 +157,31 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int>("SubscribedUserId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("SubscriptionDate")
-                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SubscribedUserId")
                         .IsUnique();
 
-                    b.ToTable("Subscription", (string)null);
+                    b.ToTable("Subscriptions");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            SubscribedUserId = 1,
-                            SubscriptionDate = new DateTime(2023, 7, 18, 15, 35, 47, 840, DateTimeKind.Local).AddTicks(8485)
+                            CreatedAt = new DateTime(2023, 7, 19, 12, 25, 1, 788, DateTimeKind.Local).AddTicks(1864),
+                            SubscribedUserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            SubscribedUserId = 2,
-                            SubscriptionDate = new DateTime(2023, 7, 18, 15, 35, 47, 840, DateTimeKind.Local).AddTicks(8490)
+                            CreatedAt = new DateTime(2023, 7, 19, 12, 25, 1, 788, DateTimeKind.Local).AddTicks(1868),
+                            SubscribedUserId = 2
                         });
                 });
 
@@ -196,14 +196,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("date");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nchar");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nchar");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("nchar");
 
                     b.Property<string>("Name")
@@ -218,24 +218,24 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            BirthDate = new DateTime(2023, 7, 18, 15, 35, 47, 841, DateTimeKind.Local).AddTicks(3176),
+                            BirthDate = new DateTime(2023, 7, 19, 12, 25, 1, 788, DateTimeKind.Local).AddTicks(6578),
+                            Email = "login1",
                             LastName = "Lastname1",
-                            Login = "login1",
                             Name = "Name1",
                             Surname = "Surname1"
                         },
                         new
                         {
                             Id = 2,
-                            BirthDate = new DateTime(2023, 7, 18, 15, 35, 47, 841, DateTimeKind.Local).AddTicks(3185),
+                            BirthDate = new DateTime(2023, 7, 19, 12, 25, 1, 788, DateTimeKind.Local).AddTicks(6587),
+                            Email = "login2",
                             LastName = "Lastname2",
-                            Login = "login2",
                             Name = "Name2",
                             Surname = "Surname2"
                         });
@@ -257,7 +257,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.HasIndex("FollowingId");
 
-                    b.ToTable("UserFollowing", (string)null);
+                    b.ToTable("UserFollowings");
 
                     b.HasData(
                         new
@@ -294,7 +294,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSubscription", (string)null);
+                    b.ToTable("UserSubscriptions");
 
                     b.HasData(
                         new

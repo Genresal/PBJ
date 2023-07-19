@@ -4,12 +4,12 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
 {
     public class Following : BaseEntity
     {
-        public DateTime FollowingDate { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public int FollowingUserId { get; set; }
 
         public User? FollowingUser { get; set; }
 
-        public ICollection<UserFollowing>? UserFollowings { get; set; }
+        public IReadOnlyCollection<UserFollowing>? UserFollowings { get; set; }
     }
 }

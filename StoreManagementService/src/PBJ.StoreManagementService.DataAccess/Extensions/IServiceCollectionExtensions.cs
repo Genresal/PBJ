@@ -14,6 +14,7 @@ namespace PBJ.StoreManagementService.DataAccess.Extensions
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
         }
 
