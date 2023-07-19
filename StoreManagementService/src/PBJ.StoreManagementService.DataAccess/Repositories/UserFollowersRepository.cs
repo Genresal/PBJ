@@ -4,11 +4,9 @@ using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 
 namespace PBJ.StoreManagementService.DataAccess.Repositories
 {
-    public class UserSubscriptionRepository : BaseRepository<UserSubscription>,
-        IUserSubscriptionRepository
+    public class UserFollowersRepository : BaseRepository<UserFollowers>, IUserFollowersRepository
     {
-        public UserSubscriptionRepository(DatabaseContext databaseContext)
-            : base(databaseContext)
+        public UserFollowersRepository(DatabaseContext databaseContext) : base(databaseContext)
         { }
     }
 }

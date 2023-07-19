@@ -6,12 +6,12 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
     {
         public string? Content { get; set; }
 
-        public DateTime PostDate { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public int UserId { get; set; }
 
         public User? User { get; set; }
 
-        public ICollection<Comment>? Comments { get; set; }
+        public IReadOnlyCollection<Comment>? Comments { get; set; }
     }
 }

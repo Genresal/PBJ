@@ -4,9 +4,9 @@ using PBJ.StoreManagementService.DataAccess.Entities;
 
 namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
 {
-    public class UserFollowingConfiguration : IEntityTypeConfiguration<UserFollowing>
+    public class UserFollowersConfiguration : IEntityTypeConfiguration<UserFollowers>
     {
-        public void Configure(EntityTypeBuilder<UserFollowing> builder)
+        public void Configure(EntityTypeBuilder<UserFollowers> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -14,27 +14,27 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.HasOne(uf => uf.User)
-                .WithMany(u => u.UserFollowings)
-                .HasForeignKey(u => u.Id)
+                .WithMany(u => u.Followings)
+                .HasForeignKey(uf => uf.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(uf => uf.Following)
-                .WithMany(f => f.UserFollowings)
-                .HasForeignKey(f => f.FollowingId)
+            builder.HasOne(uf => uf.Follower)
+                .WithMany(u => u.Followers)
+                .HasForeignKey(uf => uf.FollowerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasData(
-                new UserFollowing()
+                new UserFollowers()
                 {
                     Id = 1,
                     UserId = 1,
-                    FollowingId = 1,
+                    FollowerId = 2
                 },
-                new UserFollowing()
+                new UserFollowers()
                 {
                     Id = 2,
                     UserId = 2,
-                    FollowingId = 2
+                    FollowerId = 1
                 }
                 );
         }

@@ -10,11 +10,5 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         public UserRepository(DatabaseContext databaseContext)
             : base(databaseContext)
         { }
-
-        public async Task<User> GetAsync(string login)
-        {
-            return await _databaseContext.Users.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Login == login);
-        }
     }
 }

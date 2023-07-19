@@ -2,6 +2,6 @@
 
 namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
 {
-    public interface IUserSubscriptionRepository : IRepository<UserSubscription>
+    public interface IUserFollowersRepository : IRepository<UserFollowers>
     { }
 }

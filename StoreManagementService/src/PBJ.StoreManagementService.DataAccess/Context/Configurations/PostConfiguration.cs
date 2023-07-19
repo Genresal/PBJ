@@ -18,7 +18,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .HasMaxLength(255)
                 .HasColumnType("nchar");
 
-            builder.Property(x => x.PostDate)
+            builder.Property(x => x.CreatedAt)
                 .IsRequired()
                 .HasColumnType("date");
 
@@ -35,14 +35,14 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 {
                     Id = 1,
                     Content = "PostContent1",
-                    PostDate = DateTime.Now,
+                    CreatedAt = DateTime.Now,
                     UserId = 1
                 },
                 new Post()
                 {
                     Id = 2,
                     Content = "PostContent2",
-                    PostDate = DateTime.Now,
+                    CreatedAt = DateTime.Now,
                     UserId = 2
                 }
                 );

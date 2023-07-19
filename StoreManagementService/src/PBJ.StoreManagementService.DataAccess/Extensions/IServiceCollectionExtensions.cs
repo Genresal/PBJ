@@ -14,6 +14,7 @@ namespace PBJ.StoreManagementService.DataAccess.Extensions
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
         }
 
@@ -22,10 +23,7 @@ namespace PBJ.StoreManagementService.DataAccess.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
-            services.AddScoped<IFollowingRepository, FollowingRepository>();
-            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
-            services.AddScoped<IUserFollowingRepository, UserFollowingRepository>();
-            services.AddScoped<IUserSubscriptionRepository, UserSubscriptionRepository>();
+            services.AddScoped<IUserFollowersRepository, UserFollowersRepository>();
         }
     }
 }
