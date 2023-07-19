@@ -14,16 +14,7 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         public async Task<List<Following>> GetUserFollowingsAsync(int userId, int amount)
         {
             return await _databaseContext.Followings.AsNoTracking()
-                .Join(_databaseContext.UserFollowings,
-                    f => f.Id,
-                    uf => uf.FollowingId,
-                    (f, uf) => new 
-                    {
-                        UserId = uf.UserId,
-                        Following = f
-                    })
-                .Where(x => x.UserId == userId).Select(x => x.Following)
-                .ToListAsync();
+                .Include(x => x.UserFollowings.Where(uf => uf.UserId == userId)).ToListAsync();
         }
     }
 }

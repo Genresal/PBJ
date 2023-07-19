@@ -8,8 +8,6 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
     {
         public void Configure(EntityTypeBuilder<UserFollowing> builder)
         {
-            builder.ToTable(nameof(UserFollowing));
-
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)

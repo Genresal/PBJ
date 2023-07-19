@@ -9,10 +9,10 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
 
         Task<TEntity> GetAsync(int id);
 
-        void Create(TEntity entity);
+        Task CreateAsync(TEntity entity);
 
-        void Update(TEntity entity);
+        Task UpdateAsync(TEntity entity);
 
-        void Delete(TEntity entity);
+        Task DeleteAsync(TEntity entity);
     }
 }

@@ -27,19 +27,25 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public virtual void Create(TEntity entity)
+        public virtual async Task CreateAsync(TEntity entity)
         {
             _databaseContext.Set<TEntity>().Add(entity);
+
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public virtual void Update(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
             _databaseContext.Set<TEntity>().Update(entity);
+
+            await _databaseContext.SaveChangesAsync();
         }
 
-        public virtual void Delete(TEntity entity)
+        public virtual async Task DeleteAsync(TEntity entity)
         {
             _databaseContext.Set<TEntity>().Remove(entity);
+
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }
