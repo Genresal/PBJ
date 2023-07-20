@@ -17,7 +17,5 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
         Task UpdateAsync(TEntity entity);
 
         Task DeleteAsync(TEntity entity);
-
-        Task DeleteRangeAsync(ICollection<TEntity> collection);
     }
 }
