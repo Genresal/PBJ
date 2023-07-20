@@ -1,4 +1,5 @@
 using PBJ.StoreManagementService.Api.Extensions;
+using PBJ.StoreManagementService.Api.Middlewares;
 using PBJ.StoreManagementService.Business.Extensions;
 using PBJ.StoreManagementService.DataAccess.Extensions;
 
@@ -22,6 +23,8 @@ namespace PBJ.StoreManagementService.Api
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {
