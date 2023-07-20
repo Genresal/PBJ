@@ -8,9 +8,9 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<CommentDto> GetAsync(int id);
 
-        Task<bool> CreateAsync(CommentDto commentDto);
+        Task<CommentDto> CreateAsync(CommentDto commentDto);
 
-        Task<bool> UpdateAsync(int id, CommentDto commentDto);
+        Task<CommentDto> UpdateAsync(int id, CommentDto commentDto);
 
         Task<bool> DeleteAsync(int id);
     }

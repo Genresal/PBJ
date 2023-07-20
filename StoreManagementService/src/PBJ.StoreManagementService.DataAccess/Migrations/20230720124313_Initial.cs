@@ -47,7 +47,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         name: "FK_Posts_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,12 +93,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -105,8 +108,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "BirthDate", "Email", "LastName", "Name", "Surname" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 7, 19, 13, 24, 32, 944, DateTimeKind.Local).AddTicks(5594), "login1", "Lastname1", "Name1", "Surname1" },
-                    { 2, new DateTime(2023, 7, 19, 13, 24, 32, 944, DateTimeKind.Local).AddTicks(5602), "login2", "Lastname2", "Name2", "Surname2" }
+                    { 1, new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(8732), "login1", "Lastname1", "Name1", "Surname1" },
+                    { 2, new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(8741), "login2", "Lastname2", "Name2", "Surname2" }
                 });
 
             migrationBuilder.InsertData(
@@ -114,8 +117,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "PostContent1", new DateTime(2023, 7, 19, 13, 24, 32, 944, DateTimeKind.Local).AddTicks(2440), 1 },
-                    { 2, "PostContent2", new DateTime(2023, 7, 19, 13, 24, 32, 944, DateTimeKind.Local).AddTicks(2447), 2 }
+                    { 1, "PostContent1", new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(5070), 1 },
+                    { 2, "PostContent2", new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(5077), 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -132,8 +135,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "PostId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "CommentContent1", new DateTime(2023, 7, 19, 13, 24, 32, 943, DateTimeKind.Local).AddTicks(6535), 2, 1 },
-                    { 2, "CommentContent2", new DateTime(2023, 7, 19, 13, 24, 32, 943, DateTimeKind.Local).AddTicks(6584), 1, 2 }
+                    { 1, "CommentContent1", new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(480), 2, 1 },
+                    { 2, "CommentContent2", new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(491), 1, 2 }
                 });
 
             migrationBuilder.CreateIndex(

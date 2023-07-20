@@ -12,7 +12,7 @@ using PBJ.StoreManagementService.DataAccess.Context;
 namespace PBJ.StoreManagementService.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230719102433_Initial")]
+    [Migration("20230720124313_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -60,7 +60,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "CommentContent1",
-                            CreatedAt = new DateTime(2023, 7, 19, 13, 24, 32, 943, DateTimeKind.Local).AddTicks(6535),
+                            CreatedAt = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(480),
                             PostId = 2,
                             UserId = 1
                         },
@@ -68,7 +68,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 2,
                             Content = "CommentContent2",
-                            CreatedAt = new DateTime(2023, 7, 19, 13, 24, 32, 943, DateTimeKind.Local).AddTicks(6584),
+                            CreatedAt = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(491),
                             PostId = 1,
                             UserId = 2
                         });
@@ -104,14 +104,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            CreatedAt = new DateTime(2023, 7, 19, 13, 24, 32, 944, DateTimeKind.Local).AddTicks(2440),
+                            CreatedAt = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(5070),
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            CreatedAt = new DateTime(2023, 7, 19, 13, 24, 32, 944, DateTimeKind.Local).AddTicks(2447),
+                            CreatedAt = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(5077),
                             UserId = 2
                         });
                 });
@@ -155,7 +155,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            BirthDate = new DateTime(2023, 7, 19, 13, 24, 32, 944, DateTimeKind.Local).AddTicks(5594),
+                            BirthDate = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(8732),
                             Email = "login1",
                             LastName = "Lastname1",
                             Name = "Name1",
@@ -164,7 +164,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            BirthDate = new DateTime(2023, 7, 19, 13, 24, 32, 944, DateTimeKind.Local).AddTicks(5602),
+                            BirthDate = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(8741),
                             Email = "login2",
                             LastName = "Lastname2",
                             Name = "Name2",
@@ -214,13 +214,13 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -233,7 +233,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");

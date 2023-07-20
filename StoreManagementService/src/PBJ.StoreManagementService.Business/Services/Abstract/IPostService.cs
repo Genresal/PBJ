@@ -6,11 +6,13 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
     {
         Task<List<PostDto>> GetAmountAsync(int amount);
 
+        Task<List<PostDto>> GetUserPostsAsync(int userId, int amount);
+
         Task<PostDto> GetAsync(int id);
 
-        Task<bool> CreateAsync(PostDto postDto);
+        Task<PostDto> CreateAsync(PostDto postDto);
 
-        Task<bool> UpdateAsync(int id, PostDto postDto);
+        Task<PostDto> UpdateAsync(int id, PostDto postDto);
 
         Task<bool> DeleteAsync(int id);
     }
