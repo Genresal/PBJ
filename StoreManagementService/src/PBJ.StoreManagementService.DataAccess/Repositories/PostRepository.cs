@@ -13,7 +13,7 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
 
         public async Task<List<Post>> GetUserPostsAsync(int userId, int amount)
         {
-            return await _databaseContext.Posts.AsNoTracking()
+            return await _databaseContext.Posts.Include(x => x.Comments)
                 .Where(x => x.UserId == userId).Take(amount).ToListAsync();
         }
     }

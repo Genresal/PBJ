@@ -11,10 +11,16 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
             : base(databaseContext)
         { }
 
-        public async Task<User> GetAsync(string login)
+        public async Task<List<User>> GetFollowersAsync(int userId, int amount)
         {
-            return await _databaseContext.Users.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Login == login);
+            return await _databaseContext.Users.Include(x => x.Followers)
+                .Where(x => x.Id == userId).Take(amount).ToListAsync();
+        }
+
+        public async Task<List<User>> GetFollowingsAsync(int userId, int amount)
+        {
+            return await _databaseContext.Users.Include(x => x.Followings)
+                .Where(x => x.Id == userId).Take(amount).ToListAsync();
         }
     }
 }

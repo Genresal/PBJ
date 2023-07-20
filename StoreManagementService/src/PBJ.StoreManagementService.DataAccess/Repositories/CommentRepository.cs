@@ -10,11 +10,5 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         public CommentRepository(DatabaseContext databaseContext)
             : base(databaseContext)
         { }
-
-        public async Task<List<Comment>> GetPostCommentsAsync(int postId, int amount)
-        {
-            return await _databaseContext.Comments.AsNoTracking()
-                .Where(x => x.PostId == postId).Take(amount).ToListAsync();
-        }
     }
 }

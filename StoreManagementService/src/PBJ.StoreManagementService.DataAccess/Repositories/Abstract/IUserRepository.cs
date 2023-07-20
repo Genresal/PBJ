@@ -4,6 +4,8 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User> GetAsync(string login);
+        Task<List<User>> GetFollowersAsync(int userId, int amount);
+
+        Task<List<User>> GetFollowingsAsync(int userId, int amount);
     }
 }

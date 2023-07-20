@@ -32,18 +32,10 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .IsRequired(false)
                 .HasColumnType("date");
 
-            builder.Property(x => x.Login)
+            builder.Property(x => x.Email)
                 .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnType("nchar");
-
-            builder.HasOne(u => u.Subscription)
-                .WithOne(s => s.SubscribedUser)
-                .HasForeignKey<Subscription>(s => s.SubscribedUserId);
-
-            builder.HasOne(u => u.Following)
-                .WithOne(s => s.FollowingUser)
-                .HasForeignKey<Following>(s => s.FollowingUserId);
 
             builder.HasData(
                 new User()
@@ -53,7 +45,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                     Surname = "Surname1",
                     LastName = "Lastname1",
                     BirthDate = DateTime.Now,
-                    Login = "login1"
+                    Email = "login1"
                 },
                 new User()
                 {
@@ -62,7 +54,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                     Surname = "Surname2",
                     LastName = "Lastname2",
                     BirthDate = DateTime.Now,
-                    Login = "login2"
+                    Email = "login2"
                 }
             );
         }

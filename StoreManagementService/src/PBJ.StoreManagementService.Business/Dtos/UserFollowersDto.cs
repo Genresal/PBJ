@@ -1,17 +1,15 @@
 ﻿namespace PBJ.StoreManagementService.Business.Dtos
 {
-    public class PostDto
+    public class UserFollowersDto
     {
         public int Id { get; set; }
-
-        public string? Content { get; set; }
-
-        public DateTime CreatedAt { get; set; }
 
         public int UserId { get; set; }
 
         public UserDto? User { get; set; }
 
-        public IReadOnlyCollection<CommentDto>? Comments { get; set; }
+        public int FollowerId { get; set; }
+
+        public UserDto? Follower { get; set; }
     }
 }

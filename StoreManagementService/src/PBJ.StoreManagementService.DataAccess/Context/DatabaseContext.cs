@@ -12,13 +12,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Following> Followings { get; set; }
-
-        public DbSet<Subscription> Subscriptions { get; set; }
-
-        public DbSet<UserFollowing> UserFollowings { get; set; }
-
-        public DbSet<UserSubscription> UserSubscriptions { get; set; }
+        public DbSet<UserFollowers> UserFollowers { get; set; }
 
         public DatabaseContext(DbContextOptions options) : base(options)
         { }

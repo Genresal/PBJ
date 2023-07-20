@@ -6,7 +6,15 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
     {
         Task<List<UserDto>> GetAmountAsync(int amount);
 
+        Task<List<UserDto>> GetFollowersAsync(int userId, int amount);
+
+        Task<List<UserDto>> GetFollowingsAsync(int userId, int amount);
+
         Task<UserDto> GetAsync(int id);
+
+        Task<UserDto> GetFollowerAsync(int followerId);
+
+        Task<UserDto> GetFollowingAsync(int followingId);
 
         Task<UserDto> GetAsync(string login);
 

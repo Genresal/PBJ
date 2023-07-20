@@ -18,7 +18,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .HasMaxLength(100)
                 .HasColumnType("nchar");
 
-            builder.Property(x => x.CommentDate)
+            builder.Property(x => x.CreatedAt)
                 .IsRequired()
                 .HasColumnType("date");
 
@@ -43,7 +43,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 {
                     Id = 1,
                     Content = "CommentContent1",
-                    CommentDate = DateTime.Now,
+                    CreatedAt = DateTime.Now,
                     UserId = 1,
                     PostId = 2
                 },
@@ -51,7 +51,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 {
                     Id = 2,
                     Content = "CommentContent2",
-                    CommentDate = DateTime.Now,
+                    CreatedAt = DateTime.Now,
                     UserId = 2,
                     PostId = 1
                 }
