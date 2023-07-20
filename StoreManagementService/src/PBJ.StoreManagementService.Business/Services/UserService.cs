@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using PBJ.StoreManagementService.Business.Dtos;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.User;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -85,21 +85,21 @@ namespace PBJ.StoreManagementService.Business.Services
             return await Task.FromResult(_mapper.Map<UserDto>(user));
         }
 
-        public async Task<bool> CreateAsync(UserDto userDto)
+        public async Task<bool> CreateAsync(UserRequestModel userRequestModel)
         {
-            var existingUser = await _userRepository.FirstOrDefaultAsync(x => x.Email == userDto.Email);
+            var existingUser = await _userRepository.FirstOrDefaultAsync(x => x.Email == userRequestModel.Email);
 
             if (existingUser != null)
             {
                 throw new AlreadyExistsException("");
             }
 
-            await _userRepository.CreateAsync(_mapper.Map<User>(userDto));
+            await _userRepository.CreateAsync(_mapper.Map<User>(userRequestModel));
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateAsync(int id, UserDto userDto)
+        public async Task<bool> UpdateAsync(int id, UserRequestModel userRequestModel)
         {
             var existingUser = await _userRepository.GetAsync(id);
 
@@ -108,7 +108,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException("");
             }
 
-            existingUser = _mapper.Map<User>(userDto);
+            existingUser = _mapper.Map<User>(userRequestModel);
 
             existingUser.Id = id;
 

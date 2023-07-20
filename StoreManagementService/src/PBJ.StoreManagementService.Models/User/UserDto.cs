@@ -1,4 +1,8 @@
-﻿namespace PBJ.StoreManagementService.Business.Dtos
+﻿using PBJ.StoreManagementService.Models.Comment;
+using PBJ.StoreManagementService.Models.Post;
+using PBJ.StoreManagementService.Models.UserFollowers;
+
+namespace PBJ.StoreManagementService.Models.User
 {
     public class UserDto
     {

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using PBJ.StoreManagementService.Business.Dtos;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.Comment;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -43,14 +43,14 @@ namespace PBJ.StoreManagementService.Business.Services
             return await Task.FromResult(_mapper.Map<CommentDto>(comment));
         }
 
-        public async Task<bool> CreateAsync(CommentDto commentDto)
+        public async Task<bool> CreateAsync(CommentRequestModel commentRequestModel)
         {
-            await _commentRepository.CreateAsync(_mapper.Map<Comment>(commentDto));
+            await _commentRepository.CreateAsync(_mapper.Map<Comment>(commentRequestModel));
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateAsync(int id, CommentDto commentDto)
+        public async Task<bool> UpdateAsync(int id, CommentRequestModel commentRequestModel)
         {
             var existingComment = await _commentRepository.GetAsync(id);
 
@@ -59,7 +59,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException("");
             }
 
-            existingComment = _mapper.Map<Comment>(commentDto);
+            existingComment = _mapper.Map<Comment>(commentRequestModel);
 
             existingComment.Id = id;
 
