@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using PBJ.StoreManagementService.Api.RequestModels;
+using PBJ.StoreManagementService.Models.UserFollowers;
 
 namespace PBJ.StoreManagementService.Api.Validators
 {
-    public class UserFollowerValidator : AbstractValidator<UserFollowerRequestModel>
+    public class UserFollowerValidator : AbstractValidator<UserFollowersRequestModel>
     {
         public UserFollowerValidator()
         {

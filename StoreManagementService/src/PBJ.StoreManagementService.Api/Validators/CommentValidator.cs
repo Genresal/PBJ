@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PBJ.StoreManagementService.Api.RequestModels;
+using PBJ.StoreManagementService.Models.Comment;
 
 namespace PBJ.StoreManagementService.Api.Validators
 {
