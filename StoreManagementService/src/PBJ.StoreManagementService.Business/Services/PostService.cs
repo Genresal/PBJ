@@ -24,22 +24,12 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var posts = await _postRepository.GetAmountAsync(amount);
 
-            if (posts.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.POSTS_EMPTY_MESSAGE);
-            }
-
             return _mapper.Map<List<PostDto>>(posts);
         }
 
         public async Task<List<PostDto>> GetUserPostsAsync(int userId, int amount)
         {
             var posts = await _postRepository.GetUserPostsAsync(userId, amount);
-
-            if (posts.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
-            }
 
             return _mapper.Map<List<PostDto>>(posts);
         }

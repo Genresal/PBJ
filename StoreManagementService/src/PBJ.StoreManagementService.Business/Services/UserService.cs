@@ -27,11 +27,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var users = await _userRepository.GetAmountAsync(amount);
 
-            if (users.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.USERS_EMPTY_MESSAGE);
-            }
-
             return _mapper.Map<List<UserDto>>(users);
         }
 

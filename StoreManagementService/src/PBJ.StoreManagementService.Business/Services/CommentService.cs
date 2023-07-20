@@ -24,11 +24,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var comments = await _commentRepository.GetAmountAsync(amount);
 
-            if (comments.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.COMMENTS_EMPTY_MESSAGE);
-            }
-
             return _mapper.Map<List<CommentDto>>(comments);
         }
 

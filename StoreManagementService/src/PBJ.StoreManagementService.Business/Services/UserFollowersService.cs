@@ -24,11 +24,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var userFollowers = await _userFollowersRepository.GetAmountAsync(amount);
 
-            if (userFollowers.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.USERFOLLOWERS_EMPTY_MESSAGE);
-            }
-
             return _mapper.Map<List<UserFollowersDto>>(userFollowers);
         }
 
