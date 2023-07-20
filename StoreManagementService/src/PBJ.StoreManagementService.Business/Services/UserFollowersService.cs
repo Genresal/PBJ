@@ -29,7 +29,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.USERFOLLOWERS_EMPTY_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<List<UserFollowersDto>>(userFollowers));
+            return _mapper.Map<List<UserFollowersDto>>(userFollowers);
         }
 
         public async Task<UserFollowersDto> GetAsync(int id)
@@ -38,17 +38,17 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (userFollower == null)
             {
-                throw new NotFoundException(ExceptionMessages.USERFOLLOWER_NOT_FOUND_MESSAGE;
+                throw new NotFoundException(ExceptionMessages.USERFOLLOWER_NOT_FOUND_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<UserFollowersDto>(userFollower));
+            return _mapper.Map<UserFollowersDto>(userFollower);
         }
 
         public async Task<bool> CreateAsync(UserFollowersDto userFollowersDto)
         {
             await _userFollowersRepository.CreateAsync(_mapper.Map<UserFollowers>(userFollowersDto));
 
-            return await Task.FromResult(true);
+            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -62,7 +62,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userFollowersRepository.DeleteAsync(existingUserFollower);
 
-            return await Task.FromResult(true);
+            return true;
         }
     }
 }

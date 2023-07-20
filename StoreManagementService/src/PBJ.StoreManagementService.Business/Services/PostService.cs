@@ -32,7 +32,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.POSTS_EMPTY_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<List<PostDto>>(posts));
+            return _mapper.Map<List<PostDto>>(posts);
         }
 
         public async Task<List<PostDto>> GetUserPostsAsync(int userId, int amount)
@@ -44,7 +44,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<List<PostDto>>(posts));
+            return _mapper.Map<List<PostDto>>(posts);
         }
 
         public async Task<PostDto> GetAsync(int id)
@@ -63,7 +63,7 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             await _postRepository.CreateAsync(_mapper.Map<Post>(postDto));
 
-            return await Task.FromResult(true);
+            return true;
         }
 
         public async Task<bool> UpdateAsync(int id, PostDto postDto)
@@ -81,7 +81,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _postRepository.UpdateAsync(existingPost);
 
-            return await Task.FromResult(true);
+            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -97,7 +97,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _commentRepository.DeleteRangeAsync(_mapper.Map<List<Comment>>(existingPost.Comments));
 
-            return await Task.FromResult(true);
+            return true;
         }
     }
 }
