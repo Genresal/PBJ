@@ -11,18 +11,15 @@ namespace PBJ.StoreManagementService.Business.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPostRepository _postRepository;
-        private readonly ICommentRepository _commentRepository;
+        private readonly IUserFollowersRepository _userFollowersRepository;
         private readonly IMapper _mapper;
 
         public UserService(IUserRepository userRepository,
-            IPostRepository postRepository,
-            ICommentRepository commentRepository,
+            IUserFollowersRepository userFollowersRepository,
             IMapper mapper)
         {
             _userRepository = userRepository;
-            _postRepository = postRepository;
-            _commentRepository = commentRepository;
+            _userFollowersRepository = userFollowersRepository;
             _mapper = mapper;
         }
 
@@ -42,22 +39,12 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var followers = await _userRepository.GetFollowersAsync(userId, amount);
 
-            if (followers.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
-            }
-
             return _mapper.Map<List<UserDto>>(followers);
         }
 
         public async Task<List<UserDto>> GetFollowingsAsync(int followerId, int amount)
         {
             var followers = await _userRepository.GetFollowingsAsync(followerId, amount);
-
-            if (followers.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.USERS_EMPTY_MESSAGE);
-            }
 
             return _mapper.Map<List<UserDto>>(followers);
         }
@@ -129,13 +116,8 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.DeleteAsync(existingUser);
 
-            await _postRepository.DeleteRangeAsync(_mapper.Map<List<Post>>(existingUser.Posts));
-
-            foreach (var post in existingUser.Posts)
-            {
-                await _commentRepository.DeleteRangeAsync(
-                    _mapper.Map<List<Comment>>(post.Comments));
-            }
+            await _userFollowersRepository.DeleteRangeAsync(existingUser.Followers);
+            await _userFollowersRepository.DeleteRangeAsync(existingUser.Followings);
 
             return true;
         }
