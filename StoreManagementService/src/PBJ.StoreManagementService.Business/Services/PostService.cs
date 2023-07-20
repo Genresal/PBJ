@@ -11,15 +11,12 @@ namespace PBJ.StoreManagementService.Business.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-        private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
 
         public PostService(IPostRepository postRepository,
-            ICommentRepository commentRepository,
             IMapper mapper)
         {
             _postRepository = postRepository;
-            _commentRepository = commentRepository;
             _mapper = mapper;
         }
 
@@ -96,8 +93,6 @@ namespace PBJ.StoreManagementService.Business.Services
             }
 
             await _postRepository.DeleteAsync(existingPost);
-
-            await _commentRepository.DeleteRangeAsync(_mapper.Map<List<Comment>>(existingPost.Comments));
 
             return true;
         }
