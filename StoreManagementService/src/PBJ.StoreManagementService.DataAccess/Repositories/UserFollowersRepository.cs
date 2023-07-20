@@ -8,5 +8,12 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
     {
         public UserFollowersRepository(DatabaseContext databaseContext) : base(databaseContext)
         { }
+
+        public async Task DeleteRangeAsync(IReadOnlyCollection<UserFollowers> collection)
+        {
+            _databaseContext.UserFollowers.RemoveRange(collection);
+
+            await _databaseContext.SaveChangesAsync();
+        }
     }
 }

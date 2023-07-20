@@ -28,7 +28,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
             builder.HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(x => x.PostId)
                 .IsRequired();
@@ -36,7 +36,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
             builder.HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
                 new Comment()
