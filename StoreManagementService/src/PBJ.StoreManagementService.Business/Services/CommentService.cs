@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PBJ.StoreManagementService.Business.Constants;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
@@ -25,7 +26,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (comments.Count == 0)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.COMMENTS_EMPTY_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<List<CommentDto>>(comments));
@@ -37,7 +38,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (comment == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.COMMENT_NOT_FOUND_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<CommentDto>(comment));
@@ -56,7 +57,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (existingComment == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.COMMENT_NOT_FOUND_MESSAGE);
             }
 
             existingComment = _mapper.Map<Comment>(commentRequestModel);
@@ -74,7 +75,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (existingComment == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.COMMENT_NOT_FOUND_MESSAGE);
             }
 
             await _commentRepository.DeleteAsync(existingComment);
