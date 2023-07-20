@@ -27,11 +27,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var users = await _userRepository.GetAmountAsync(amount);
 
-            if (users.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.USERS_EMPTY_MESSAGE);
-            }
-
             return _mapper.Map<List<UserDto>>(users);
         }
 
@@ -111,11 +106,6 @@ namespace PBJ.StoreManagementService.Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var existingUser = await _userRepository.GetAsync(id);
-
-            if (existingUser == null)
-            {
-                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
-            }
 
             await _userRepository.DeleteAsync(existingUser);
 
