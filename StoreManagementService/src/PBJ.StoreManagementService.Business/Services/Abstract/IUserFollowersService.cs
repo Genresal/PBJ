@@ -8,7 +8,7 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<UserFollowersDto> GetAsync(int id);
 
-        Task<bool> CreateAsync(UserFollowersRequestModel userFollowersRequestModel);
+        Task<UserFollowersDto> CreateAsync(UserFollowersRequestModel userFollowersRequestModel);
 
         Task<bool> DeleteAsync(int id);
     }
