@@ -48,7 +48,7 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             await _commentRepository.CreateAsync(_mapper.Map<Comment>(commentDto));
 
-            return await Task.FromResult(true);
+            return true;
         }
 
         public async Task<bool> UpdateAsync(int id, CommentDto commentDto)

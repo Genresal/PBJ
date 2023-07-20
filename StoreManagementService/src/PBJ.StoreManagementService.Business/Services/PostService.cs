@@ -56,7 +56,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<PostDto>(post));
+            return _mapper.Map<PostDto>(post);
         }
 
         public async Task<bool> CreateAsync(PostDto postDto)
