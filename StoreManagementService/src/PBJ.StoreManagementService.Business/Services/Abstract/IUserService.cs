@@ -14,9 +14,9 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<UserDto> GetAsync(string login);
 
-        Task<bool> CreateAsync(UserRequestModel userRequestModel);
+        Task<UserDto> CreateAsync(UserRequestModel userRequestModel);
 
-        Task<bool> UpdateAsync(int id, UserRequestModel userRequestModel);
+        Task<UserDto> UpdateAsync(int id, UserRequestModel userRequestModel);
 
         Task<bool> DeleteAsync(int id);
     }
