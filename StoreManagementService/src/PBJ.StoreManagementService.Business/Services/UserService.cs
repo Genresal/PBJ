@@ -128,12 +128,18 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.DeleteAsync(existingUser);
 
-            await _postRepository.DeleteRangeAsync(_mapper.Map<List<Post>>(existingUser.Posts));
-
-            foreach (var post in existingUser.Posts)
+            if (existingUser.Posts != null && existingUser.Posts.Count != 0)
             {
-                await _commentRepository.DeleteRangeAsync(
-                    _mapper.Map<List<Comment>>(post.Comments));
+                await _postRepository.DeleteRangeAsync(_mapper.Map<List<Post>>(existingUser.Posts));
+
+                foreach (var post in existingUser.Posts)
+                {
+                    if (post.Comments != null && post.Comments.Count != 0)
+                    {
+                        await _commentRepository.DeleteRangeAsync(
+                            _mapper.Map<List<Comment>>(post.Comments));
+                    }
+                }
             }
 
             return await Task.FromResult(true);

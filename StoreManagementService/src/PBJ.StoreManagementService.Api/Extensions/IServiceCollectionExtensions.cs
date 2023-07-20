@@ -1,6 +1,9 @@
 ﻿using FluentValidation;
-using PBJ.StoreManagementService.Api.RequestModels;
 using PBJ.StoreManagementService.Api.Validators;
+using PBJ.StoreManagementService.Models.Comment;
+using PBJ.StoreManagementService.Models.Post;
+using PBJ.StoreManagementService.Models.User;
+using PBJ.StoreManagementService.Models.UserFollowers;
 
 namespace PBJ.StoreManagementService.Api.Extensions
 {
@@ -20,7 +23,7 @@ namespace PBJ.StoreManagementService.Api.Extensions
             services.AddScoped<IValidator<UserRequestModel>, UserValidator>();
             services.AddScoped<IValidator<PostRequestModel>, PostValidator>();
             services.AddScoped<IValidator<CommentRequestModel>, CommentValidator>();
-            services.AddScoped<IValidator<UserFollowerRequestModel>, UserFollowerValidator>();
+            services.AddScoped<IValidator<UserFollowersRequestModel>, UserFollowerValidator>();
         }
     }
 }

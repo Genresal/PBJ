@@ -1,3 +1,5 @@
+using PBJ.StoreManagementService.Api.Extensions;
+using PBJ.StoreManagementService.Business.Extensions;
 using PBJ.StoreManagementService.DataAccess.Extensions;
 
 namespace PBJ.StoreManagementService.Api
@@ -10,6 +12,10 @@ namespace PBJ.StoreManagementService.Api
 
             builder.Services.AddDatabaseContext(builder.Configuration);
             builder.Services.AddDataAccessDependencies();
+            builder.Services.AddServices();
+            builder.Services.AddAutoMapper();
+            builder.Services.AddNewtonsoftJson();
+            builder.Services.AddValidators();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
