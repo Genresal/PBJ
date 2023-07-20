@@ -24,11 +24,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var userFollowers = await _userFollowersRepository.GetAmountAsync(amount);
 
-            if (userFollowers.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.USERFOLLOWERS_EMPTY_MESSAGE);
-            }
-
             return _mapper.Map<List<UserFollowersDto>>(userFollowers);
         }
 
@@ -56,11 +51,6 @@ namespace PBJ.StoreManagementService.Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var existingUserFollower = await _userFollowersRepository.GetAsync(id);
-
-            if (existingUserFollower == null)
-            {
-                throw new NotFoundException(ExceptionMessages.USERFOLLOWER_NOT_FOUND_MESSAGE);
-            }
 
             await _userFollowersRepository.DeleteAsync(existingUserFollower);
 
