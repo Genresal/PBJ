@@ -35,7 +35,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.USERS_EMPTY_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<List<UserDto>>(users));
+            return _mapper.Map<List<UserDto>>(users);
         }
 
         public async Task<List<UserDto>> GetFollowersAsync(int userId, int amount)
@@ -47,7 +47,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<List<UserDto>>(followers));
+            return _mapper.Map<List<UserDto>>(followers);
         }
 
         public async Task<List<UserDto>> GetFollowingsAsync(int followerId, int amount)
@@ -59,7 +59,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.USERS_EMPTY_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<List<UserDto>>(followers));
+            return _mapper.Map<List<UserDto>>(followers);
         }
 
         public async Task<UserDto> GetAsync(int id)
@@ -71,7 +71,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<UserDto>(user));
+            return _mapper.Map<UserDto>(user);
         }
 
         public async Task<UserDto> GetAsync(string email)
@@ -83,7 +83,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
             }
 
-            return await Task.FromResult(_mapper.Map<UserDto>(user));
+            return _mapper.Map<UserDto>(user);
         }
 
         public async Task<bool> CreateAsync(UserRequestModel userRequestModel)
@@ -97,7 +97,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.CreateAsync(_mapper.Map<User>(userRequestModel));
 
-            return await Task.FromResult(true);
+            return true;
         }
 
         public async Task<bool> UpdateAsync(int id, UserRequestModel userRequestModel)
@@ -115,7 +115,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.UpdateAsync(existingUser);
 
-            return await Task.FromResult(true);
+            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -143,7 +143,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 }
             }
 
-            return await Task.FromResult(true);
+            return true;
         }
     }
 }
