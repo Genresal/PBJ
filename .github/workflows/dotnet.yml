@@ -11,7 +11,7 @@ on:
     
 defaults:
   run:
-    working-directory: PBJ.StoreManagementService.src
+    working-directory: ./StoreManagementService/src
 
 jobs:
   build:
