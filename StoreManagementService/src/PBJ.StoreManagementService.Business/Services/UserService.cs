@@ -104,11 +104,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var existingUser = await _userRepository.GetAsync(id);
 
-            if (existingUser == null)
-            {
-                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
-            }
-
             await _userRepository.DeleteAsync(existingUser);
 
             await _userFollowersRepository.DeleteRangeAsync(existingUser.Followers);

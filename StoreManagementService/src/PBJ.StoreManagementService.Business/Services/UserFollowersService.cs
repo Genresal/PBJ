@@ -50,11 +50,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var existingUserFollower = await _userFollowersRepository.GetAsync(id);
 
-            if (existingUserFollower == null)
-            {
-                throw new NotFoundException(ExceptionMessages.USERFOLLOWER_NOT_FOUND_MESSAGE);
-            }
-
             await _userFollowersRepository.DeleteAsync(existingUserFollower);
 
             return true;

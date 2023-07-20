@@ -75,11 +75,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var existingPost = await _postRepository.GetAsync(id);
 
-            if (existingPost == null)
-            {
-                throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
-            }
-
             await _postRepository.DeleteAsync(existingPost);
 
             return true;

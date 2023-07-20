@@ -68,11 +68,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var existingComment = await _commentRepository.GetAsync(id);
 
-            if (existingComment == null)
-            {
-                throw new NotFoundException(ExceptionMessages.COMMENT_NOT_FOUND_MESSAGE);
-            }
-
             await _commentRepository.DeleteAsync(existingComment);
 
             return true;
