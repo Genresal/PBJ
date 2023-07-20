@@ -1,4 +1,4 @@
-﻿using PBJ.StoreManagementService.Business.Dtos;
+﻿using PBJ.StoreManagementService.Models.Post;
 
 namespace PBJ.StoreManagementService.Business.Services.Abstract
 {
@@ -10,9 +10,9 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<PostDto> GetAsync(int id);
 
-        Task<bool> CreateAsync(PostDto postDto);
+        Task<bool> CreateAsync(PostRequestModel postRequestModel);
 
-        Task<bool> UpdateAsync(int id, PostDto postDto);
+        Task<bool> UpdateAsync(int id, PostRequestModel postRequestModel);
 
         Task<bool> DeleteAsync(int id);
     }

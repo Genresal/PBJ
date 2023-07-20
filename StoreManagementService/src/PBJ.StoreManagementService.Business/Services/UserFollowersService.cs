@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using PBJ.StoreManagementService.Business.Dtos;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.UserFollowers;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -43,9 +43,9 @@ namespace PBJ.StoreManagementService.Business.Services
             return await Task.FromResult(_mapper.Map<UserFollowersDto>(userFollower));
         }
 
-        public async Task<bool> CreateAsync(UserFollowersDto userFollowersDto)
+        public async Task<bool> CreateAsync(UserFollowersRequestModel userFollowersRequestModel)
         {
-            await _userFollowersRepository.CreateAsync(_mapper.Map<UserFollowers>(userFollowersDto));
+            await _userFollowersRepository.CreateAsync(_mapper.Map<UserFollowers>(userFollowersRequestModel));
 
             return await Task.FromResult(true);
         }

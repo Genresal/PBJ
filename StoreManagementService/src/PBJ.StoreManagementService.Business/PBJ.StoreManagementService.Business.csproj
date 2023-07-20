@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PBJ.StoreManagementService.DataAccess\PBJ.StoreManagementService.DataAccess.csproj" />
+    <ProjectReference Include="..\PBJ.StoreManagementService.Models\PBJ.StoreManagementService.Models.csproj" />
   </ItemGroup>
 
 </Project>

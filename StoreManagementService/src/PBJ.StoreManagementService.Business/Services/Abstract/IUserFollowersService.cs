@@ -1,4 +1,4 @@
-﻿using PBJ.StoreManagementService.Business.Dtos;
+﻿using PBJ.StoreManagementService.Models.UserFollowers;
 
 namespace PBJ.StoreManagementService.Business.Services.Abstract
 {
@@ -8,7 +8,7 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<UserFollowersDto> GetAsync(int id);
 
-        Task<bool> CreateAsync(UserFollowersDto userFollowersDto);
+        Task<bool> CreateAsync(UserFollowersRequestModel userFollowersRequestModel);
 
         Task<bool> DeleteAsync(int id);
     }
