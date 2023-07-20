@@ -86,21 +86,24 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<UserDto>(user);
         }
 
-        public async Task<bool> CreateAsync(UserRequestModel userRequestModel)
+        public async Task<UserDto> CreateAsync(UserRequestModel userRequestModel)
         {
-            var existingUser = await _userRepository.FirstOrDefaultAsync(x => x.Email == userRequestModel.Email);
+            var existingUser = await _userRepository
+                .FirstOrDefaultAsync(x => x.Email == userRequestModel.Email);
 
             if (existingUser != null)
             {
                 throw new AlreadyExistsException(ExceptionMessages.USER_ALREADY_EXISTS_MESSAGE);
             }
 
-            await _userRepository.CreateAsync(_mapper.Map<User>(userRequestModel));
+            var user = _mapper.Map<User>(userRequestModel);
 
-            return true;
+            await _userRepository.CreateAsync(user);
+
+            return _mapper.Map<UserDto>(user);
         }
 
-        public async Task<bool> UpdateAsync(int id, UserRequestModel userRequestModel)
+        public async Task<UserDto> UpdateAsync(int id, UserRequestModel userRequestModel)
         {
             var existingUser = await _userRepository.GetAsync(id);
 
@@ -115,7 +118,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.UpdateAsync(existingUser);
 
-            return true;
+            return _mapper.Map<UserDto>(existingUser);
         }
 
         public async Task<bool> DeleteAsync(int id)
