@@ -59,14 +59,14 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<PostDto>(post);
         }
 
-        public async Task<bool> CreateAsync(PostDto postDto)
+        public async Task<PostDto> CreateAsync(PostDto postDto)
         {
             await _postRepository.CreateAsync(_mapper.Map<Post>(postDto));
 
-            return true;
+            return postDto;
         }
 
-        public async Task<bool> UpdateAsync(int id, PostDto postDto)
+        public async Task<PostDto> UpdateAsync(int id, PostDto postDto)
         {
             var existingPost = await _postRepository.GetAsync(id);
 
@@ -81,7 +81,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _postRepository.UpdateAsync(existingPost);
 
-            return true;
+            return _mapper.Map<PostDto>(existingPost);
         }
 
         public async Task<bool> DeleteAsync(int id)

@@ -44,11 +44,11 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<UserFollowersDto>(userFollower);
         }
 
-        public async Task<bool> CreateAsync(UserFollowersDto userFollowersDto)
+        public async Task<UserFollowersDto> CreateAsync(UserFollowersDto userFollowersDto)
         {
             await _userFollowersRepository.CreateAsync(_mapper.Map<UserFollowers>(userFollowersDto));
 
-            return true;
+            return userFollowersDto;
         }
 
         public async Task<bool> DeleteAsync(int id)

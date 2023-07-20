@@ -44,14 +44,14 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<CommentDto>(comment);
         }
 
-        public async Task<bool> CreateAsync(CommentDto commentDto)
+        public async Task<CommentDto> CreateAsync(CommentDto commentDto)
         {
             await _commentRepository.CreateAsync(_mapper.Map<Comment>(commentDto));
 
-            return true;
+            return commentDto;
         }
 
-        public async Task<bool> UpdateAsync(int id, CommentDto commentDto)
+        public async Task<CommentDto> UpdateAsync(int id, CommentDto commentDto)
         {
             var existingComment = await _commentRepository.GetAsync(id);
 
@@ -66,7 +66,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _commentRepository.UpdateAsync(existingComment);
 
-            return true;
+            return _mapper.Map<CommentDto>(existingComment);
         }
 
         public async Task<bool> DeleteAsync(int id)

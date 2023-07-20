@@ -86,7 +86,7 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<UserDto>(user);
         }
 
-        public async Task<bool> CreateAsync(UserDto userDto)
+        public async Task<UserDto> CreateAsync(UserDto userDto)
         {
             var existingUser = await _userRepository.FirstOrDefaultAsync(x => x.Email == userDto.Email);
 
@@ -97,10 +97,10 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.CreateAsync(_mapper.Map<User>(userDto));
 
-            return true;
+            return userDto;
         }
 
-        public async Task<bool> UpdateAsync(int id, UserDto userDto)
+        public async Task<UserDto> UpdateAsync(int id, UserDto userDto)
         {
             var existingUser = await _userRepository.GetAsync(id);
 
@@ -115,7 +115,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.UpdateAsync(existingUser);
 
-            return true;
+            return _mapper.Map<UserDto>(existingUser);
         }
 
         public async Task<bool> DeleteAsync(int id)
