@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PBJ.StoreManagementService.Business.Constants;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
@@ -28,7 +29,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (posts.Count == 0)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.POSTS_EMPTY_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<List<PostDto>>(posts));
@@ -40,7 +41,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (posts.Count == 0)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<List<PostDto>>(posts));
@@ -52,7 +53,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (post == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<PostDto>(post));
@@ -71,7 +72,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (existingPost == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
             existingPost = _mapper.Map<Post>(postRequestModel);
@@ -89,7 +90,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (existingPost == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
             await _postRepository.DeleteAsync(existingPost);
