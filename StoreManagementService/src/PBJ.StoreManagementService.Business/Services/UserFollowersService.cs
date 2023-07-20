@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PBJ.StoreManagementService.Business.Constants;
 using PBJ.StoreManagementService.Business.Dtos;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
@@ -25,7 +26,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (userFollowers.Count == 0)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USERFOLLOWERS_EMPTY_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<List<UserFollowersDto>>(userFollowers));
@@ -37,7 +38,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (userFollower == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USERFOLLOWER_NOT_FOUND_MESSAGE;
             }
 
             return await Task.FromResult(_mapper.Map<UserFollowersDto>(userFollower));
@@ -56,7 +57,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (existingUserFollower == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USERFOLLOWER_NOT_FOUND_MESSAGE);
             }
 
             await _userFollowersRepository.DeleteAsync(existingUserFollower);

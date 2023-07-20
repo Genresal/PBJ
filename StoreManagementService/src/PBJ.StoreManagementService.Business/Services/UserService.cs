@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PBJ.StoreManagementService.Business.Constants;
 using PBJ.StoreManagementService.Business.Dtos;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
@@ -31,7 +32,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (users.Count == 0)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USERS_EMPTY_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<List<UserDto>>(users));
@@ -43,7 +44,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (followers.Count == 0)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<List<UserDto>>(followers));
@@ -55,7 +56,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (followers.Count == 0)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USERS_EMPTY_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<List<UserDto>>(followers));
@@ -67,7 +68,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (user == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<UserDto>(user));
@@ -79,7 +80,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (user == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
             }
 
             return await Task.FromResult(_mapper.Map<UserDto>(user));
@@ -91,7 +92,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (existingUser != null)
             {
-                throw new AlreadyExistsException("");
+                throw new AlreadyExistsException(ExceptionMessages.USER_ALREADY_EXISTS_MESSAGE);
             }
 
             await _userRepository.CreateAsync(_mapper.Map<User>(userDto));
@@ -105,7 +106,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (existingUser == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
             }
 
             existingUser = _mapper.Map<User>(userDto);
@@ -123,7 +124,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             if (existingUser == null)
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
             }
 
             await _userRepository.DeleteAsync(existingUser);
