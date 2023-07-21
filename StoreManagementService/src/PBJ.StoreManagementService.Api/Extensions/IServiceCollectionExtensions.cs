@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using PBJ.StoreManagementService.Api.Validators;
 using PBJ.StoreManagementService.Models.Comment;
 using PBJ.StoreManagementService.Models.Post;
@@ -20,10 +22,8 @@ namespace PBJ.StoreManagementService.Api.Extensions
 
         public static void AddValidators(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<UserRequestModel>, UserValidator>();
-            services.AddScoped<IValidator<PostRequestModel>, PostValidator>();
-            services.AddScoped<IValidator<CommentRequestModel>, CommentValidator>();
-            services.AddScoped<IValidator<UserFollowersRequestModel>, UserFollowerValidator>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+                .AddFluentValidationAutoValidation();
         }
     }
 }
