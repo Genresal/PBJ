@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.Comment;
@@ -20,7 +19,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _validator = validator;
         }
 
-        [HttpGet, Route("get/amount")]
+        [HttpGet, Route("{amount}")]
         public async Task<ActionResult> GetAmountAsync(int amount)
         {
             var result = await _commentService.GetAmountAsync(amount);
@@ -28,7 +27,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("get/id")]
+        [HttpGet]
         public async Task<ActionResult> GetAsync(int id)
         {
             var result = await _commentService.GetAsync(id);
@@ -36,33 +35,23 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost, Route("create")]
+        [HttpPost]
         public async Task<ActionResult> CreateAsync(CommentRequestModel requestModel)
         {
-            await _validator.ValidateAsync(requestModel, options =>
-            {
-                options.ThrowOnFailures();
-            });
-
             var result = await _commentService.CreateAsync(requestModel);
 
             return Ok(result);
         }
 
-        [HttpPut, Route("update")]
+        [HttpPut]
         public async Task<ActionResult> UpdateAsync(int id, CommentRequestModel requestModel)
         {
-            await _validator.ValidateAsync(requestModel, options =>
-            {
-                options.ThrowOnFailures();
-            });
-
             var result = await _commentService.UpdateAsync(id, requestModel);
 
             return Ok(result);
         }
 
-        [HttpDelete, Route("delete")]
+        [HttpDelete]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var result = await _commentService.DeleteAsync(id);
