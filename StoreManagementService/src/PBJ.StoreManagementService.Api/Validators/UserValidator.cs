@@ -10,7 +10,8 @@ namespace PBJ.StoreManagementService.Api.Validators
             RuleFor(x => x.Name).NotEmpty().NotNull().MaximumLength(30);
             RuleFor(x => x.Lastname).NotEmpty().NotNull().MaximumLength(30);
             RuleFor(x => x.Surname).NotEmpty().NotNull().MaximumLength(30);
-            RuleFor(x => x.Email).NotEmpty().NotNull().MaximumLength(50);
+            RuleFor(x => x.Email)
+                .EmailAddress().NotEmpty().NotNull().MaximumLength(50);
         }
     }
 }
