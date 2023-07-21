@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using PBJ.StoreManagementService.Business.Constants;
-using PBJ.StoreManagementService.Business.Dtos;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.Post;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -46,14 +46,16 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<PostDto>(post);
         }
 
-        public async Task<PostDto> CreateAsync(PostDto postDto)
+        public async Task<PostDto> CreateAsync(PostRequestModel postRequestModel)
         {
-            await _postRepository.CreateAsync(_mapper.Map<Post>(postDto));
+            var post = _mapper.Map<Post>(postRequestModel);
 
-            return postDto;
+            await _postRepository.CreateAsync(post);
+
+            return _mapper.Map<PostDto>(post);
         }
 
-        public async Task<PostDto> UpdateAsync(int id, PostDto postDto)
+        public async Task<PostDto> UpdateAsync(int id, PostRequestModel postRequestModel)
         {
             var existingPost = await _postRepository.GetAsync(id);
 
@@ -62,7 +64,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
-            existingPost = _mapper.Map<Post>(postDto);
+            existingPost = _mapper.Map<Post>(postRequestModel);
 
             existingPost.Id = id;
 

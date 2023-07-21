@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using PBJ.StoreManagementService.Business.Constants;
-using PBJ.StoreManagementService.Business.Dtos;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.UserFollowers;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -39,11 +39,13 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<UserFollowersDto>(userFollower);
         }
 
-        public async Task<UserFollowersDto> CreateAsync(UserFollowersDto userFollowersDto)
+        public async Task<UserFollowersDto> CreateAsync(UserFollowersRequestModel userFollowersRequestModel)
         {
-            await _userFollowersRepository.CreateAsync(_mapper.Map<UserFollowers>(userFollowersDto));
+            var userFollower = _mapper.Map<UserFollowers>(userFollowersRequestModel);
 
-            return userFollowersDto;
+            await _userFollowersRepository.CreateAsync(userFollower);
+
+            return _mapper.Map<UserFollowersDto>(userFollower);
         }
 
         public async Task<bool> DeleteAsync(int id)

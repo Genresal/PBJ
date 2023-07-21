@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using PBJ.StoreManagementService.Business.Constants;
-using PBJ.StoreManagementService.Business.Dtos;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.User;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -68,21 +68,24 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<UserDto>(user);
         }
 
-        public async Task<UserDto> CreateAsync(UserDto userDto)
+        public async Task<UserDto> CreateAsync(UserRequestModel userRequestModel)
         {
-            var existingUser = await _userRepository.FirstOrDefaultAsync(x => x.Email == userDto.Email);
+            var existingUser = await _userRepository
+                .FirstOrDefaultAsync(x => x.Email == userRequestModel.Email);
 
             if (existingUser != null)
             {
                 throw new AlreadyExistsException(ExceptionMessages.USER_ALREADY_EXISTS_MESSAGE);
             }
 
-            await _userRepository.CreateAsync(_mapper.Map<User>(userDto));
+            var user = _mapper.Map<User>(userRequestModel);
 
-            return userDto;
+            await _userRepository.CreateAsync(user);
+
+            return _mapper.Map<UserDto>(user);
         }
 
-        public async Task<UserDto> UpdateAsync(int id, UserDto userDto)
+        public async Task<UserDto> UpdateAsync(int id, UserRequestModel userRequestModel)
         {
             var existingUser = await _userRepository.GetAsync(id);
 
@@ -91,7 +94,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
             }
 
-            existingUser = _mapper.Map<User>(userDto);
+            existingUser = _mapper.Map<User>(userRequestModel);
 
             existingUser.Id = id;
 

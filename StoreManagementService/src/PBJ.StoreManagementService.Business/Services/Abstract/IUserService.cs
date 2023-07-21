@@ -1,4 +1,4 @@
-﻿using PBJ.StoreManagementService.Business.Dtos;
+﻿using PBJ.StoreManagementService.Models.User;
 
 namespace PBJ.StoreManagementService.Business.Services.Abstract
 {
@@ -14,9 +14,9 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<UserDto> GetAsync(string login);
 
-        Task<UserDto> CreateAsync(UserDto userDto);
+        Task<UserDto> CreateAsync(UserRequestModel userRequestModel);
 
-        Task<UserDto> UpdateAsync(int id, UserDto userDto);
+        Task<UserDto> UpdateAsync(int id, UserRequestModel userRequestModel);
 
         Task<bool> DeleteAsync(int id);
     }

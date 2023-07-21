@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.StoreManagementService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.StoreManagementService.DataAccess", "src\PBJ.StoreManagementService.DataAccess\PBJ.StoreManagementService.DataAccess.csproj", "{1BD104D7-45D8-4B03-89DE-371A87B8B99A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBJ.StoreManagementService.Models", "src\PBJ.StoreManagementService.Models\PBJ.StoreManagementService.Models.csproj", "{93526F2B-9899-4B32-BFFD-EAC7100C4E4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1BD104D7-45D8-4B03-89DE-371A87B8B99A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BD104D7-45D8-4B03-89DE-371A87B8B99A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BD104D7-45D8-4B03-89DE-371A87B8B99A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93526F2B-9899-4B32-BFFD-EAC7100C4E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93526F2B-9899-4B32-BFFD-EAC7100C4E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93526F2B-9899-4B32-BFFD-EAC7100C4E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93526F2B-9899-4B32-BFFD-EAC7100C4E4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

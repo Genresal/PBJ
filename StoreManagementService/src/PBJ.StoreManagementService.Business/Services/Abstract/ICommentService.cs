@@ -1,4 +1,4 @@
-﻿using PBJ.StoreManagementService.Business.Dtos;
+﻿using PBJ.StoreManagementService.Models.Comment;
 
 namespace PBJ.StoreManagementService.Business.Services.Abstract
 {
@@ -8,9 +8,9 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<CommentDto> GetAsync(int id);
 
-        Task<CommentDto> CreateAsync(CommentDto commentDto);
+        Task<CommentDto> CreateAsync(CommentRequestModel commentRequestModel);
 
-        Task<CommentDto> UpdateAsync(int id, CommentDto commentDto);
+        Task<CommentDto> UpdateAsync(int id, CommentRequestModel commentRequestModel);
 
         Task<bool> DeleteAsync(int id);
     }
