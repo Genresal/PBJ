@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.Post;
 
@@ -10,13 +9,10 @@ namespace PBJ.StoreManagementService.Api.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
-        private readonly IValidator<PostRequestModel> _validator;
 
-        public PostController(IPostService postService,
-            IValidator<PostRequestModel> validator)
+        public PostController(IPostService postService)
         {
             _postService = postService;
-            _validator = validator;
         }
 
         [HttpGet, Route("{amount}")]

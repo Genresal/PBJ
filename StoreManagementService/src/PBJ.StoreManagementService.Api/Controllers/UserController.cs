@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.User;
 
@@ -11,16 +9,10 @@ namespace PBJ.StoreManagementService.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IMapper _mapper;
-        private readonly IValidator<UserRequestModel> _validator;
 
-        public UserController(IUserService userService,
-            IMapper mapper,
-            IValidator<UserRequestModel> validator)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _mapper = mapper;
-            _validator = validator;
         }
 
         [HttpGet, Route("{amount}")]

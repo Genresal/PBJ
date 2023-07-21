@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.Comment;
 
@@ -10,13 +9,10 @@ namespace PBJ.StoreManagementService.Api.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentService _commentService;
-        private readonly IValidator<CommentRequestModel> _validator;
 
-        public CommentController(ICommentService commentService,
-            IValidator<CommentRequestModel> validator)
+        public CommentController(ICommentService commentService)
         {
             _commentService = commentService;
-            _validator = validator;
         }
 
         [HttpGet, Route("{amount}")]

@@ -1,4 +1,3 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.UserFollowers;
@@ -10,13 +9,10 @@ namespace PBJ.StoreManagementService.Api.Controllers
     public class UserFollowerController : ControllerBase
     {
         private readonly IUserFollowersService _userFollowersService;
-        private readonly IValidator<UserFollowersRequestModel> _validator;
 
-        public UserFollowerController(IUserFollowersService commentService,
-            IValidator<UserFollowersRequestModel> validator)
+        public UserFollowerController(IUserFollowersService commentService)
         {
             _userFollowersService = commentService;
-            _validator = validator;
         }
 
         [HttpGet, Route("{amount}")]
