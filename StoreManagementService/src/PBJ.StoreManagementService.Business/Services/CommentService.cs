@@ -24,11 +24,6 @@ namespace PBJ.StoreManagementService.Business.Services
         {
             var comments = await _commentRepository.GetAmountAsync(amount);
 
-            if (comments.Count == 0)
-            {
-                throw new NotFoundException(ExceptionMessages.COMMENTS_EMPTY_MESSAGE);
-            }
-
             return _mapper.Map<List<CommentDto>>(comments);
         }
 
@@ -74,11 +69,6 @@ namespace PBJ.StoreManagementService.Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var existingComment = await _commentRepository.GetAsync(id);
-
-            if (existingComment == null)
-            {
-                throw new NotFoundException(ExceptionMessages.COMMENT_NOT_FOUND_MESSAGE);
-            }
 
             await _commentRepository.DeleteAsync(existingComment);
 
