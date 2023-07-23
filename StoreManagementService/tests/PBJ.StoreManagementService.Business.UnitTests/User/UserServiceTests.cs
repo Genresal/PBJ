@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -7,12 +6,12 @@ using Moq;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Mappers;
 using PBJ.StoreManagementService.Business.Services;
-using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 using PBJ.StoreManagementService.Models.User;
+using System.Linq.Expressions;
 using Xunit;
 
-namespace PBJ.StoreManagementService.Business.UnitTests
+namespace PBJ.StoreManagementService.Business.UnitTests.User
 {
     public class UserServiceTests
     {
@@ -80,7 +79,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests
         public async Task GetFollowersAsync_ShouldReturnListOfUsersDto(int userId, int amount)
         {
             //Arrange
-            _mockUserRepository.Setup(x => 
+            _mockUserRepository.Setup(x =>
                     x.GetFollowersAsync(It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(_fixture.Build<User>()
                     .With(x => x.Followers, _fixture.Build<UserFollowers>()
@@ -221,8 +220,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests
         public async Task CreateAsync_ShouldThrowAlreadyExistsException()
         {
             //Arrange
-            _mockUserRepository.Setup(x => 
-                    x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User,bool>>>()))
+            _mockUserRepository.Setup(x =>
+                    x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(_fixture.Create<User>());
 
             var userService = new UserService(_mockUserRepository.Object,

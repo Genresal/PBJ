@@ -6,13 +6,11 @@ using Moq;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Mappers;
 using PBJ.StoreManagementService.Business.Services;
-using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
-using PBJ.StoreManagementService.Models.User;
 using PBJ.StoreManagementService.Models.UserFollowers;
 using Xunit;
 
-namespace PBJ.StoreManagementService.Business.UnitTests
+namespace PBJ.StoreManagementService.Business.UnitTests.UserFollowers
 {
     public class UserFollowersServiceTests
     {
