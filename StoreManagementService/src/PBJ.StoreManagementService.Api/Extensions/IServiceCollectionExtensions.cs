@@ -1,11 +1,6 @@
-﻿using System.Reflection;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using PBJ.StoreManagementService.Api.Validators;
-using PBJ.StoreManagementService.Models.Comment;
-using PBJ.StoreManagementService.Models.Post;
-using PBJ.StoreManagementService.Models.User;
-using PBJ.StoreManagementService.Models.UserFollowers;
+using System.Reflection;
 
 namespace PBJ.StoreManagementService.Api.Extensions
 {
