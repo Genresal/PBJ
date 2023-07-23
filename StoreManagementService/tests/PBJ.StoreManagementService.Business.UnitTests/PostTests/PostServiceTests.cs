@@ -6,11 +6,12 @@ using Moq;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Mappers;
 using PBJ.StoreManagementService.Business.Services;
+using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 using PBJ.StoreManagementService.Models.Post;
 using Xunit;
 
-namespace PBJ.StoreManagementService.Business.UnitTests.Post
+namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
 {
     public class PostServiceTests
     {
