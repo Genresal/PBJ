@@ -14,12 +14,12 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.HasOne(uf => uf.User)
-                .WithMany(u => u.Followings)
+                .WithMany(u => u.Followers)
                 .HasForeignKey(uf => uf.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(uf => uf.Follower)
-                .WithMany(u => u.Followers)
+                .WithMany(u => u.Followings)
                 .HasForeignKey(uf => uf.FollowerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
