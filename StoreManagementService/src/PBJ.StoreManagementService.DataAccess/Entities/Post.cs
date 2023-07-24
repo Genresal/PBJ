@@ -12,6 +12,6 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
 
         public User? User { get; set; }
 
-        public IReadOnlyCollection<Comment>? Comments { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
     }
 }
