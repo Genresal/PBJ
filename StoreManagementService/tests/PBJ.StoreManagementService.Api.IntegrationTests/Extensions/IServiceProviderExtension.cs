@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PBJ.StoreManagementService.DataAccess.Context;
 using PBJ.StoreManagementService.DataAccess.Entities.Abstract;
-using PBJ.StoreManagementService.DataAccess.Repositories;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.Extensions
 {
     public static class IServiceProviderExtension
     {
-        public static async Task SeedDataAsync<TRepository, TEntity>(this IServiceProvider provider, TEntity entity)
+        public static async Task SeedDataAsync<TEntity>(this IServiceProvider provider, TEntity entity)
         where TEntity : BaseEntity
-        where TRepository : BaseRepository<TEntity>
         {
-            var repository = provider.GetService<TRepository>();
+            var databaseContext = provider.GetService<DatabaseContext>();
 
-            await repository.CreateAsync(entity);
-            await repository.CreateAsync(entity);
+            databaseContext.Set<TEntity>().Add(entity);
+
+            await databaseContext.SaveChangesAsync();
         }
     }
 }
