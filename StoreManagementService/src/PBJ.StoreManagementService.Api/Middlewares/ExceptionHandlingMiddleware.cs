@@ -47,10 +47,6 @@ namespace PBJ.StoreManagementService.Api.Middlewares
                     code = HttpStatusCode.Conflict;
                     break;
 
-                case ValidationException:
-                    code = HttpStatusCode.UnprocessableEntity;
-                    break;
-
                 default:
                     code = HttpStatusCode.InternalServerError;
                     break;

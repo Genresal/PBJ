@@ -6,6 +6,6 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
     {
         Task<List<User>> GetFollowersAsync(int userId, int amount);
 
-        Task<List<User>> GetFollowingsAsync(int userId, int amount);
+        Task<List<User>> GetFollowingsAsync(int followerId, int amount);
     }
 }
