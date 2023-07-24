@@ -108,8 +108,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "BirthDate", "Email", "LastName", "Name", "Surname" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 7, 24, 10, 12, 2, 10, DateTimeKind.Local).AddTicks(5336), "login1", "Lastname1", "Name1", "Surname1" },
-                    { 2, new DateTime(2023, 7, 24, 10, 12, 2, 10, DateTimeKind.Local).AddTicks(5343), "login2", "Lastname2", "Name2", "Surname2" }
+                    { 1, new DateTime(2023, 7, 24, 14, 29, 39, 983, DateTimeKind.Local).AddTicks(6749), "login1", "Lastname1", "Name1", "Surname1" },
+                    { 2, new DateTime(2023, 7, 24, 14, 29, 39, 983, DateTimeKind.Local).AddTicks(6756), "login2", "Lastname2", "Name2", "Surname2" }
                 });
 
             migrationBuilder.InsertData(
@@ -117,8 +117,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "PostContent1", new DateTime(2023, 7, 24, 10, 12, 2, 10, DateTimeKind.Local).AddTicks(2807), 1 },
-                    { 2, "PostContent2", new DateTime(2023, 7, 24, 10, 12, 2, 10, DateTimeKind.Local).AddTicks(2816), 2 }
+                    { 1, "PostContent1", new DateTime(2023, 7, 24, 14, 29, 39, 983, DateTimeKind.Local).AddTicks(4082), 1 },
+                    { 2, "PostContent2", new DateTime(2023, 7, 24, 14, 29, 39, 983, DateTimeKind.Local).AddTicks(4089), 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -135,8 +135,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "PostId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "CommentContent1", new DateTime(2023, 7, 24, 10, 12, 2, 9, DateTimeKind.Local).AddTicks(8869), 2, 1 },
-                    { 2, "CommentContent2", new DateTime(2023, 7, 24, 10, 12, 2, 9, DateTimeKind.Local).AddTicks(8883), 1, 2 }
+                    { 1, "CommentContent1", new DateTime(2023, 7, 24, 14, 29, 39, 982, DateTimeKind.Local).AddTicks(8321), 2, 1 },
+                    { 2, "CommentContent2", new DateTime(2023, 7, 24, 14, 29, 39, 982, DateTimeKind.Local).AddTicks(8334), 1, 2 }
                 });
 
             migrationBuilder.CreateIndex(
