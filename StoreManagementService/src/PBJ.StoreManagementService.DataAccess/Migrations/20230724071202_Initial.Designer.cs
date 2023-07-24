@@ -12,7 +12,7 @@ using PBJ.StoreManagementService.DataAccess.Context;
 namespace PBJ.StoreManagementService.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230720124313_Initial")]
+    [Migration("20230724071202_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -60,7 +60,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "CommentContent1",
-                            CreatedAt = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(480),
+                            CreatedAt = new DateTime(2023, 7, 24, 10, 12, 2, 9, DateTimeKind.Local).AddTicks(8869),
                             PostId = 2,
                             UserId = 1
                         },
@@ -68,7 +68,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 2,
                             Content = "CommentContent2",
-                            CreatedAt = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(491),
+                            CreatedAt = new DateTime(2023, 7, 24, 10, 12, 2, 9, DateTimeKind.Local).AddTicks(8883),
                             PostId = 1,
                             UserId = 2
                         });
@@ -104,14 +104,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            CreatedAt = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(5070),
+                            CreatedAt = new DateTime(2023, 7, 24, 10, 12, 2, 10, DateTimeKind.Local).AddTicks(2807),
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            CreatedAt = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(5077),
+                            CreatedAt = new DateTime(2023, 7, 24, 10, 12, 2, 10, DateTimeKind.Local).AddTicks(2816),
                             UserId = 2
                         });
                 });
@@ -155,7 +155,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            BirthDate = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(8732),
+                            BirthDate = new DateTime(2023, 7, 24, 10, 12, 2, 10, DateTimeKind.Local).AddTicks(5336),
                             Email = "login1",
                             LastName = "Lastname1",
                             Name = "Name1",
@@ -164,7 +164,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            BirthDate = new DateTime(2023, 7, 20, 15, 43, 13, 690, DateTimeKind.Local).AddTicks(8741),
+                            BirthDate = new DateTime(2023, 7, 24, 10, 12, 2, 10, DateTimeKind.Local).AddTicks(5343),
                             Email = "login2",
                             LastName = "Lastname2",
                             Name = "Name2",
