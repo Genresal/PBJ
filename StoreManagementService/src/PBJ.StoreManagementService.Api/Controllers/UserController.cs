@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.User;
 
@@ -11,19 +9,13 @@ namespace PBJ.StoreManagementService.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IMapper _mapper;
-        private readonly IValidator<UserRequestModel> _validator;
 
-        public UserController(IUserService userService,
-            IMapper mapper,
-            IValidator<UserRequestModel> validator)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _mapper = mapper;
-            _validator = validator;
         }
 
-        [HttpGet, Route("get/amount")]
+        [HttpGet, Route("{amount}")]
         public async Task<ActionResult> GetAmountAsync(int amount)
         {
             var result = await _userService.GetAmountAsync(amount);
@@ -31,7 +23,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("get/followers")]
+        [HttpGet, Route("followers")]
         public async Task<ActionResult> GetFollowersAsync(int userId, int amount)
         {
             var result = await _userService.GetFollowersAsync(userId, amount);
@@ -39,7 +31,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("get/followings")]
+        [HttpGet, Route("followings")]
         public async Task<ActionResult> GetFollowingsAsync(int followerId, int amount)
         {
             var result = await _userService.GetFollowingsAsync(followerId, amount);
@@ -47,7 +39,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("get/id")]
+        [HttpGet]
         public async Task<ActionResult> GetAsync(int id)
         {
             var result = await _userService.GetAsync(id);
@@ -55,7 +47,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("get/email")]
+        [HttpGet, Route("email")]
         public async Task<ActionResult> GetAsync(string email)
         {
             var result = await _userService.GetAsync(email);
@@ -63,33 +55,23 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost, Route("create")]
+        [HttpPost]
         public async Task<ActionResult> CreateAsync(UserRequestModel requestModel)
         {
-            await _validator.ValidateAsync(requestModel, options =>
-            {
-                options.ThrowOnFailures();
-            });
-
             var result = await _userService.CreateAsync(requestModel);
 
             return Ok(result);
         }
 
-        [HttpPut, Route("update")]
+        [HttpPut]
         public async Task<ActionResult> UpdateAsync(int id, UserRequestModel requestModel)
         {
-            await _validator.ValidateAsync(requestModel, options =>
-            {
-                options.ThrowOnFailures();
-            });
-
             var result = await _userService.UpdateAsync(id, requestModel);
 
             return Ok(result);
         }
 
-        [HttpDelete, Route("delete")]
+        [HttpDelete]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var result = await _userService.DeleteAsync(id);
