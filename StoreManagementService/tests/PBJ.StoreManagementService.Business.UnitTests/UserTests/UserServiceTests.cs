@@ -281,7 +281,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x =>
-                x.DeleteRangeAsync(It.IsAny<IReadOnlyCollection<UserFollowers>>()));
+                x.DeleteRangeAsync(It.IsAny<ICollection<UserFollowers>>()));
 
             _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
                 .ReturnsAsync(_fixture.Create<User>());
