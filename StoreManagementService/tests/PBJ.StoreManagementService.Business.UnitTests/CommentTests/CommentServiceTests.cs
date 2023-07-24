@@ -37,7 +37,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
 
         [Theory]
         [InlineData(2)]
-        public async Task GetAmountAsync_ShouldReturnListOfCommentDto(int amount)
+        public async Task GetAmountAsync_WhenEntitiesExist_ReturnsListOfDto(int amount)
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
@@ -54,7 +54,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
         }
 
         [Fact]
-        public async Task GetAmountAsync_ShouldReturnEmptyListOfCommentDto()
+        public async Task GetAmountAsync_WhenEntitiesNotExist_ReturnsEmptyListOfDto()
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
@@ -72,7 +72,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
 
         [Theory]
         [InlineData(1)]
-        public async Task GetAsync_ShouldReturnCommentDto(int id)
+        public async Task GetAsync_WhenEntityExists_ReturnsDto(int id)
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -88,7 +88,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
         }
 
         [Fact]
-        public async Task GetAsync_ShouldThrowNotFoundException()
+        public async Task GetAsync_WhenEntityNotExists_ThrowsNotFoundException()
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -104,7 +104,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
         }
 
         [Fact]
-        public async Task CreateAsync_ShouldReturnCreatedCommentDto()
+        public async Task CreateAsync_WhenRequestIsValid_ReturnsCreatedDto()
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.CreateAsync(It.IsAny<Comment>()));
@@ -121,7 +121,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
 
         [Theory]
         [InlineData(1)]
-        public async Task UpdateAsync_ShouldReturnUpdatedCommentDto(int id)
+        public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto(int id)
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -140,7 +140,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
         }
 
         [Fact]
-        public async Task UpdateAsync_ShouldThrowNotFoundException()
+        public async Task UpdateAsync_WhenEntityNotExists_ThrowsNotFoundException()
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -158,7 +158,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
 
         [Theory]
         [InlineData(1)]
-        public async Task DeleteAsync_ShouldReturnTrue(int id)
+        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(int id)
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.DeleteAsync(It.IsAny<Comment>()));
@@ -173,7 +173,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.CommentTests
         }
 
         [Fact]
-        public async Task DeleteAsync_ShouldThrowDbUpdateExceptionException()
+        public async Task DeleteAsync_WhenEntityNotExist_ThrowsDbUpdateExceptionException()
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.DeleteAsync(It.IsAny<Comment>()))

@@ -40,7 +40,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
 
         [Theory]
         [InlineData(2)]
-        public async Task GetAmountAsync_ShouldReturnListOfCommentDto(int amount)
+        public async Task GetAmountAsync_WhenEntitiesExists_ReturnsListOfDto(int amount)
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
@@ -58,7 +58,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
         }
 
         [Fact]
-        public async Task GetAmountAsync_ShouldReturnEmptyListOfCommentDto()
+        public async Task GetAmountAsync_WhenEntitiesNotExists_ReturnsEmptyListOfDto()
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
@@ -77,7 +77,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
 
         [Theory]
         [InlineData(1, 2)]
-        public async Task GetFollowersAsync_ShouldReturnListOfUsersDto(int userId, int amount)
+        public async Task GetFollowersAsync_WhenEntitiesExists_ReturnsListOfDto(int userId, int amount)
         {
             //Arrange
             _mockUserRepository.Setup(x =>
@@ -102,7 +102,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
         }
 
         [Fact]
-        public async Task GetFollowersAsync_ShouldReturnEmptyListOfUserDto()
+        public async Task GetFollowersAsync_WhenEntitiesNotExists_ReturnsEmptyListOfDto()
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetFollowersAsync(It.IsAny<int>(), It.IsAny<int>()))
@@ -120,7 +120,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
         }
 
         [Fact]
-        public async Task GetFollowingsAsync_ShouldReturnEmptyListOfUserDto()
+        public async Task GetFollowingsAsync_WhenEntitiesNotExists_ReturnsEmptyListOfDto()
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetFollowersAsync(It.IsAny<int>(), It.IsAny<int>()))
@@ -139,7 +139,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
 
         [Theory]
         [InlineData(1, 2)]
-        public async Task GetFollowingsAsync_ShouldReturnListOfUsersDto(int followerId, int amount)
+        public async Task GetFollowingsAsync_WhenEntitiesExists_ReturnsListOfDto(int followerId, int amount)
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetFollowingsAsync(It.IsAny<int>(),
@@ -163,7 +163,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
 
         [Theory]
         [InlineData(1)]
-        public async Task GetAsync_ShouldReturnCommentDto(int id)
+        public async Task GetAsync_WhenEntityExists_ReturnsDto(int id)
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -180,7 +180,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
         }
 
         [Fact]
-        public async Task GetAsync_ShouldThrowNotFoundException()
+        public async Task GetAsync_WhenEntityNotExists_ThrowsNotFoundException()
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -198,7 +198,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
 
         [Theory]
         [InlineData(1)]
-        public async Task CreateAsync_ShouldReturnCreatedCommentDto(int id)
+        public async Task CreateAsync_WhenEntityNotExists_ReturnsCreatedDto(int id)
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -218,7 +218,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
         }
 
         [Fact]
-        public async Task CreateAsync_ShouldThrowAlreadyExistsException()
+        public async Task CreateAsync_WhenEntityExists_ThrowsAlreadyExistsException()
         {
             //Arrange
             _mockUserRepository.Setup(x =>
@@ -238,7 +238,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
 
         [Theory]
         [InlineData(1)]
-        public async Task UpdateAsync_ShouldReturnUpdatedCommentDto(int id)
+        public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto(int id)
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -258,7 +258,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
         }
 
         [Fact]
-        public async Task UpdateAsync_ShouldThrowNotFoundException()
+        public async Task UpdateAsync_WhenEntityNotExists_ThrowsNotFoundException()
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -277,7 +277,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
 
         [Theory]
         [InlineData(1)]
-        public async Task DeleteAsync_ShouldReturnTrue(int id)
+        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(int id)
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x =>
@@ -299,7 +299,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserTests
         }
 
         [Fact]
-        public async Task DeleteAsync_ShouldThrowDbUpdateExceptionException()
+        public async Task DeleteAsync_WhenEntityNotExists_ThrowsDbUpdateExceptionException()
         {
             //Arrange
             _mockUserRepository.Setup(x => x.DeleteAsync(It.IsAny<User>()))

@@ -37,7 +37,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserFollowersTests
 
         [Theory]
         [InlineData(2)]
-        public async Task GetAmountAsync_ShouldReturnListOfCommentDto(int amount)
+        public async Task GetAmountAsync_WhenEntitiesExists_ReturnsListOfDto(int amount)
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
@@ -54,7 +54,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserFollowersTests
         }
 
         [Fact]
-        public async Task GetAmountAsync_ShouldReturnEmptyListOfCommentDto()
+        public async Task GetAmountAsync_WhenEntitiesNotExists_ReturnsEmptyListOfDto()
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
@@ -72,7 +72,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserFollowersTests
 
         [Theory]
         [InlineData(1)]
-        public async Task GetAsync_ShouldReturnCommentDto(int id)
+        public async Task GetAsync_WhenEntityExists_ReturnsDto(int id)
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -89,7 +89,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserFollowersTests
         }
 
         [Fact]
-        public async Task GetAsync_ShouldThrowNotFoundException()
+        public async Task GetAsync_WhenEntityNotExists_ThrowsNotFoundException()
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -105,7 +105,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserFollowersTests
         }
 
         [Fact]
-        public async Task CreateAsync_ShouldReturnCreatedCommentDto()
+        public async Task CreateAsync_WhenRequestIsValid_ReturnsCreatedDto()
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x => x.CreateAsync(It.IsAny<UserFollowers>()));
@@ -122,7 +122,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserFollowersTests
 
         [Theory]
         [InlineData(1)]
-        public async Task DeleteAsync_ShouldReturnTrue(int id)
+        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(int id)
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x => x.DeleteAsync(It.IsAny<UserFollowers>()));
@@ -137,7 +137,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.UserFollowersTests
         }
 
         [Fact]
-        public async Task DeleteAsync_ShouldThrowDbUpdateExceptionException()
+        public async Task DeleteAsync_WhenEntityNotExists_ThrowsDbUpdateExceptionException()
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x =>

@@ -37,7 +37,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
 
         [Theory]
         [InlineData(2)]
-        public async Task GetAmountAsync_ShouldReturnListOfPostDto(int amount)
+        public async Task GetAmountAsync_WhenEntitiesExists_ReturnsListOfDto(int amount)
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
@@ -54,7 +54,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
         }
 
         [Fact]
-        public async Task GetAmountAsync_ShouldReturnEmptyListOfPostDto()
+        public async Task GetAmountAsync_WhenEntitiesNotExists_ReturnsEmptyListOfDto()
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
@@ -72,7 +72,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
 
         [Theory]
         [InlineData(1, 2)]
-        public async Task GetUserPostsAsync_ShouldReturnListOfPostDto(int userId, int amount)
+        public async Task GetUserPostsAsync_WhenEntitiesExists_ReturnsListOfDto(int userId, int amount)
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetUserPostsAsync(It.IsAny<int>(), It.IsAny<int>()))
@@ -91,7 +91,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
         }
 
         [Fact]
-        public async Task GetUserPostsAsync_ShouldReturnEmptyListOfPostDto()
+        public async Task GetUserPostsAsync_WhenEntitiesNotExists_ReturnsEmptyListOfDto()
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetUserPostsAsync(It.IsAny<int>(), It.IsAny<int>()))
@@ -109,7 +109,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
 
         [Theory]
         [InlineData(1)]
-        public async Task GetAsync_ShouldReturnPostDto(int id)
+        public async Task GetAsync_WhenEntityExists_ReturnsDto(int id)
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -125,7 +125,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
         }
 
         [Fact]
-        public async Task GetAsync_ShouldThrowNotFoundException()
+        public async Task GetAsync_WhenEntityNotExists_ThrowsNotFoundException()
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -141,7 +141,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
         }
 
         [Fact]
-        public async Task CreateAsync_ShouldReturnCreatedPostDto()
+        public async Task CreateAsync_WhenRequestIsValid_ReturnsCreatedDto()
         {
             //Arrange
             _mockPostRepository.Setup(x => x.CreateAsync(It.IsAny<Post>()));
@@ -157,7 +157,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
 
         [Theory]
         [InlineData(1)]
-        public async Task UpdateAsync_ShouldReturnUpdatedPostDto(int id)
+        public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto(int id)
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -175,7 +175,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
         }
 
         [Fact]
-        public async Task UpdateAsync_ShouldThrowNotFoundException()
+        public async Task UpdateAsync_WhenEntityNotExists_ThrowsNotFoundException()
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -192,7 +192,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
 
         [Theory]
         [InlineData(1)]
-        public async Task DeleteAsync_ShouldReturnTrue(int id)
+        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(int id)
         {
             //Arrange
             _mockPostRepository.Setup(x => x.DeleteAsync(It.IsAny<Post>()));
@@ -207,7 +207,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.PostTests
         }
 
         [Fact]
-        public async Task DeleteAsync_ShouldThrowDbUpdateExceptionException()
+        public async Task DeleteAsync_WhenEntityNotExists_ThrowsDbUpdateExceptionException()
         {
             //Arrange
             _mockPostRepository.Setup(x => x.DeleteAsync(It.IsAny<Post>()))
