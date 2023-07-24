@@ -14,12 +14,12 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
 
         public string? Email { get; set; }
 
-        public IReadOnlyCollection<Post>? Posts { get; set; }
+        public ICollection<Post>? Posts { get; set; }
 
-        public IReadOnlyCollection<Comment>? Comments { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
 
-        public IReadOnlyCollection<UserFollowers>? Followings { get; set; }
+        public ICollection<UserFollowers>? Followings { get; set; }
 
-        public IReadOnlyCollection<UserFollowers>? Followers { get; set; }
+        public ICollection<UserFollowers>? Followers { get; set; }
     }
 }

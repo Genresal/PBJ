@@ -4,6 +4,6 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
 {
     public interface IUserFollowersRepository : IRepository<UserFollowers>
     {
-        Task DeleteRangeAsync(IReadOnlyCollection<UserFollowers> collection);
+        Task DeleteRangeAsync(ICollection<UserFollowers> collection);
     }
 }
