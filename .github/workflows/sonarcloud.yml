@@ -46,7 +46,7 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Genresal_PBJ" /o:"genresal" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet restore
-          dotnet build --no-restore
-          dotnet test --no-build --verbosity normal
+          dotnet restore ./StoreManagementService/PBJ.StoreManagementService.sln
+          dotnet build --no-restore ./StoreManagementService/PBJ.StoreManagementService.sln
+          dotnet test --no-build --verbosity normal ./StoreManagementService/PBJ.StoreManagementService.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
