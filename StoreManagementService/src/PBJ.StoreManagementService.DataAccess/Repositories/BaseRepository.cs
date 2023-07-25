@@ -24,14 +24,14 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
 
         public virtual async Task<TEntity> GetAsync(int id)
         {
-            return await _databaseContext.Set<TEntity>()
-                .FirstOrDefaultAsync(x => x.Id == id);
+            return (await _databaseContext.Set<TEntity>()
+                .FirstOrDefaultAsync(x => x.Id == id))!;
         }
 
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return await _databaseContext.Set<TEntity>()
-                .FirstOrDefaultAsync(whereExpression);
+            return (await _databaseContext.Set<TEntity>()
+                .FirstOrDefaultAsync(whereExpression))!;
         }
 
         public virtual async Task CreateAsync(TEntity entity)

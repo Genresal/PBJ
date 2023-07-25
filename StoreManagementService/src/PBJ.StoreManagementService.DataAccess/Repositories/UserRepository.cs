@@ -15,7 +15,7 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         {
             {
                 return await _databaseContext.Users
-                    .Where(x => x.Followings.Any(uf => uf.UserId == userId))
+                    .Where(x => x.Followings!.Any(uf => uf.UserId == userId))
                     .Take(amount)
                     .ToListAsync();
             }
@@ -24,7 +24,7 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         public async Task<List<User>> GetFollowingsAsync(int followerId, int amount)
         {
             return await _databaseContext.Users
-                .Where(x => x.Followers.Any(uf => uf.FollowerId == followerId))
+                .Where(x => x.Followers!.Any(uf => uf.FollowerId == followerId))
                 .Take(amount)
                 .ToListAsync();
         }
