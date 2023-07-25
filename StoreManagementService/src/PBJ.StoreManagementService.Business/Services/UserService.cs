@@ -109,8 +109,17 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.DeleteAsync(existingUser);
 
-            await _userFollowersRepository.DeleteRangeAsync(existingUser.Followers);
-            await _userFollowersRepository.DeleteRangeAsync(existingUser.Followings);
+            existingUser.Followers = new List<UserFollowers>();
+
+            if (existingUser.Followers != null)
+            {
+                await _userFollowersRepository.DeleteRangeAsync(existingUser.Followers);
+            }
+
+            if (existingUser.Followings != null)
+            {
+                await _userFollowersRepository.DeleteRangeAsync(existingUser.Followings);
+            }
 
             return true;
         }
