@@ -46,7 +46,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userFollowersRepository.CreateAsync(userFollower);
 
-            Log.Information($"Created userFollower: {userFollower}");
+            Log.Information("Created userFollower: {@userFollower}", userFollower);
 
             return _mapper.Map<UserFollowersDto>(userFollower);
         }
@@ -57,7 +57,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userFollowersRepository.DeleteAsync(existingUserFollower);
 
-            Log.Information($"Deleted userFollower: {existingUserFollower}");
+            Log.Information("Deleted userFollower: {@existingUserFollower}", existingUserFollower);
 
             return true;
         }

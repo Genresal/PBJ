@@ -31,7 +31,7 @@ namespace PBJ.StoreManagementService.Api.Middlewares
                 response.StatusCode = (int)status;
 
                 Log.Error($"Exception were thrown: {exception.GetType()}, with message: {exception.Message}" +
-                                     $"Response status code: {context.Response.StatusCode}");
+                                     $" Response status code: {context.Response.StatusCode}");
 
                 await response.WriteAsync(message);
             }

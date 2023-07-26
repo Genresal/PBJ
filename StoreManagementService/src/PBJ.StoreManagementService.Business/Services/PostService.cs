@@ -53,7 +53,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _postRepository.CreateAsync(post);
 
-            Log.Information($"Created post: {post}");
+            Log.Information("Created post: {@post}", post);
 
             return _mapper.Map<PostDto>(post);
         }
@@ -73,7 +73,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _postRepository.UpdateAsync(existingPost);
 
-            Log.Information($"Updated post: {existingPost}");
+            Log.Information("Updated post: {@existingPost}", existingPost);
 
             return _mapper.Map<PostDto>(existingPost);
         }
@@ -84,7 +84,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _postRepository.DeleteAsync(existingPost);
 
-            Log.Information($"Deleted post: {existingPost}");
+            Log.Information("Deleted post: {@existingPost}", existingPost);
 
             return true;
         }

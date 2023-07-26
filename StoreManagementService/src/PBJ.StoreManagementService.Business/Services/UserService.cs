@@ -83,7 +83,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.CreateAsync(user);
 
-            Log.Information($"Created user: {user}");
+            Log.Information("Created user: {@user}", user);
 
             return _mapper.Map<UserDto>(user);
         }
@@ -103,7 +103,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.UpdateAsync(existingUser);
 
-            Log.Information($"Updated user: {existingUser}");
+            Log.Information("Updated user: {@existingUser}", existingUser);
 
             return _mapper.Map<UserDto>(existingUser);
         }
@@ -126,7 +126,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 await _userFollowersRepository.DeleteRangeAsync(existingUser.Followings);
             }
 
-            Log.Information($"Deleted user: {existingUser}");
+            Log.Information("Deleted user: {@existingUser}", existingUser);
 
             return true;
         }

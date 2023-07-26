@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
 using PBJ.StoreManagementService.Business.Constants;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
@@ -47,7 +46,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _commentRepository.CreateAsync(comment);
 
-            Log.Information($"Created comment: {comment}");
+            Log.Information("Created comment: {@comment}", comment);
 
             return _mapper.Map<CommentDto>(comment);
         }
@@ -67,7 +66,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _commentRepository.UpdateAsync(existingComment);
 
-            Log.Information($"Updated comment: {existingComment}");
+            Log.Information("Updated comment: {@existingComment}", existingComment);
 
             return _mapper.Map<CommentDto>(existingComment);
         }
@@ -78,7 +77,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _commentRepository.DeleteAsync(existingComment);
 
-            Log.Information($"Deleted comment: {existingComment}");
+            Log.Information("Deleted comment: {@existingComment}", existingComment);
 
             return true;
         }

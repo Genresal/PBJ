@@ -33,7 +33,8 @@ namespace PBJ.StoreManagementService.Api.Extensions
                 .WriteTo.Async(options =>
                 {
                     options.Console(restrictedToMinimumLevel: LogEventLevel.Information);
-                    options.File("logs/log-.txt", restrictedToMinimumLevel: LogEventLevel.Error, rollingInterval: RollingInterval.Day);
+                    options.File("logs/log-.txt", rollingInterval: RollingInterval.Day,
+                        restrictedToMinimumLevel: LogEventLevel.Error);
                 })
                 .CreateLogger();
         }
