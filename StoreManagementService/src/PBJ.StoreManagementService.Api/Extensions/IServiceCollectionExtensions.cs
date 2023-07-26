@@ -1,6 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using Serilog;
+using Serilog.Events;
+using Serilog.Exceptions;
 
 namespace PBJ.StoreManagementService.Api.Extensions
 {
@@ -19,6 +22,20 @@ namespace PBJ.StoreManagementService.Api.Extensions
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                 .AddFluentValidationAutoValidation();
+        }
+
+        public static void BuildSerilog(this IServiceCollection services)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .Enrich.WithExceptionDetails()
+                .Enrich.FromLogContext()
+                .WriteTo.Async(options =>
+                {
+                    options.Console(restrictedToMinimumLevel: LogEventLevel.Information);
+                    options.File("logs/log-.txt", restrictedToMinimumLevel: LogEventLevel.Error, rollingInterval: RollingInterval.Day);
+                })
+                .CreateLogger();
         }
     }
 }

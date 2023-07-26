@@ -2,6 +2,9 @@ using PBJ.StoreManagementService.Api.Extensions;
 using PBJ.StoreManagementService.Api.Middlewares;
 using PBJ.StoreManagementService.Business.Extensions;
 using PBJ.StoreManagementService.DataAccess.Extensions;
+using Serilog;
+using Serilog.Events;
+using Serilog.Exceptions;
 
 namespace PBJ.StoreManagementService.Api
 {
@@ -17,6 +20,7 @@ namespace PBJ.StoreManagementService.Api
             builder.Services.AddAutoMapper();
             builder.Services.AddNewtonsoftJson();
             builder.Services.AddValidators();
+            builder.Services.BuildSerilog();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +29,7 @@ namespace PBJ.StoreManagementService.Api
             var app = builder.Build();
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+            app.UseMiddleware<LoggingMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {

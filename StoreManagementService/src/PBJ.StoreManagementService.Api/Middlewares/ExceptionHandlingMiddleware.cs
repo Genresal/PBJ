@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using PBJ.StoreManagementService.Business.Exceptions;
 using System.Net;
+using Serilog;
 
 namespace PBJ.StoreManagementService.Api.Middlewares
 {
@@ -28,6 +29,9 @@ namespace PBJ.StoreManagementService.Api.Middlewares
                 var (status, message) = GetResponse(exception);
 
                 response.StatusCode = (int)status;
+
+                Log.Error($"Exception were thrown: {exception.GetType()}, with message: {exception.Message}" +
+                                     $"Response status code: {context.Response.StatusCode}");
 
                 await response.WriteAsync(message);
             }

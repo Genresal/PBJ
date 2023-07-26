@@ -5,6 +5,7 @@ using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 using PBJ.StoreManagementService.Models.UserFollowers;
+using Serilog;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -45,6 +46,8 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userFollowersRepository.CreateAsync(userFollower);
 
+            Log.Information($"Created userFollower: {userFollower}");
+
             return _mapper.Map<UserFollowersDto>(userFollower);
         }
 
@@ -53,6 +56,8 @@ namespace PBJ.StoreManagementService.Business.Services
             var existingUserFollower = await _userFollowersRepository.GetAsync(id);
 
             await _userFollowersRepository.DeleteAsync(existingUserFollower);
+
+            Log.Information($"Deleted userFollower: {existingUserFollower}");
 
             return true;
         }
