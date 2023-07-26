@@ -17,10 +17,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Configuration
 
             builder.ConfigureServices((context, services) =>
             {
-
                 AddTestDatabase(services, context.Configuration);
-
-
+                
                 services.AddScoped<TestDataManager>();
                 services.AddScoped<Fixture>();
             });
