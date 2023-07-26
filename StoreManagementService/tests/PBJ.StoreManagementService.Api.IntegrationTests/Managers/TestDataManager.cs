@@ -29,6 +29,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
         public async Task<Comment> CreateCommentAsync()
         {
             var post = await CreatePostAsync();
+<<<<<<< HEAD
+=======
+
+            _databaseContext.Posts.Add(post);
+            await _databaseContext.SaveChangesAsync();
+>>>>>>> bc402de6fb8bc25f5aea78dfdd2fca92f54feb28
 
             var comment = _fixture.Create<Comment>();
 
