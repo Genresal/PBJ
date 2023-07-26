@@ -25,4 +25,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PBJ.StoreManagementService.Business\PBJ.StoreManagementService.Business.csproj" />
+  </ItemGroup>
+
 </Project>
