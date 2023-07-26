@@ -28,24 +28,17 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
 
         public async Task<Comment> CreateCommentAsync()
         {
-            var user = _fixture.Create<User>();
-
-            _databaseContext.Users.Add(user);
-            await _databaseContext.SaveChangesAsync();
-
-            var post = _fixture.Create<Post>();
-            post.UserId = user.Id;
+            var post = await CreatePostAsync();
 
             _databaseContext.Posts.Add(post);
             await _databaseContext.SaveChangesAsync();
 
             var comment = _fixture.Create<Comment>();
 
-            comment.UserId = user.Id;
+            comment.UserId = post.UserId;
             comment.PostId = post.Id;
 
             _databaseContext.Comments.Add(comment);
-
             await _databaseContext.SaveChangesAsync();
 
             return comment;
@@ -53,10 +46,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
 
         public async Task<Post> CreatePostAsync()
         {
-            var user = _fixture.Create<User>();
-
-            _databaseContext.Users.Add(user);
-            await _databaseContext.SaveChangesAsync();
+            var user = await CreateUserAsync();
 
             var post = _fixture.Create<Post>();
             post.UserId = user.Id;
@@ -79,12 +69,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
 
         public async Task<UserFollowers> CreateUserFollowerAsync()
         {
-            var user1 = _fixture.Create<User>();
-            var user2 = _fixture.Create<User>();
-
-            _databaseContext.Users.Add(user1);
-            _databaseContext.Users.Add(user2);
-            await _databaseContext.SaveChangesAsync();
+            var user1 = await CreateUserAsync();
+            var user2 = await CreateUserAsync();
 
             var userFollower = _fixture.Create<UserFollowers>();
 
