@@ -30,9 +30,6 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
         {
             var post = await CreatePostAsync();
 
-            _databaseContext.Posts.Add(post);
-            await _databaseContext.SaveChangesAsync();
-
             var comment = _fixture.Create<Comment>();
 
             comment.UserId = post.UserId;
