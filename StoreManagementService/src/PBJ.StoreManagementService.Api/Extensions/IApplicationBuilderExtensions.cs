@@ -5,13 +5,15 @@ namespace PBJ.StoreManagementService.Api.Extensions
 {
     public static class IApplicationBuilderExtensions
     {
-        public static void MigrateDatabases(this IApplicationBuilder app)
+        public static async Task MigrateDatabases(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices
                 .GetRequiredService<IServiceScopeFactory>()
                 .CreateScope();
 
-            serviceScope.ServiceProvider.GetService<DatabaseContext>()?.Database.Migrate();
+            var databaseContext = serviceScope.ServiceProvider.GetService<DatabaseContext>();
+
+            await databaseContext!.Database.MigrateAsync();
         }
     }
 }
