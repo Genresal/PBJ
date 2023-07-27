@@ -1,11 +1,9 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using Newtonsoft.Json;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
 using PBJ.StoreManagementService.Models.Comment;
 using System.Net;
-using System.Net.Http.Headers;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
@@ -18,9 +16,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.CommentApi}/{amount}");
-
-            var commentDtos = JsonConvert.DeserializeObject<List<CommentDto>>(await response.Content.ReadAsStringAsync());
+            var (commentDtos, response) =
+                await GetAsync<List<CommentDto>>($"{TestingConstants.CommentApi}/{amount}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -33,7 +30,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.CommentApi}/error");
+            var (_, response) = await GetAsync<List<CommentDto>>(
+                $"{TestingConstants.CommentApi}/error", isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -46,9 +44,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var comment = await _dataManager.CreateCommentAsync();
 
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.CommentApi}?id={comment.Id}");
-
-            var commentDto = JsonConvert.DeserializeObject<CommentDto>(await response.Content.ReadAsStringAsync());
+            var (commentDto, response) = await
+                GetAsync<CommentDto>($"{TestingConstants.CommentApi}?id={comment.Id}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -61,7 +58,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.CommentApi}?id={0}");
+            var (_, response) = await GetAsync<CommentDto>(
+                $"{TestingConstants.CommentApi}?id={0}", isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -72,7 +70,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.CommentApi}?id={string.Empty}");
+            var (_, response) = await GetAsync<CommentDto>(
+                $"{TestingConstants.CommentApi}?id={string.Empty}", isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -89,20 +88,15 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                 .With(x => x.UserId, post.UserId)
                 .Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(commentRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PostAsync(TestingConstants.CommentApi, requestBody);
-
-            var commentDto = JsonConvert.DeserializeObject<CommentDto>(await response.Content.ReadAsStringAsync());
+            var (commentDto, response) = await
+                PostAsync<CommentDto, CommentRequestModel>(TestingConstants.CommentApi, commentRequestModel);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            commentDto.UserId.Should().Be(commentRequestModel.UserId);
-            commentDto.PostId.Should().Be(commentRequestModel.PostId);
+            commentDto?.UserId.Should().Be(commentRequestModel.UserId);
+            commentDto?.PostId.Should().Be(commentRequestModel.PostId);
         }
 
         [Fact]
@@ -112,12 +106,10 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var commentRequestModel = _fixture.Build<CommentRequestModel>()
                 .With(x => x.Content, string.Empty).Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(commentRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PostAsync(TestingConstants.CommentApi, requestBody);
+            var (_, response) = await
+                PostAsync<CommentDto, CommentRequestModel>(
+                    TestingConstants.CommentApi, commentRequestModel, isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -134,20 +126,15 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                 .With(x => x.PostId, comment.PostId)
                 .Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(commentRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PutAsync($"{TestingConstants.CommentApi}?id={comment.Id}", requestBody);
-
-            var commentDto = JsonConvert.DeserializeObject<CommentDto>(await response.Content.ReadAsStringAsync());
+            var (commentDto, response) = await PutAsync<CommentDto, CommentRequestModel>(
+                $"{TestingConstants.CommentApi}?id={comment.Id}", commentRequestModel);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            commentDto.UserId.Should().Be(commentRequestModel.UserId);
-            commentDto.PostId.Should().Be(commentRequestModel.PostId);
+            commentDto?.UserId.Should().Be(commentRequestModel.UserId);
+            commentDto?.PostId.Should().Be(commentRequestModel.PostId);
         }
 
         [Fact]
@@ -156,12 +143,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var commentRequestModel = _fixture.Create<CommentRequestModel>();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(commentRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PutAsync($"{TestingConstants.CommentApi}?id={0}", requestBody);
+            var (_, response) = await PutAsync<CommentDto, CommentRequestModel>(
+                $"{TestingConstants.CommentApi}?id={0}", commentRequestModel, isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -175,12 +159,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var commentRequestModel = _fixture.Build<CommentRequestModel>()
                 .With(x => x.Content, string.Empty).Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(commentRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PutAsync($"{TestingConstants.CommentApi}?id={id}", requestBody);
+            var (_, response) = await PutAsync<CommentDto, CommentRequestModel>(
+                $"{TestingConstants.CommentApi}?id={id}", commentRequestModel, isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -210,6 +191,18 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        {
+            //Arrange
+            //Act
+            var response = await _httpClient
+                .DeleteAsync($"{TestingConstants.CommentApi}?id={string.Empty}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

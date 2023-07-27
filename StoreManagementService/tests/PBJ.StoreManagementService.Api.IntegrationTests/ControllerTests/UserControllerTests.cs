@@ -1,13 +1,10 @@
 ﻿using AutoFixture;
+using Bogus;
 using FluentAssertions;
-using Newtonsoft.Json;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
-using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.User;
 using System.Net;
-using System.Net.Http.Headers;
-using Bogus;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
@@ -20,9 +17,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.UserApi}/{amount}");
-
-            var userDtos = JsonConvert.DeserializeObject<List<UserDto>>(await response.Content.ReadAsStringAsync());
+            var (userDtos, response) = await
+                GetAsync<List<UserDto>>($"{TestingConstants.UserApi}/{amount}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -35,7 +31,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.UserApi}/error");
+            var (_, response) = await GetAsync<List<UserDto>>(
+                    $"{TestingConstants.UserApi}/error", isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -49,16 +46,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
             //Act
-            var response = await _httpClient
-                .GetAsync($"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&amount={amount}");
-
-            var userDtos = JsonConvert.DeserializeObject<List<UserDto>>(await response.Content.ReadAsStringAsync());
+            var (userDtos, response) = await GetAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&amount={amount}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             userDtos.Should().NotBeNull().And.AllBeOfType<UserDto>();
-            userDtos.ForEach(x => x.Id.Should().Be(userFollower.FollowerId));
+            userDtos?.ForEach(x => x.Id.Should().Be(userFollower.FollowerId));
         }
 
         [Theory]
@@ -67,8 +62,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .GetAsync($"{TestingConstants.UserApi}/followers?userId={string.Empty}&amount={amount}");
+            var (_, response) = await GetAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followers?userId={string.Empty}&amount={amount}", 
+                isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -80,11 +76,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .GetAsync($"{TestingConstants.UserApi}/followers?userId={0}&amount={amount}");
-
-            var userDtos = JsonConvert.DeserializeObject<List<UserDto>>(await response.Content.ReadAsStringAsync());
-
+            var (userDtos, response) = await GetAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followers?userId={0}&amount={amount}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -98,8 +91,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .GetAsync($"{TestingConstants.UserApi}/followers?userId={userId}&amount={string.Empty}");
+            var (_, response) = await GetAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followers?userId={userId}&amount={string.Empty}", 
+                isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -113,16 +107,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
             //Act
-            var response = await _httpClient
-                .GetAsync($"{TestingConstants.UserApi}/followings?followerId={userFollower.FollowerId}&amount={amount}");
-
-            var userDtos = JsonConvert.DeserializeObject<List<UserDto>>(await response.Content.ReadAsStringAsync());
+            var (userDtos, response) = await GetAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followings?followerId={userFollower.FollowerId}&amount={amount}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             userDtos.Should().NotBeNull().And.AllBeOfType<UserDto>();
-            userDtos.ForEach(x => x.Id.Should().Be(userFollower.UserId));
+            userDtos?.ForEach(x => x.Id.Should().Be(userFollower.UserId));
         }
 
         [Theory]
@@ -131,8 +123,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .GetAsync($"{TestingConstants.UserApi}/followings?followerId={string.Empty}&amount={amount}");
+            var (_, response) = await GetAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followings?followerId={string.Empty}&amount={amount}", 
+                isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -144,11 +137,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .GetAsync($"{TestingConstants.UserApi}/followers?userId={0}&amount={amount}");
-
-            var userDtos = JsonConvert.DeserializeObject<List<UserDto>>(await response.Content.ReadAsStringAsync());
-
+            var (userDtos, response) = await GetAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followings?followerId={0}&amount={amount}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -162,8 +152,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .GetAsync($"{TestingConstants.UserApi}/followers?userId={followerId}&amount={string.Empty}");
+            var (_, response) = await GetAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followings?followerId={followerId}&amount={string.Empty}",
+                isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -176,9 +167,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user = await _dataManager.CreateUserAsync();
 
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.UserApi}?id={user.Id}");
-
-            var userDto = JsonConvert.DeserializeObject<UserDto>(await response.Content.ReadAsStringAsync());
+            var (userDto, response) = await GetAsync<UserDto>($"{TestingConstants.UserApi}?id={user.Id}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -191,7 +180,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient.GetAsync($"{TestingConstants.UserApi}?id={0}");
+            var (_, response) = await GetAsync<UserDto>(
+                $"{TestingConstants.UserApi}?id={0}", isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -201,22 +191,17 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task CreateAsync_WhenEntityNotExists_ReturnsCreatedDto()
         {
             //Arrange
-            var userRequestModel = _fixture.Build<User>()
+            var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, new Faker().Internet.Email()).Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(userRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PostAsync(TestingConstants.UserApi, requestBody);
-
-            var userDto = JsonConvert.DeserializeObject<UserDto>(await response.Content.ReadAsStringAsync());
+            var (userDto, response) = await PostAsync<UserDto, UserRequestModel>(
+                TestingConstants.UserApi, userRequestModel);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            userDto.Email.Should().Be(userRequestModel.Email);
+            userDto?.Email.Should().Be(userRequestModel.Email);
         }
 
         [Fact]
@@ -228,12 +213,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, user.Email).Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(userRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PostAsync(TestingConstants.UserApi, requestBody);
+            var (_, response) = await PostAsync<UserDto, UserRequestModel>(
+                TestingConstants.UserApi, userRequestModel, isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
@@ -246,12 +228,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, string.Empty).Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(userRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PostAsync(TestingConstants.UserApi, requestBody);
+            var (_, response) = await PostAsync<UserDto, UserRequestModel>(
+                TestingConstants.UserApi, userRequestModel, isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -263,37 +242,29 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var user = await _dataManager.CreateUserAsync();
 
-            var userRequestModel = _fixture.Build<User>()
+            var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, "testEmail@gmail.com").Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(userRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PutAsync($"{TestingConstants.UserApi}?id={user.Id}", requestBody);
-
-            var userDto = JsonConvert.DeserializeObject<UserDto>(await response.Content.ReadAsStringAsync());
+            var (userDto, response) = await PutAsync<UserDto, UserRequestModel>(
+                $"{TestingConstants.UserApi}?id={user.Id}", userRequestModel);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            userDto.Email.Should().Be(userRequestModel.Email);
+            userDto?.Email.Should().Be(userRequestModel.Email);
         }
 
         [Fact]
         public async Task UpdateAsync_WhenEntityNotExists_ReturnsNotFound()
         {
             //Arrange
-            var userRequestModel = _fixture.Build<User>()
+            var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, "testEmail@gmail.com").Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(userRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PutAsync($"{TestingConstants.UserApi}?id={0}", requestBody);
+            var (_, response) = await PutAsync<UserDto, UserRequestModel>(
+                $"{TestingConstants.UserApi}?id={0}", userRequestModel, isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -303,15 +274,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task UpdateAsync_WhenRequestIsNotValid_ReturnsNotFound()
         {
             //Arrange
-            var userRequestModel = _fixture.Build<User>()
+            var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, "testEmail@gmail.com").Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(userRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PutAsync($"{TestingConstants.UserApi}?id={string.Empty}", requestBody);
+            var (_, response) = await PutAsync<UserDto, UserRequestModel>(
+                $"{TestingConstants.UserApi}?id={string.Empty}", userRequestModel, isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -325,12 +293,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, string.Empty).Create();
 
-            var requestBody = new StringContent(JsonConvert.SerializeObject(userRequestModel));
-
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
-
             //Act
-            var response = await _httpClient.PutAsync($"{TestingConstants.UserApi}?id={id}", requestBody);
+            var (_, response) = await PutAsync<UserDto, UserRequestModel>(
+                $"{TestingConstants.UserApi}?id={id}", userRequestModel, isStatusCodeOnly: true);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -350,17 +315,28 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Theory]
-        [InlineData(1)]
-        public async Task DeleteAsync_WhenEntityNotExists_ReturnsInternalServerError(int id)
+        [Fact]
+        public async Task DeleteAsync_WhenEntityNotExists_ReturnsInternalServerError()
         {
             //Arrange
             //Act
             var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.UserApi}?id={id}");
+                .DeleteAsync($"{TestingConstants.UserApi}?id={0}");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        {
+            //Arrange
+            //Act
+            var response = await _httpClient
+                .DeleteAsync($"{TestingConstants.UserApi}?id={string.Empty}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }
