@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using PBJ.StoreManagementService.DataAccess.Context;
 using PBJ.StoreManagementService.DataAccess.Entities.Abstract;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
@@ -6,6 +7,7 @@ using System.Linq.Expressions;
 
 namespace PBJ.StoreManagementService.DataAccess.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class BaseRepository<TEntity> : IRepository<TEntity>
         where TEntity : BaseEntity
     {
