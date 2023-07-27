@@ -8,14 +8,14 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
     {
         Task<List<TEntity>> GetAmountAsync(int amount);
 
-        Task<TEntity> GetAsync(int id);
+        Task<TEntity?> GetAsync(int id);
 
-        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression);
+        Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression);
 
         Task CreateAsync(TEntity entity);
 
         Task UpdateAsync(TEntity entity);
 
-        Task DeleteAsync(TEntity entity);
+        Task DeleteAsync(TEntity? entity);
     }
 }

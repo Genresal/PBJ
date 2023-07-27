@@ -13,17 +13,16 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
 
         public async Task<List<User>> GetFollowersAsync(int userId, int amount)
         {
-
-                return await _databaseContext.Users
-                    .Where(x => x.Followings.Any(uf => uf.UserId == userId))
-                    .Take(amount)
-                    .ToListAsync();
+            return await _databaseContext.Users
+                .Where(x => x.Followings!.Any(uf => uf.UserId == userId))
+                .Take(amount)
+                .ToListAsync();
         }
 
         public async Task<List<User>> GetFollowingsAsync(int followerId, int amount)
         {
             return await _databaseContext.Users
-                .Where(x => x.Followers.Any(uf => uf.FollowerId == followerId))
+                .Where(x => x.Followers!.Any(uf => uf.FollowerId == followerId))
                 .Take(amount)
                 .ToListAsync();
         }

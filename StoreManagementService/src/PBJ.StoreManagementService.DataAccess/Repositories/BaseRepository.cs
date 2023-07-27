@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using PBJ.StoreManagementService.DataAccess.Context;
 using PBJ.StoreManagementService.DataAccess.Entities.Abstract;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
@@ -6,6 +7,7 @@ using System.Linq.Expressions;
 
 namespace PBJ.StoreManagementService.DataAccess.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class BaseRepository<TEntity> : IRepository<TEntity>
         where TEntity : BaseEntity
     {
@@ -22,16 +24,16 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
                 .Take(amount).ToListAsync();
         }
 
-        public virtual async Task<TEntity> GetAsync(int id)
+        public virtual async Task<TEntity?> GetAsync(int id)
         {
-            return await _databaseContext.Set<TEntity>()
-                .FirstOrDefaultAsync(x => x.Id == id);
+            return (await _databaseContext.Set<TEntity>()
+                .FirstOrDefaultAsync(x => x.Id == id))!;
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
+        public async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return await _databaseContext.Set<TEntity>()
-                .FirstOrDefaultAsync(whereExpression);
+            return (await _databaseContext.Set<TEntity>()
+                .FirstOrDefaultAsync(whereExpression))!;
         }
 
         public virtual async Task CreateAsync(TEntity entity)
@@ -48,9 +50,9 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
             await _databaseContext.SaveChangesAsync();
         }
 
-        public virtual async Task DeleteAsync(TEntity entity)
+        public virtual async Task DeleteAsync(TEntity? entity)
         {
-            _databaseContext.Set<TEntity>().Remove(entity);
+            _databaseContext.Set<TEntity>().Remove(entity!);
 
             await _databaseContext.SaveChangesAsync();
         }
