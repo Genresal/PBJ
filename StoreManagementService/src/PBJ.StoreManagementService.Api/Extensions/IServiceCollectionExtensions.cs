@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using System.Reflection;
 using Serilog;
-using Serilog.Core;
 using Serilog.Events;
-using Serilog.Exceptions;
+using System.Reflection;
 
 namespace PBJ.StoreManagementService.Api.Extensions
 {
@@ -36,7 +34,7 @@ namespace PBJ.StoreManagementService.Api.Extensions
                 })
                 .WriteTo.Logger(configuration =>
                 {
-                    configuration.Filter.ByIncludingOnly(e => 
+                    configuration.Filter.ByIncludingOnly(e =>
                         e.Level == LogEventLevel.Information);
                     configuration.WriteTo.File("bin/Debug/logs/log-information-.txt",
                         rollingInterval: RollingInterval.Month);

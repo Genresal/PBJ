@@ -1,7 +1,6 @@
-﻿using FluentValidation;
-using PBJ.StoreManagementService.Business.Exceptions;
-using System.Net;
+﻿using PBJ.StoreManagementService.Business.Exceptions;
 using Serilog;
+using System.Net;
 
 namespace PBJ.StoreManagementService.Api.Middlewares
 {
