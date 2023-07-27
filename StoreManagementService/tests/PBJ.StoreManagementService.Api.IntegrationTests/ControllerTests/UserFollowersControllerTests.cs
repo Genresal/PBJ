@@ -2,7 +2,6 @@
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
-using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.UserFollowers;
 using System.Net;
 using Xunit;
@@ -13,7 +12,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
     {
         [Theory]
         [InlineData(1)]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsListOfDto(int amount)
+        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
             //Act
@@ -39,7 +38,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetAsync_WhenEntityExists_ReturnsDto()
+        public async Task GetAsync_WhenEntityExists_ReturnsOk()
         {
             //Arrange
             var userFollower = await _dataManager.CreateUserFollowerAsync();
@@ -78,7 +77,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task CreateAsync_WhenRequestModelIsValid_ReturnsCreatedDto()
+        public async Task CreateAsync_WhenRequestModelIsValid_ReturnsOk()
         {
             //Arrange
             var user1 = await _dataManager.CreateUserAsync();
@@ -115,7 +114,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue()
+        public async Task DeleteAsync_WhenEntityExists_ReturnsOk()
         {
             //Arrange
             var userFollower = await _dataManager.CreateUserFollowerAsync();

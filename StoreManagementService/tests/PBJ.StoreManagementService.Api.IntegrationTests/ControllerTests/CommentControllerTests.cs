@@ -12,7 +12,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
     {
         [Theory]
         [InlineData(10)]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsListOfDto(int amount)
+        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
             //Act
@@ -38,7 +38,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetAsync_WhenEntityExists_ReturnsDto()
+        public async Task GetAsync_WhenEntityExists_ReturnsOk()
         {
             //Arrange
             var comment = await _dataManager.CreateCommentAsync();
@@ -78,7 +78,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task CreateAsync_WhenRequestModelIsValid_ReturnsCreatedDto()
+        public async Task CreateAsync_WhenRequestModelIsValid_ReturnsOk()
         {
             //Arrange
             var post = await _dataManager.CreatePostAsync();
@@ -116,7 +116,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto()
+        public async Task UpdateAsync_WhenEntityExists_ReturnsOk()
         {
             //Arrange
             var comment = await _dataManager.CreateCommentAsync();
@@ -168,7 +168,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue()
+        public async Task DeleteAsync_WhenEntityExists_ReturnsOk()
         {
             //Arrange
             var comment = await _dataManager.CreateCommentAsync();

@@ -13,7 +13,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
     {
         [Theory]
         [InlineData(1)]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsListOfDto(int amount)
+        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
             //Act
@@ -40,7 +40,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
         [Theory]
         [InlineData(1)]
-        public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsListOfDto(int amount)
+        public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
             var userFollower = await _dataManager.CreateUserFollowerAsync();
@@ -72,7 +72,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
         [Theory]
         [InlineData(1)]
-        public async Task GetFollowersAsync_WhenUserIdIsZero_ReturnsEmptyListOfDto(int amount)
+        public async Task GetFollowersAsync_WhenUserIdIsZero_ReturnsOk(int amount)
         {
             //Arrange
             //Act
@@ -101,7 +101,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
         [Theory]
         [InlineData(1)]
-        public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsListOfDto(int amount)
+        public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
             var userFollower = await _dataManager.CreateUserFollowerAsync();
@@ -133,7 +133,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
         [Theory]
         [InlineData(1)]
-        public async Task GetFollowingsAsync_WhenFollowerIdIsZero_ReturnsEmptyListOfDto(int amount)
+        public async Task GetFollowingsAsync_WhenFollowerIdIsZero_ReturnsOk(int amount)
         {
             //Arrange
             //Act
@@ -161,7 +161,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetAsync_WhenEntityExists_ReturnsDto()
+        public async Task GetAsync_WhenEntityExists_ReturnsOk()
         {
             //Arrange
             var user = await _dataManager.CreateUserAsync();
@@ -188,7 +188,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task CreateAsync_WhenEntityNotExists_ReturnsCreatedDto()
+        public async Task CreateAsync_WhenEntityNotExists_ReturnsOk()
         {
             //Arrange
             var userRequestModel = _fixture.Build<UserRequestModel>()
@@ -237,7 +237,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto()
+        public async Task UpdateAsync_WhenEntityExists_ReturnsOk()
         {
             //Arrange
             var user = await _dataManager.CreateUserAsync();
@@ -302,7 +302,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue()
+        public async Task DeleteAsync_WhenEntityExists_ReturnsOk()
         {
             //Arrange
             var user = await _dataManager.CreateUserAsync();
