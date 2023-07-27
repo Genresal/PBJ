@@ -188,6 +188,58 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
+        public async Task GetAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        {
+            //Arrange
+            //Act
+            var (_, response) = await GetAsync<UserDto>(
+                $"{TestingConstants.UserApi}?id={string.Empty}", isStatusCodeOnly: true);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task GetByEmailAsync_WhenEntityExists_ReturnsOk()
+        {
+            //Arrange
+            var user = await _dataManager.CreateUserAsync();
+
+            //Act
+            var (userDto, response) = await GetAsync<UserDto>(
+                $"{TestingConstants.UserApi}/email?email={user.Email}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            userDto.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task GetByEmailAsync_WhenNotEntityExists_ReturnsNotFound()
+        {
+            //Arrange
+            //Act
+            var (_, response) = await GetAsync<UserDto>(
+                $"{TestingConstants.UserApi}/email?email=@gmail.com", isStatusCodeOnly: true);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task GeByEmailAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        {
+            //Arrange
+            //Act
+            var (_, response) = await GetAsync<UserDto>(
+                $"{TestingConstants.UserApi}/email?email=", isStatusCodeOnly: true);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
         public async Task CreateAsync_WhenEntityNotExists_ReturnsOk()
         {
             //Arrange
