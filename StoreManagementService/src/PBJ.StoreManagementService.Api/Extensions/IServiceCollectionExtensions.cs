@@ -2,6 +2,7 @@
 using FluentValidation.AspNetCore;
 using System.Reflection;
 using Serilog;
+using Serilog.Core;
 using Serilog.Events;
 using Serilog.Exceptions;
 
@@ -27,14 +28,25 @@ namespace PBJ.StoreManagementService.Api.Extensions
         public static void BuildSerilog(this IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .Enrich.WithExceptionDetails()
-                .Enrich.FromLogContext()
-                .WriteTo.Async(options =>
+                .WriteTo.Logger(configuration =>
                 {
-                    options.Console(restrictedToMinimumLevel: LogEventLevel.Information);
-                    options.File("logs/log-.txt", rollingInterval: RollingInterval.Day,
-                        restrictedToMinimumLevel: LogEventLevel.Error);
+                    configuration.Filter.ByIncludingOnly(e =>
+                        e.Level == LogEventLevel.Information);
+                    configuration.WriteTo.Console();
+                })
+                .WriteTo.Logger(configuration =>
+                {
+                    configuration.Filter.ByIncludingOnly(e => 
+                        e.Level == LogEventLevel.Information);
+                    configuration.WriteTo.File("bin/Debug/logs/log-information-.txt",
+                        rollingInterval: RollingInterval.Month);
+                })
+                .WriteTo.Logger(configuration =>
+                {
+                    configuration.Filter.ByIncludingOnly(e =>
+                        e.Level == LogEventLevel.Error);
+                    configuration.WriteTo.File("bin/Debug/logs/log-errors-.txt",
+                        rollingInterval: RollingInterval.Month);
                 })
                 .CreateLogger();
         }
