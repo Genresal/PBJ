@@ -74,6 +74,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
                 return (default, response);
             }
 
+            var a = await response.Content.ReadAsStringAsync();
+
             var dto = JsonConvert.DeserializeObject<TDto>(await response.Content.ReadAsStringAsync());
 
             return (dto, response);

@@ -18,6 +18,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Cache SQL Server tools
+      uses: actions/cache@v2
+      with:
+        path: ${{ runner.temp }}/potatoqualitee/mssqlsuite
+        key: mssqlsuite-${{ runner.os }}-${{ hashFiles('./sqlserver-cache') }}
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -33,6 +39,9 @@ jobs:
       uses: potatoqualitee/mssqlsuite@v1.7
       with:
         install: sqlengine
+
+    - name: Migrate
+      run: dotnet ef database update
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
