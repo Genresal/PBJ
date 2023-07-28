@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+
+using System.Diagnostics.CodeAnalysis;
 using AutoFixture;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
