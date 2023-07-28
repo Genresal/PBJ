@@ -41,7 +41,8 @@ jobs:
         install: sqlengine
 
     - name: Install EFCore tool
-        run: dotnet tool install --global dotnet-ef
+      shell: powershell
+      run: dotnet tool install --global dotnet-ef
 
     - name: Migrate
       run: dotnet ef database update
