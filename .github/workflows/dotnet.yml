@@ -23,11 +23,6 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --no-restore
-
-      - name: Set up SQL Server
-        run: |
-          sqlcmd -S localhost -E -Q "USE master;"
-      
+        run: dotnet build --no-restore    
       - name: Test
         run: dotnet test --no-build --verbosity normal
