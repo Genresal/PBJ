@@ -80,7 +80,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
             return (dto, response);
         }
 
-        protected StringContent BuildRequestBody<TRequestModel>(TRequestModel requestModel)
+        private static StringContent BuildRequestBody<TRequestModel>(TRequestModel requestModel)
         {
             var requestBody = new StringContent(JsonConvert.SerializeObject(requestModel));
 
