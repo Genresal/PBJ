@@ -11,41 +11,28 @@ defaults:
     working-directory: ./StoreManagementService
 
 jobs:
-  windows-auth-tsqlt:
-    name: Test installting tSQLt with Windows auth
+
+  build:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-      - name: Install SQL Server
-        uses: potatoqualitee/mssqlsuite@v1.4
-        with:
-          install: sqlengine
-      
-      name: Install tSQLt with Windows auth
-        uses: lowlydba/tsqlt-installer@v1
-        with:
-          sql-instance: localhost
-          database: master
-          version: latest
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
 
-  build:
-      runs-on: windows-latest
+    - name: Restore dependencies
+      run: dotnet restore
 
-      steps:
-      - uses: actions/checkout@v3
+    - name: Build
+      run: dotnet build --no-restore
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 7.0.x
+    - name: Install a SQL Server suite of tools
+      uses: potatoqualitee/mssqlsuite@v1.7
+      with:
+        install: sqlengine
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore  
-
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
