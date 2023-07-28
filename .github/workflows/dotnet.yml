@@ -45,7 +45,7 @@ jobs:
       run: dotnet tool install --global dotnet-ef
 
     - name: Migrate
-      run: dotnet ef database update
+      run: dotnet ef database update --project ./src/PBJ.StoreManagementService.DataAccess/PBJ.StoreManagementService.DataAccess.csproj
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
