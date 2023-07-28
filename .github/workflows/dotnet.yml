@@ -15,20 +15,20 @@ jobs:
     name: Test installting tSQLt with Windows auth
     runs-on: windows-latest
 
-  steps:
-    - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: Install SQL Server
-      uses: potatoqualitee/mssqlsuite@v1.4
-      with:
-        install: sqlengine
-    
-    name: Install tSQLt with Windows auth
-      uses: lowlydba/tsqlt-installer@v1
-      with:
-        sql-instance: localhost
-        database: master
-        version: latest
+      - name: Install SQL Server
+        uses: potatoqualitee/mssqlsuite@v1.4
+        with:
+          install: sqlengine
+      
+      name: Install tSQLt with Windows auth
+        uses: lowlydba/tsqlt-installer@v1
+        with:
+          sql-instance: localhost
+          database: master
+          version: latest
 
   build:
       runs-on: windows-latest
