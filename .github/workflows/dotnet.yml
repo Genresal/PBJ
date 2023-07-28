@@ -10,7 +10,6 @@ defaults:
   run:
     working-directory: ./StoreManagementService
 
-jobs:
   build:
 
     runs-on: windows-latest
