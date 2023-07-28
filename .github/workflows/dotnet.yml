@@ -18,12 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Cache SQL Server tools
-      uses: actions/cache@v2
-      with:
-        path: ${{ runner.temp }}/potatoqualitee/mssqlsuite
-        key: mssqlsuite-${{ runner.os }}-${{ hashFiles('./sqlserver-cache') }}
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -34,18 +28,6 @@ jobs:
 
     - name: Build
       run: dotnet build --no-restore
-
-    - name: Install a SQL Server suite of tools
-      uses: potatoqualitee/mssqlsuite@v1.7
-      with:
-        install: sqlengine
-
-    - name: Install EFCore tool
-      shell: powershell
-      run: dotnet tool install --global dotnet-ef
-
-    - name: Migrate
-      run: dotnet ef database update --project ./src/PBJ.StoreManagementService.Api/PBJ.StoreManagementService.Api.csproj
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
