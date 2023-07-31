@@ -1,5 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
 using AutoFixture;
+using Azure;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using PBJ.StoreManagementService.Api.IntegrationTests.Configuration;
@@ -10,7 +10,6 @@ using System.Net.Http.Headers;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract
 {
-    [ExcludeFromCodeCoverage]
     public abstract class BaseControllerTest
     {
         protected TestWebApplicationFactory _factory;
@@ -27,61 +26,39 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
                 .GetRequiredService<DatabaseContext>(), _fixture);
         }
 
-        protected async Task<(TReturn?, HttpResponseMessage)> GetAsync<TReturn>(
-            string requestUri,
-            bool isStatusCodeOnly = false)
+        protected async Task<HttpResponseMessage> ExecuteWithStatusCodeAsync(string requestUri,
+            HttpMethod httpMethod, StringContent? requestBody = null)
         {
-            var response = await _httpClient.GetAsync(requestUri);
-
-            if (isStatusCodeOnly)
+            var requestMessage = new HttpRequestMessage
             {
-                return (default, response);
-            }
+                RequestUri = new Uri(requestUri, UriKind.Relative),
+                Method = httpMethod,
+                Content = requestBody
+            };
 
-            var dto = JsonConvert.DeserializeObject<TReturn>(await response.Content.ReadAsStringAsync());
+            var response = await _httpClient.SendAsync(requestMessage);
 
-            return (dto, response);
+            return response;
         }
 
-        protected async Task<(TDto?, HttpResponseMessage)> PostAsync<TDto, TRequestModel>(string requestUri,
-            TRequestModel requestModel,
-            bool isStatusCodeOnly = false)
+        protected async Task<(TReturn?, HttpResponseMessage)> ExecuteWithFullResponseAsync<TReturn>(string requestUri,
+            HttpMethod httpMethod, StringContent? requestBody = null)
         {
-            var requestBody = BuildRequestBody(requestModel);
-
-            var response = await _httpClient.PostAsync(requestUri, requestBody);
-
-            if (isStatusCodeOnly)
+            var requestMessage = new HttpRequestMessage
             {
-                return (default, response);
-            }
+                RequestUri = new Uri(requestUri, UriKind.Relative),
+                Method = httpMethod,
+                Content = requestBody
+            };
 
-            var dto = JsonConvert.DeserializeObject<TDto>(await response.Content.ReadAsStringAsync());
+            var response = await _httpClient.SendAsync(requestMessage);
 
-            return (dto, response);
+            var dtoResult = JsonConvert.DeserializeObject<TReturn>(await response.Content.ReadAsStringAsync());
+
+            return (dtoResult, response);
         }
 
-        protected async Task<(TDto?, HttpResponseMessage)> PutAsync<TDto, TRequestModel>(string requestUri,
-            TRequestModel requestModel,
-            bool isStatusCodeOnly = false)
-        {
-            var requestBody = BuildRequestBody(requestModel);
-
-            var response = await _httpClient.PutAsync(requestUri, requestBody);
-
-            if (isStatusCodeOnly)
-            {
-                return (default, response);
-            }
-
-            var a = await response.Content.ReadAsStringAsync();
-
-            var dto = JsonConvert.DeserializeObject<TDto>(await response.Content.ReadAsStringAsync());
-
-            return (dto, response);
-        }
-
-        private static StringContent BuildRequestBody<TRequestModel>(TRequestModel requestModel)
+        protected static StringContent BuildRequestBody<TRequestModel>(TRequestModel requestModel)
         {
             var requestBody = new StringContent(JsonConvert.SerializeObject(requestModel));
 

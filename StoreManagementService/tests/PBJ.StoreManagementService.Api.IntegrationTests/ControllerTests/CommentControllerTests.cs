@@ -2,6 +2,7 @@
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
+using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.Comment;
 using System.Net;
 using Xunit;
@@ -16,8 +17,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (commentDtos, response) =
-                await GetAsync<List<CommentDto>>($"{TestingConstants.CommentApi}/{amount}");
+
+            var (commentDtos, response) = await ExecuteWithFullResponseAsync<List<CommentDto>>(
+                $"{TestingConstants.CommentApi}/{amount}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -30,8 +32,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<List<CommentDto>>(
-                $"{TestingConstants.CommentApi}/error", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.CommentApi}/error", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -44,8 +46,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var comment = await _dataManager.CreateCommentAsync();
 
             //Act
-            var (commentDto, response) = await
-                GetAsync<CommentDto>($"{TestingConstants.CommentApi}?id={comment.Id}");
+            var (commentDto, response) = 
+                await ExecuteWithFullResponseAsync<CommentDto>($"{TestingConstants.CommentApi}?id={comment.Id}",
+                    HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -58,8 +61,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<CommentDto>(
-                $"{TestingConstants.CommentApi}?id={0}", isStatusCodeOnly: true);
+            var response = 
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={0}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -70,8 +73,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<CommentDto>(
-                $"{TestingConstants.CommentApi}?id={string.Empty}", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.CommentApi}?id={string.Empty}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -88,9 +91,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                 .With(x => x.UserId, post.UserId)
                 .Create();
 
+            var requestBody = BuildRequestBody(commentRequestModel);
+
             //Act
             var (commentDto, response) = await
-                PostAsync<CommentDto, CommentRequestModel>(TestingConstants.CommentApi, commentRequestModel);
+                ExecuteWithFullResponseAsync<CommentDto>(TestingConstants.CommentApi,
+                    HttpMethod.Post, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -106,10 +112,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var commentRequestModel = _fixture.Build<CommentRequestModel>()
                 .With(x => x.Content, string.Empty).Create();
 
+            var requestBody = BuildRequestBody(commentRequestModel);
+
             //Act
-            var (_, response) = await
-                PostAsync<CommentDto, CommentRequestModel>(
-                    TestingConstants.CommentApi, commentRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                    TestingConstants.CommentApi, HttpMethod.Post, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -126,9 +133,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                 .With(x => x.PostId, comment.PostId)
                 .Create();
 
+            var requestBody = BuildRequestBody(commentRequestModel);
+
             //Act
-            var (commentDto, response) = await PutAsync<CommentDto, CommentRequestModel>(
-                $"{TestingConstants.CommentApi}?id={comment.Id}", commentRequestModel);
+            var (commentDto, response) = await ExecuteWithFullResponseAsync<CommentDto>(
+                $"{TestingConstants.CommentApi}?id={comment.Id}", HttpMethod.Put, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -143,9 +152,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var commentRequestModel = _fixture.Create<CommentRequestModel>();
 
+            var requestBody = BuildRequestBody(commentRequestModel);
+
             //Act
-            var (_, response) = await PutAsync<CommentDto, CommentRequestModel>(
-                $"{TestingConstants.CommentApi}?id={0}", commentRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.CommentApi}?id={0}", HttpMethod.Put, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -159,9 +170,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var commentRequestModel = _fixture.Build<CommentRequestModel>()
                 .With(x => x.Content, string.Empty).Create();
 
+            var requestBody = BuildRequestBody(commentRequestModel);
+
             //Act
-            var (_, response) = await PutAsync<CommentDto, CommentRequestModel>(
-                $"{TestingConstants.CommentApi}?id={id}", commentRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.CommentApi}?id={id}", HttpMethod.Put,
+                requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -174,8 +188,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var comment = await _dataManager.CreateCommentAsync();
 
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.CommentApi}?id={comment.Id}");
+            var response =
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={comment.Id}",
+                    HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -186,8 +201,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.CommentApi}?id={0}");
+            var response =
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={0}",
+                    HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -198,8 +214,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.CommentApi}?id={string.Empty}");
+            var response =
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={string.Empty}",
+                    HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

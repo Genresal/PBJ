@@ -3,6 +3,7 @@ using Bogus;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
+using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.User;
 using System.Net;
 using Xunit;
@@ -18,7 +19,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var (userDtos, response) = await
-                GetAsync<List<UserDto>>($"{TestingConstants.UserApi}/{amount}");
+                ExecuteWithFullResponseAsync<List<UserDto>>(
+                    $"{TestingConstants.UserApi}/{amount}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -31,8 +33,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<List<UserDto>>(
-                    $"{TestingConstants.UserApi}/error", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                    $"{TestingConstants.UserApi}/error", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -46,8 +48,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
             //Act
-            var (userDtos, response) = await GetAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&amount={amount}");
+            var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&amount={amount}", 
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -62,9 +65,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followers?userId={string.Empty}&amount={amount}", 
-                isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}/followers?userId={string.Empty}&amount={amount}",
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -76,8 +79,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (userDtos, response) = await GetAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followers?userId={0}&amount={amount}");
+            var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followers?userId={0}&amount={amount}",
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -91,9 +95,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<List<UserDto>>(
+            var response = await ExecuteWithStatusCodeAsync(
                 $"{TestingConstants.UserApi}/followers?userId={userId}&amount={string.Empty}", 
-                isStatusCodeOnly: true);
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -107,8 +111,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
             //Act
-            var (userDtos, response) = await GetAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followings?followerId={userFollower.FollowerId}&amount={amount}");
+            var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followings?followerId={userFollower.FollowerId}&amount={amount}",
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -123,9 +128,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<List<UserDto>>(
+            var response = await ExecuteWithStatusCodeAsync(
                 $"{TestingConstants.UserApi}/followings?followerId={string.Empty}&amount={amount}", 
-                isStatusCodeOnly: true);
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -137,8 +142,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (userDtos, response) = await GetAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followings?followerId={0}&amount={amount}");
+            var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
+                $"{TestingConstants.UserApi}/followings?followerId={0}&amount={amount}", 
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -152,9 +158,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followings?followerId={followerId}&amount={string.Empty}",
-                isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}/followings?followerId={followerId}&amount={string.Empty}", 
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -167,7 +173,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user = await _dataManager.CreateUserAsync();
 
             //Act
-            var (userDto, response) = await GetAsync<UserDto>($"{TestingConstants.UserApi}?id={user.Id}");
+            var (userDto, response) = 
+                await ExecuteWithFullResponseAsync<UserDto>($"{TestingConstants.UserApi}?id={user.Id}", 
+                    HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -180,8 +188,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<UserDto>(
-                $"{TestingConstants.UserApi}?id={0}", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}?id={0}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -192,8 +200,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<UserDto>(
-                $"{TestingConstants.UserApi}?id={string.Empty}", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}?id={string.Empty}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -206,8 +214,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user = await _dataManager.CreateUserAsync();
 
             //Act
-            var (userDto, response) = await GetAsync<UserDto>(
-                $"{TestingConstants.UserApi}/email?email={user.Email}");
+            var (userDto, response) = await ExecuteWithFullResponseAsync<UserDto>(
+                $"{TestingConstants.UserApi}/email?email={user.Email}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -220,8 +228,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<UserDto>(
-                $"{TestingConstants.UserApi}/email?email=@gmail.com", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}/email?email=@gmail.com", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -232,8 +240,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<UserDto>(
-                $"{TestingConstants.UserApi}/email?email=", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}/email?email=", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -246,9 +254,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, new Faker().Internet.Email()).Create();
 
+            var requestBody = BuildRequestBody(userRequestModel);
+
             //Act
-            var (userDto, response) = await PostAsync<UserDto, UserRequestModel>(
-                TestingConstants.UserApi, userRequestModel);
+            var (userDto, response) = await ExecuteWithFullResponseAsync<UserDto>(
+                TestingConstants.UserApi, HttpMethod.Post, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -265,9 +275,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, user.Email).Create();
 
+            var requestBody = BuildRequestBody(userRequestModel);
+
             //Act
-            var (_, response) = await PostAsync<UserDto, UserRequestModel>(
-                TestingConstants.UserApi, userRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                TestingConstants.UserApi, HttpMethod.Post, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
@@ -280,9 +292,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, string.Empty).Create();
 
+            var requestBody = BuildRequestBody(userRequestModel);
+
             //Act
-            var (_, response) = await PostAsync<UserDto, UserRequestModel>(
-                TestingConstants.UserApi, userRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                TestingConstants.UserApi, HttpMethod.Post, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -297,9 +311,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, "testEmail@gmail.com").Create();
 
+            var requestBody = BuildRequestBody(userRequestModel);
+
             //Act
-            var (userDto, response) = await PutAsync<UserDto, UserRequestModel>(
-                $"{TestingConstants.UserApi}?id={user.Id}", userRequestModel);
+            var (userDto, response) = await ExecuteWithFullResponseAsync<UserDto>(
+                $"{TestingConstants.UserApi}?id={user.Id}", HttpMethod.Put, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -314,9 +330,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, "testEmail@gmail.com").Create();
 
+            var requestBody = BuildRequestBody(userRequestModel);
+
             //Act
-            var (_, response) = await PutAsync<UserDto, UserRequestModel>(
-                $"{TestingConstants.UserApi}?id={0}", userRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}?id={0}", HttpMethod.Put, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -329,9 +347,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, "testEmail@gmail.com").Create();
 
+            var requestBody = BuildRequestBody(userRequestModel);
+
             //Act
-            var (_, response) = await PutAsync<UserDto, UserRequestModel>(
-                $"{TestingConstants.UserApi}?id={string.Empty}", userRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}?id={string.Empty}", 
+                HttpMethod.Put, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -345,9 +366,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userRequestModel = _fixture.Build<UserRequestModel>()
                 .With(x => x.Email, string.Empty).Create();
 
+            var requestBody = BuildRequestBody(userRequestModel);
+
             //Act
-            var (_, response) = await PutAsync<UserDto, UserRequestModel>(
-                $"{TestingConstants.UserApi}?id={id}", userRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}?id={id}", HttpMethod.Put, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -360,8 +383,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user = await _dataManager.CreateUserAsync();
 
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.UserApi}?id={user.Id}");
+            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.UserApi}?id={user.Id}", 
+                HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -372,8 +395,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.UserApi}?id={0}");
+            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.UserApi}?id={0}",
+                HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -384,8 +407,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.UserApi}?id={string.Empty}");
+            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.UserApi}?id={string.Empty}",
+                HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

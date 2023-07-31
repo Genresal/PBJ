@@ -2,6 +2,7 @@
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
+using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.UserFollowers;
 using System.Net;
 using Xunit;
@@ -16,8 +17,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (userFollowersDtos, response) = await GetAsync<List<UserFollowersDto>>(
-                $"{TestingConstants.UserFollowersApi}/{amount}");
+            var (userFollowersDtos, response) = 
+                await ExecuteWithFullResponseAsync<List<UserFollowersDto>>(
+                $"{TestingConstants.UserFollowersApi}/{amount}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -30,8 +32,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<List<UserFollowersDto>>(
-                $"{TestingConstants.UserFollowersApi}/error", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserFollowersApi}/error", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -44,8 +46,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
             //Act
-            var (userFollowerDto, response) = await GetAsync<UserFollowersDto>(
-                $"{TestingConstants.UserFollowersApi}?id={userFollower.Id}");
+            var (userFollowerDto, response) = await ExecuteWithFullResponseAsync<UserFollowersDto>(
+                $"{TestingConstants.UserFollowersApi}?id={userFollower.Id}", HttpMethod.Get);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -57,8 +59,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<UserFollowersDto>(
-                $"{TestingConstants.UserFollowersApi}?id={0}", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserFollowersApi}?id={0}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -69,8 +71,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var (_, response) = await GetAsync<UserFollowersDto>(
-                $"{TestingConstants.UserFollowersApi}?id={string.Empty}", isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserFollowersApi}?id={string.Empty}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -88,9 +90,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                 .With(x => x.FollowerId, user2.Id)
                 .Create();
 
+            var requestBody = BuildRequestBody(userFollowersRequestModel);
+
             //Act
-            var (userFollowerDto, response) = await PostAsync<UserFollowersDto, UserFollowersRequestModel>(
-                TestingConstants.UserFollowersApi, userFollowersRequestModel);
+            var (userFollowerDto, response) = await ExecuteWithFullResponseAsync<UserFollowersDto>(
+                TestingConstants.UserFollowersApi, HttpMethod.Post, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -105,9 +109,11 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userFollowersRequestModel = _fixture.Build<UserFollowersRequestModel>()
                 .With(x => x.UserId, 0).Create();
 
+            var requestBody = BuildRequestBody(userFollowersRequestModel);
+
             //Act
-            var (_, response) = await PostAsync<UserFollowersDto, UserFollowersRequestModel>(
-                TestingConstants.UserFollowersApi, userFollowersRequestModel, isStatusCodeOnly: true);
+            var response = await ExecuteWithStatusCodeAsync(
+                TestingConstants.UserFollowersApi, HttpMethod.Post, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -120,8 +126,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.UserFollowersApi}?id={userFollower.Id}");
+            var response =
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.UserFollowersApi}?id={userFollower.Id}",
+                    HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -132,8 +139,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.UserFollowersApi}?id={0}");
+            var response =
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.UserFollowersApi}?id={0}",
+                    HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -144,8 +152,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await _httpClient
-                .DeleteAsync($"{TestingConstants.UserFollowersApi}?id={string.Empty}");
+            var response =
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.UserFollowersApi}?id={string.Empty}",
+                    HttpMethod.Delete);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
