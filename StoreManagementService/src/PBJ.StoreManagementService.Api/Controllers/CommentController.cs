@@ -32,7 +32,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(CommentRequestModel requestModel)
+        public async Task<ActionResult> CreateAsync(CreateCommentRequestModel requestModel)
         {
             var result = await _commentService.CreateAsync(requestModel);
 
@@ -40,7 +40,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateAsync(int id, CommentRequestModel requestModel)
+        public async Task<ActionResult> UpdateAsync(int id, UpdateCommentRequestModel requestModel)
         {
             var result = await _commentService.UpdateAsync(id, requestModel);
 
