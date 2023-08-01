@@ -2,7 +2,6 @@
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
-using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.Comment;
 using System.Net;
 using Xunit;
@@ -46,7 +45,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var comment = await _dataManager.CreateCommentAsync();
 
             //Act
-            var (commentDto, response) = 
+            var (commentDto, response) =
                 await ExecuteWithFullResponseAsync<CommentDto>($"{TestingConstants.CommentApi}?id={comment.Id}",
                     HttpMethod.Get);
 
@@ -61,7 +60,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = 
+            var response =
                 await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={0}", HttpMethod.Get);
 
             //Assert
@@ -86,7 +85,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var post = await _dataManager.CreatePostAsync();
 
-            var commentRequestModel = _fixture.Build<CommentRequestModel>()
+            var commentRequestModel = _fixture.Build<CreateCommentRequestModel>()
                 .With(x => x.PostId, post.Id)
                 .With(x => x.UserId, post.UserId)
                 .Create();
@@ -109,7 +108,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task CreateAsync_WhenRequestModelIsNotValid_ReturnsBadRequest()
         {
             //Arrange
-            var commentRequestModel = _fixture.Build<CommentRequestModel>()
+            var commentRequestModel = _fixture.Build<CreateCommentRequestModel>()
                 .With(x => x.Content, string.Empty).Create();
 
             var requestBody = BuildRequestBody(commentRequestModel);
@@ -128,7 +127,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var comment = await _dataManager.CreateCommentAsync();
 
-            var commentRequestModel = _fixture.Build<CommentRequestModel>()
+            var commentRequestModel = _fixture.Build<CreateCommentRequestModel>()
                 .With(x => x.UserId, comment.UserId)
                 .With(x => x.PostId, comment.PostId)
                 .Create();
@@ -150,7 +149,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task UpdateAsync_WhenEntityNotExists_ReturnsNotFound()
         {
             //Arrange
-            var commentRequestModel = _fixture.Create<CommentRequestModel>();
+            var commentRequestModel = _fixture.Create<UpdateCommentRequestModel>();
 
             var requestBody = BuildRequestBody(commentRequestModel);
 
@@ -167,7 +166,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task UpdateAsync_WhenRequestModelIsNotValid_ReturnsBadRequest(int id)
         {
             //Arrange
-            var commentRequestModel = _fixture.Build<CommentRequestModel>()
+            var commentRequestModel = _fixture.Build<UpdateCommentRequestModel>()
                 .With(x => x.Content, string.Empty).Create();
 
             var requestBody = BuildRequestBody(commentRequestModel);

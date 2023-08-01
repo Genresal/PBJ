@@ -145,7 +145,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var user = await _dataManager.CreateUserAsync();
 
-            var postRequestModel = _fixture.Build<PostRequestModel>()
+            var postRequestModel = _fixture.Build<CreatePostRequestModel>()
                 .With(x => x.UserId, user.Id).Create();
 
             var requestBody = BuildRequestBody(postRequestModel);
@@ -164,7 +164,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task CreateAsync_WhenRequestModelIsNotValid_ReturnsBadRequest()
         {
             //Arrange
-            var postRequestModel = _fixture.Build<PostRequestModel>()
+            var postRequestModel = _fixture.Build<CreatePostRequestModel>()
                 .With(x => x.Content, string.Empty).Create();
 
             var requestBody = BuildRequestBody(postRequestModel);
@@ -184,8 +184,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var post = await _dataManager.CreatePostAsync();
 
-            var postRequestModel = _fixture.Build<PostRequestModel>()
-                .With(x => x.UserId, post.UserId).Create();
+            var postRequestModel = _fixture.Create<UpdatePostRequestModel>();
 
             var requestBody = BuildRequestBody(postRequestModel);
 
@@ -196,14 +195,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            postDto?.UserId.Should().Be(postRequestModel.UserId);
+            postDto?.UserId.Should().Be(post.UserId);
         }
 
         [Fact]
         public async Task UpdateAsync_WhenEntityNotExists_ReturnsNotFound()
         {
             //Arrange
-            var postRequestModel = _fixture.Create<PostRequestModel>();
+            var postRequestModel = _fixture.Create<UpdatePostRequestModel>();
 
             var requestBody = BuildRequestBody(postRequestModel);
 
@@ -220,7 +219,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task UpdateAsync_WhenRequestModelIsNotValid_ReturnsBadRequest(int id)
         {
             //Arrange
-            var postRequestModel = _fixture.Build<PostRequestModel>()
+            var postRequestModel = _fixture.Build<UpdatePostRequestModel>()
                 .With(x => x.Content, string.Empty).Create();
 
             var requestBody = BuildRequestBody(postRequestModel);
