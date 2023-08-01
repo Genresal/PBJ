@@ -40,7 +40,7 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<CommentDto>(comment);
         }
 
-        public async Task<CommentDto> CreateAsync(CommentRequestModel commentRequestModel)
+        public async Task<CommentDto> CreateAsync(CreateCommentRequestModel commentRequestModel)
         {
             var comment = _mapper.Map<Comment>(commentRequestModel);
 
@@ -51,7 +51,7 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<CommentDto>(comment);
         }
 
-        public async Task<CommentDto> UpdateAsync(int id, CommentRequestModel commentRequestModel)
+        public async Task<CommentDto> UpdateAsync(int id, UpdateCommentRequestModel commentRequestModel)
         {
             var existingComment = await _commentRepository.GetAsync(id);
 
@@ -60,9 +60,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.COMMENT_NOT_FOUND_MESSAGE);
             }
 
-            existingComment = _mapper.Map<Comment>(commentRequestModel);
-
-            existingComment.Id = id;
+            existingComment.Content = commentRequestModel.Content;
 
             await _commentRepository.UpdateAsync(existingComment);
 

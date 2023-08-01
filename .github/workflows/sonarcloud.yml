@@ -37,14 +37,19 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Install Code Coverage tool
+        shell: powershell
+        run: dotnet tool install --global JetBrains.dotCover.GlobalTool
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          EXCLUDE_FROM_COVERAGE: "**/Program.cs, **/Middlewares/*, **/Validators/*, **/Extensions/*,
+            **/Exceptions/*, **/Constants/*, **/Mappers/*, **/Context/**/, **/Migrations/*"
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Genresal_PBJ" /o:"genresal" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Genresal_PBJ" /o:"genresal" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverage.exclusions="${{ env.EXCLUDE_FROM_COVERAGE }}"  /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
           dotnet restore ./StoreManagementService/PBJ.StoreManagementService.sln
           dotnet build --no-restore ./StoreManagementService/PBJ.StoreManagementService.sln
-          dotnet test --no-build --verbosity normal ./StoreManagementService/PBJ.StoreManagementService.sln
+          dotnet dotcover test --dcReportType=HTML ./StoreManagementService/PBJ.StoreManagementService.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

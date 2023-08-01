@@ -16,11 +16,11 @@ namespace PBJ.StoreManagementService.Business.Mappers
                 .ForMember(x => x.Id, options => options.Ignore());
 
             CreateMap<Comment, CommentDto>();
-            CreateMap<CommentRequestModel, Comment>()
+            CreateMap<CreateCommentRequestModel, Comment>()
                 .ForMember(x => x.Id, options => options.Ignore());
 
             CreateMap<Post, PostDto>().ReverseMap();
-            CreateMap<PostRequestModel, Post>()
+            CreateMap<CreatePostRequestModel, Post>()
                 .ForMember(x => x.Id, options => options.Ignore());
 
             CreateMap<UserFollowers, UserFollowersDto>().ReverseMap();
