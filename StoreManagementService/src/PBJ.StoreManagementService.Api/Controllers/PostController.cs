@@ -40,7 +40,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(PostRequestModel requestModel)
+        public async Task<ActionResult> CreateAsync(CreatePostRequestModel requestModel)
         {
             var result = await _postService.CreateAsync(requestModel);
 
@@ -48,7 +48,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateAsync(int id, PostRequestModel requestModel)
+        public async Task<ActionResult> UpdateAsync(int id, UpdatePostRequestModel requestModel)
         {
             var result = await _postService.UpdateAsync(id, requestModel);
 
