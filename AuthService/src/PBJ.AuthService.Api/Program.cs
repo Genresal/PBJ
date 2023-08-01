@@ -1,5 +1,3 @@
-using PBJ.AuthService.DataAccess.Extensions;
-
 namespace PBJ.AuthService.Api
 {
     public class Program
@@ -11,8 +9,6 @@ namespace PBJ.AuthService.Api
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            builder.Services.AddDatabase(builder.Configuration);
 
             var app = builder.Build();
 
