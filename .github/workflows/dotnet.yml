@@ -13,6 +13,10 @@ jobs:
     env:
       working-directory: ./StoreManagementService
 
+    defaults:
+      run:
+        working-directory: ${{ env.working-directory }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -31,6 +35,10 @@ jobs:
 
     env:
       working-directory: ./AuthService
+
+    defaults:
+    run:
+      working-directory: ${{ env.working-directory }}
 
     steps:
     - uses: actions/checkout@v3
