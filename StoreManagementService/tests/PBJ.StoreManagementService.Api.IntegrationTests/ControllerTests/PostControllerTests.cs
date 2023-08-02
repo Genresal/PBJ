@@ -4,14 +4,14 @@ using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
 using PBJ.StoreManagementService.Models.Post;
 using System.Net;
+using AutoFixture.Xunit2;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class PostControllerTests : BaseControllerTest
     {
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
@@ -37,8 +37,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory]
-        [InlineData(2)]
+        [Theory, AutoData]
         public async Task GetUserPostsAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
@@ -56,8 +55,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             postDtos?.ForEach(x => x.UserId.Should().Be(post.UserId));
         }
 
-        [Theory]
-        [InlineData(2)]
+        [Theory, AutoData]
         public async Task GetUserPostsAsync_WhenUserIdIsZero_ReturnsOK(int amount)
         {
             //Arrange
@@ -71,8 +69,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             postDtos.Should().NotBeNull().And.HaveCount(0);
         }
 
-        [Theory]
-        [InlineData(2)]
+        [Theory, AutoData]
         public async Task GetUserPostsAsync_WhenUserIdIsNotValid_ReturnsBadRequest(int amount)
         {
             //Arrange
@@ -214,8 +211,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task UpdateAsync_WhenRequestModelIsNotValid_ReturnsBadRequest(int id)
         {
             //Arrange

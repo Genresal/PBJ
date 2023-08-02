@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
+using AutoFixture.Xunit2;
 using Bogus;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
-using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.User;
 using System.Net;
 using Xunit;
@@ -12,8 +12,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class UserControllerTests : BaseControllerTest
     {
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
@@ -40,8 +39,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
@@ -49,7 +47,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&amount={amount}", 
+                $"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&amount={amount}",
                 HttpMethod.Get);
 
             //Assert
@@ -59,8 +57,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             userDtos?.ForEach(x => x.Id.Should().Be(userFollower.FollowerId));
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetFollowersAsync_WhenUserIdIsNotValid_ReturnsBadRequest(int amount)
         {
             //Arrange
@@ -73,8 +70,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetFollowersAsync_WhenUserIdIsZero_ReturnsOk(int amount)
         {
             //Arrange
@@ -89,22 +85,20 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             userDtos.Should().NotBeNull().And.HaveCount(0);
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetFollowersAsync_WhenAmountIsNotValid_ReturnsBadRequest(int userId)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserApi}/followers?userId={userId}&amount={string.Empty}", 
+                $"{TestingConstants.UserApi}/followers?userId={userId}&amount={string.Empty}",
                 HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
@@ -122,28 +116,26 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             userDtos?.ForEach(x => x.Id.Should().Be(userFollower.UserId));
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetFollowingsAsync_WhenFollowerIdIsNotValid_ReturnsBadRequest(int amount)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserApi}/followings?followerId={string.Empty}&amount={amount}", 
+                $"{TestingConstants.UserApi}/followings?followerId={string.Empty}&amount={amount}",
                 HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetFollowingsAsync_WhenFollowerIdIsZero_ReturnsOk(int amount)
         {
             //Arrange
             //Act
             var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followings?followerId={0}&amount={amount}", 
+                $"{TestingConstants.UserApi}/followings?followerId={0}&amount={amount}",
                 HttpMethod.Get);
 
             //Assert
@@ -152,14 +144,13 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             userDtos.Should().NotBeNull().And.HaveCount(0);
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetFollowingsAsync_WhenAmountIsNotValid_ReturnsBadRequest(int followerId)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserApi}/followings?followerId={followerId}&amount={string.Empty}", 
+                $"{TestingConstants.UserApi}/followings?followerId={followerId}&amount={string.Empty}",
                 HttpMethod.Get);
 
             //Assert
@@ -173,8 +164,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user = await _dataManager.CreateUserAsync();
 
             //Act
-            var (userDto, response) = 
-                await ExecuteWithFullResponseAsync<UserDto>($"{TestingConstants.UserApi}?id={user.Id}", 
+            var (userDto, response) =
+                await ExecuteWithFullResponseAsync<UserDto>($"{TestingConstants.UserApi}?id={user.Id}",
                     HttpMethod.Get);
 
             //Assert
@@ -351,15 +342,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserApi}?id={string.Empty}", 
+                $"{TestingConstants.UserApi}?id={string.Empty}",
                 HttpMethod.Put, requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task UpdateAsync_WhenRequestModelIsNotValid_ReturnsBadRequest(int id)
         {
             //Arrange
@@ -383,7 +373,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user = await _dataManager.CreateUserAsync();
 
             //Act
-            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.UserApi}?id={user.Id}", 
+            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.UserApi}?id={user.Id}",
                 HttpMethod.Delete);
 
             //Assert

@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
-using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.UserFollowers;
 using System.Net;
 using Xunit;
@@ -11,13 +11,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class UserFollowersControllerTests : BaseControllerTest
     {
-        [Theory]
-        [InlineData(1)]
+        [Theory, AutoData]
         public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
         {
             //Arrange
             //Act
-            var (userFollowersDtos, response) = 
+            var (userFollowersDtos, response) =
                 await ExecuteWithFullResponseAsync<List<UserFollowersDto>>(
                 $"{TestingConstants.UserFollowersApi}/{amount}", HttpMethod.Get);
 

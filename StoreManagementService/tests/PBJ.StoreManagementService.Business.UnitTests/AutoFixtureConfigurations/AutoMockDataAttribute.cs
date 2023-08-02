@@ -1,7 +1,6 @@
-﻿using AutoFixture.AutoMoq;
-using AutoFixture;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
-using PBJ.StoreManagementService.DataAccess.Entities;
 
 namespace PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfigurations
 {
