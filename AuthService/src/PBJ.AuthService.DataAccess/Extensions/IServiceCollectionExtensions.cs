@@ -7,9 +7,9 @@ namespace PBJ.AuthService.DataAccess.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
+        public static void AddAuthDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<AuthDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);

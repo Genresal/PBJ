@@ -10,7 +10,7 @@ using PBJ.AuthService.DataAccess.Context;
 
 namespace PBJ.AuthService.DataAccess.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AuthDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -11,7 +11,7 @@ using PBJ.AuthService.DataAccess.Context;
 
 namespace PBJ.AuthService.DataAccess.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AuthDbContext))]
     [Migration("20230801130107_Initial")]
     partial class Initial
     {
