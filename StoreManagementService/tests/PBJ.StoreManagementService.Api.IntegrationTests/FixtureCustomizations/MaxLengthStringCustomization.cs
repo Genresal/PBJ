@@ -18,7 +18,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations
             {
                 var stringValue = (string)context.Resolve(propertyInfo.PropertyType);
 
-                return stringValue?.Substring(0, Math.Min(stringValue.Length, _maxLength));
+                return stringValue.Substring(0, Math.Min(stringValue.Length, _maxLength));
             }
 
             return new NoSpecimen();
