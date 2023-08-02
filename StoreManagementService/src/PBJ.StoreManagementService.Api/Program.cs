@@ -25,8 +25,6 @@ namespace PBJ.StoreManagementService.Api
 
             var app = builder.Build();
 
-            app.MigrateDatabases();
-
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseMiddleware<LoggingMiddleware>();
 
