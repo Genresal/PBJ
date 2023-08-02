@@ -12,7 +12,7 @@ namespace PBJ.AuthService.DataAccess.Extensions
             services.AddDbContext<AuthDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
             });
         }
     }
