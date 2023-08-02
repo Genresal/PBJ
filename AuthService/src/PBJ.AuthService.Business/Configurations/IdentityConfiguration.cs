@@ -50,10 +50,13 @@ namespace PBJ.AuthService.Business.Configurations
                     RequirePkce = false,
                     RedirectUris = { "http://localhost:<REACT-PORT>/callback", "http://localhost:<REACT-PORT>/refresh" },
                     PostLogoutRedirectUris = { "http://localhost:<REACT-PORT>/logout" },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "smsAPI",
                     }
@@ -69,10 +72,13 @@ namespace PBJ.AuthService.Business.Configurations
                     RedirectUris = { "https://www.getpostman.com/oath2/callback" },
                     PostLogoutRedirectUris = { "https://www.getpostman.com" },
                     AllowAccessTokensViaBrowser = true,
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "smsAPI",
                     }
