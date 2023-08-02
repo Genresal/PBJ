@@ -29,8 +29,9 @@ namespace PBJ.StoreManagementService.Api.Middlewares
 
                 response.StatusCode = (int)status;
 
-                Log.Information($"Exception were thrown: {exception.GetType()}, with message: {exception.Message}" +
-                                $" Response status code: {context.Response.StatusCode}");
+                Log.Information("Exception were thrown: {@exceptionType}, with message: {@exceptionMessage}" +
+                                " Response status code: {@statusCode}",
+                    exception.GetType(), message, response.StatusCode);
 
                 Log.Error(exception, "EXCEPTION WERE THROWN!");
 
