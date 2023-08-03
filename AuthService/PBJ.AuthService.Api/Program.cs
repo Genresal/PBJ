@@ -10,9 +10,7 @@ namespace PBJ.AuthService.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddControllersWithViews();
 
             builder.Services.AddAuthDbContext(builder.Configuration);
             builder.Services.SetupIdentity();
@@ -21,13 +19,16 @@ namespace PBJ.AuthService.Api
 
             var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
+            if (!app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage();
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseAuthorization();
 
@@ -35,7 +36,7 @@ namespace PBJ.AuthService.Api
 
             app.UseIdentityServer();
 
-            app.MapControllers();
+            app.MapDefaultControllerRoute();
 
             app.Run();
         }
