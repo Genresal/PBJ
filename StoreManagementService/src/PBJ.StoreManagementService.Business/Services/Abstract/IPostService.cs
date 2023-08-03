@@ -10,9 +10,9 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<PostDto> GetAsync(int id);
 
-        Task<PostDto> CreateAsync(PostRequestModel postRequestModel);
+        Task<PostDto> CreateAsync(CreatePostRequestModel postRequestModel);
 
-        Task<PostDto> UpdateAsync(int id, PostRequestModel postRequestModel);
+        Task<PostDto> UpdateAsync(int id, UpdatePostRequestModel postRequestModel);
 
         Task<bool> DeleteAsync(int id);
     }

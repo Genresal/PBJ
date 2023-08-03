@@ -24,7 +24,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Configuration
             });
         }
 
-        private IServiceCollection AddTestDatabase(IServiceCollection services, IConfiguration configuration)
+        private static void AddTestDatabase(IServiceCollection services, IConfiguration configuration)
         {
             var descriptor = services.SingleOrDefault(x =>
                 x.ServiceType == typeof(DbContextOptions<DatabaseContext>));
@@ -36,11 +36,9 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Configuration
 
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseInMemoryDatabase("pbjTest");
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
-
-            return services;
         }
     }
 }

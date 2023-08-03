@@ -1,6 +1,6 @@
 ﻿namespace PBJ.StoreManagementService.Models.Comment
 {
-    public class CommentRequestModel
+    public class CreateCommentRequestModel
     {
         public string? Content { get; set; }
 

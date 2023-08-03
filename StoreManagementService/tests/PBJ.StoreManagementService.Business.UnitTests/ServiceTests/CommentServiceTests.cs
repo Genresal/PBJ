@@ -88,7 +88,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         [Theory, AutoMockData]
         public async Task CreateAsync_WhenRequestIsValid_ReturnsCreatedDto(Comment comment,
             CommentDto commentDto,
-            CommentRequestModel commentRequestModel)
+            CreateCommentRequestModel commentRequestModel)
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.CreateAsync(It.IsAny<Comment>()));
@@ -113,7 +113,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto(int id,
             Comment comment,
             CommentDto commentDto,
-            CommentRequestModel commentRequestModel)
+            UpdateCommentRequestModel commentRequestModel)
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -138,7 +138,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 
         [Theory, AutoMockData]
         public async Task UpdateAsync_WhenEntityNotExists_ThrowsNotFoundException(int id,
-            CommentRequestModel commentRequestModel)
+            UpdateCommentRequestModel commentRequestModel)
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
