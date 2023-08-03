@@ -1,6 +1,7 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
 using PBJ.AuthService.DataAccess.Entities;
+using PBJ.AuthService.DataAccess.Enums;
 
 namespace PBJ.AuthService.Business.Configurations
 {
@@ -11,9 +12,7 @@ namespace PBJ.AuthService.Business.Configurations
             return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Email(),
                 new IdentityResources.Profile(),
-
             };
         }
 
@@ -22,6 +21,7 @@ namespace PBJ.AuthService.Business.Configurations
             return new List<ApiScope>
             {
                 new ApiScope("smsAPI", "Access to smsAPI"),
+                new ApiScope("testApi", "Access to my external test api")
             };
         }
 
@@ -32,6 +32,10 @@ namespace PBJ.AuthService.Business.Configurations
                 new ApiResource("smsAPI", "SMS API")
                 {
                     Scopes = { "smsAPI" }
+                },
+                new ApiResource("testApi", "TEST API")
+                {
+                    Scopes = { "testApi" }
                 }
             };
         }
@@ -50,15 +54,31 @@ namespace PBJ.AuthService.Business.Configurations
                     RequirePkce = false,
                     RedirectUris = { "http://localhost:<REACT-PORT>/callback", "http://localhost:<REACT-PORT>/refresh" },
                     PostLogoutRedirectUris = { "http://localhost:<REACT-PORT>/logout" },
-                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "smsAPI",
+                    }
+                },
+                new Client()
+                {
+                    ClientId = "test-client",
+                    ClientName = "Test Client",
+                    ClientSecrets = { new Secret("test-secret".Sha256()) },
+                    RequireConsent = false,
+                    RedirectUris = { "https://localhost:7107/signin-oidc", "https://localhost:7107/Auth/Login" },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowOfflineAccess = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "testApi",
                     }
                 },
                 new Client
@@ -90,15 +110,15 @@ namespace PBJ.AuthService.Business.Configurations
         {
             return new AuthUser
             {
-                UserName = "Joe Doe",
+                UserName = "JoeDoe",
                 Email = "joeDoe@email.com"
             };
         }
 
         public static IEnumerable<string> GetRoles()
         {
-            return Enum.GetValues(typeof(AuthRole))
-                .Cast<AuthRole>()
+            return Enum.GetValues(typeof(Role))
+                .Cast<Role>()
                 .Select(x => x.ToString());
         }
     }

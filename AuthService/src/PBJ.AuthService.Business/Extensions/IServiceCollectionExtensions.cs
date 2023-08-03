@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PBJ.AuthService.Business.Configurations;
 using PBJ.AuthService.DataAccess.Context;
 using PBJ.AuthService.DataAccess.Entities;
+using PBJ.AuthService.DataAccess.Enums;
 
 namespace PBJ.AuthService.Business.Extensions
 {
@@ -58,18 +59,24 @@ namespace PBJ.AuthService.Business.Extensions
                 authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
             }
 
-            if (!authDbContext.Users.Any())
-            {
-                userManager.CreateAsync(IdentityConfiguration.GetTestAuthUser(), "password")
-                    .GetAwaiter().GetResult();
-            }
-
-            if (authDbContext.Roles.Any())
+            if (!authDbContext.Roles.Any())
             {
                 foreach (var role in IdentityConfiguration.GetRoles())
                 {
                     roleManager.CreateAsync(new AuthRole(role)).GetAwaiter().GetResult();
                 }
+            }
+
+            if (!authDbContext.Users.Any())
+            {
+                var user = IdentityConfiguration.GetTestAuthUser();
+
+                userManager.CreateAsync(user, "password")
+                    .GetAwaiter().GetResult();
+
+                var a = Role.User.ToString();
+
+                userManager.AddToRoleAsync(user, Role.User.ToString());
             }
         }
     }

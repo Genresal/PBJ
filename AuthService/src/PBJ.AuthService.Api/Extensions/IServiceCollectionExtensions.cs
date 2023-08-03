@@ -9,7 +9,13 @@ namespace PBJ.AuthService.Api.Extensions
     {
         public static void SetupIdentity(this IServiceCollection services)
         {
-            services.AddIdentity<AuthUser, AuthRole>()
+            services.AddIdentity<AuthUser, AuthRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequiredLength = 4;
+                })
                 .AddEntityFrameworkStores<AuthDbContext>()
                 .AddDefaultTokenProviders();
         }
@@ -20,6 +26,8 @@ namespace PBJ.AuthService.Api.Extensions
 
             services.AddIdentityServer(options =>
                 {
+                    options.UserInteraction.LoginUrl = "/auth/sign-in";
+
                     options.Events.RaiseErrorEvents = true;
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
