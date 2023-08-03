@@ -74,8 +74,6 @@ namespace PBJ.AuthService.Business.Extensions
                 userManager.CreateAsync(user, "password")
                     .GetAwaiter().GetResult();
 
-                var a = Role.User.ToString();
-
                 userManager.AddToRoleAsync(user, Role.User.ToString());
             }
         }
