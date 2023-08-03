@@ -118,7 +118,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 
         [Theory, AutoMockData]
         public async Task CreateAsync_WhenRequestIsValid_ReturnsCreatedDto(Post post,
-            PostRequestModel postRequestModel,
+            CreatePostRequestModel postRequestModel,
             PostDto postDto)
         {
             //Arrange
@@ -143,7 +143,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto(int id,
             Post post,
             PostDto postDto,
-            PostRequestModel postRequestModel)
+            UpdatePostRequestModel postRequestModel)
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
@@ -168,7 +168,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 
         [Theory, AutoMockData]
         public async Task UpdateAsync_WhenEntityNotExists_ThrowsNotFoundException(int id,
-            PostRequestModel postRequestModel)
+            UpdatePostRequestModel postRequestModel)
         {
             //Arrange
             _mockPostRepository.Setup(x => x.GetAsync(It.IsAny<int>()))

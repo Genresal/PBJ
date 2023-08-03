@@ -141,6 +141,54 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
         [Theory, AutoMockData]
+        public async Task GetByEmailAsync_WhenEntityExists_ReturnsDto(string email,
+            User user,
+            UserDto userDto)
+        {
+            //Arrange
+            _mockUserRepository.Setup(x => 
+                    x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()))
+                .ReturnsAsync(user);
+
+            _mockMapper.Setup(x => x.Map<UserDto>(user)).Returns(userDto);
+
+            var userService = new UserService(_mockUserRepository.Object,
+                _mockUserFollowersRepository.Object, _mockMapper.Object);
+
+            //Act
+            var result = await userService.GetAsync(email);
+
+            //Assert
+            _mockUserRepository.Verify(x => 
+                x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()), Times.Once);
+
+            result.Should().NotBeNull().And.BeOfType<UserDto>();
+        }
+
+        [Theory, AutoMockData]
+        public async Task GetByEmailAsync_WhenEntityNotExists_ThrowsNotFoundException(string email)
+        {
+            //Arrange
+            _mockUserRepository.Setup(x => 
+                    x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()))
+                .ReturnsAsync(value: null);
+
+            var userService = new UserService(_mockUserRepository.Object,
+                _mockUserFollowersRepository.Object, _mockMapper.Object);
+
+            //Act
+            var act = () => userService.GetAsync(email);
+
+            //Assert
+            await act.Should().ThrowAsync<NotFoundException>();
+
+            _mockUserRepository.Verify(x => 
+                x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()), Times.Once);
+        }
+
+
+
+        [Theory, AutoMockData]
         public async Task CreateAsync_WhenEntityNotExists_ReturnsCreatedDto(
             User user,
             UserDto userDto,

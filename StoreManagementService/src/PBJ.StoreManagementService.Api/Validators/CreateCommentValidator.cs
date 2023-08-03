@@ -3,9 +3,9 @@ using PBJ.StoreManagementService.Models.Comment;
 
 namespace PBJ.StoreManagementService.Api.Validators
 {
-    public class CommentValidator : AbstractValidator<CommentRequestModel>
+    public class CreateCommentValidator : AbstractValidator<CreateCommentRequestModel>
     {
-        public CommentValidator()
+        public CreateCommentValidator()
         {
             RuleFor(x => x.Content).NotEmpty().NotNull();
             RuleFor(x => x.UserId).Must(x => x > 0);
