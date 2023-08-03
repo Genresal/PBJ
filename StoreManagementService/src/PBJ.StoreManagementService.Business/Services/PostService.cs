@@ -46,7 +46,7 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<PostDto>(post);
         }
 
-        public async Task<PostDto> CreateAsync(PostRequestModel postRequestModel)
+        public async Task<PostDto> CreateAsync(CreatePostRequestModel postRequestModel)
         {
             var post = _mapper.Map<Post>(postRequestModel);
 
@@ -55,7 +55,7 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<PostDto>(post);
         }
 
-        public async Task<PostDto> UpdateAsync(int id, PostRequestModel postRequestModel)
+        public async Task<PostDto> UpdateAsync(int id, UpdatePostRequestModel postRequestModel)
         {
             var existingPost = await _postRepository.GetAsync(id);
 
@@ -64,9 +64,7 @@ namespace PBJ.StoreManagementService.Business.Services
                 throw new NotFoundException(ExceptionMessages.POST_NOT_FOUND_MESSAGE);
             }
 
-            existingPost = _mapper.Map<Post>(postRequestModel);
-
-            existingPost.Id = id;
+            existingPost.Content = postRequestModel.Content;
 
             await _postRepository.UpdateAsync(existingPost);
 
