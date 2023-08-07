@@ -1,4 +1,5 @@
-﻿using IdentityServer4;
+﻿using System.Security.Claims;
+using IdentityServer4;
 using IdentityServer4.Models;
 using PBJ.AuthService.DataAccess.Entities;
 using PBJ.AuthService.DataAccess.Enums;
@@ -62,7 +63,7 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "smsAPI",
-                    }
+                    },
                 },
                 new Client()
                 {
@@ -70,8 +71,11 @@ namespace PBJ.AuthService.Business.Configurations
                     ClientName = "Test Client",
                     ClientSecrets = { new Secret("test-secret".Sha256()) },
                     RequireConsent = false,
-                    RedirectUris = { "https://localhost:7107/signin-oidc", "https://localhost:7107/Auth/Login" },
-                    AllowedGrantTypes = GrantTypes.Code,
+                    RedirectUris =
+                    {
+                        "https://localhost:7107/signin-oidc",
+                    },
+                    AllowedGrantTypes = { GrantType.AuthorizationCode },
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
@@ -79,7 +83,7 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "testApi",
-                    }
+                    },
                 },
                 new Client
                 {
@@ -112,6 +116,15 @@ namespace PBJ.AuthService.Business.Configurations
             {
                 UserName = "JoeDoe",
                 Email = "joeDoe@email.com"
+            };
+        }
+
+        public static AuthUser GetTestAdmin()
+        {
+            return new AuthUser
+            {
+                UserName = "admin",
+                Email = "admin@email.com"
             };
         }
 

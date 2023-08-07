@@ -1,0 +1,84 @@
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using PBJ.AuthService.Api.RequestModels;
+using PBJ.AuthService.Business.Services.Abstract;
+
+namespace PBJ.AuthService.Api.Controllers
+{
+    [Route("auth")]
+    public class AuthController : Controller
+    {
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IValidator<LoginRequestModel> _loginValidator;
+        private readonly IValidator<RegisterRequestModel> _registerValidator;
+
+        public AuthController(IAuthorizationService authorizationService,
+            IValidator<LoginRequestModel> loginValidator,
+            IValidator<RegisterRequestModel> registerValidator)
+        {
+            _authorizationService = authorizationService;
+            _loginValidator = loginValidator;
+            _registerValidator = registerValidator;
+        }
+
+        [HttpGet, Route("login")]
+        public ActionResult Login(string returnUrl)
+        {
+            return View(new LoginRequestModel { ReturnUrl = returnUrl });
+        }
+
+        [HttpPost, Route("login")]
+        public async Task<ActionResult> LoginAsync(LoginRequestModel requestModel)
+        {
+            var validationResult = await _loginValidator.ValidateAsync(requestModel);
+
+            if (!validationResult.IsValid)
+            {
+                validationResult.Errors.ForEach(x =>
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage));
+
+                return View(requestModel);
+            }
+
+            var result = await _authorizationService
+                .LoginAsync(requestModel.Email, requestModel.Password!);
+
+            if (result.Succeeded)
+            {
+                return Redirect(requestModel.ReturnUrl);
+            }
+
+            return View();
+        }
+
+        [HttpGet, Route("register")]
+        public ActionResult Register(string returnUrl)
+        {
+            return View(new RegisterRequestModel { ReturnUrl = returnUrl });
+        }
+
+        [HttpPost, Route("register")]
+        public async Task<ActionResult> Register(RegisterRequestModel requestModel)
+        {
+            var validationResult = await _registerValidator.ValidateAsync(requestModel);
+
+            if (!validationResult.IsValid)
+            {
+                validationResult.Errors.ForEach(x =>
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage));
+
+                return View(requestModel);
+            }
+
+            var result = await _authorizationService.RegisterAsync(requestModel.UserName,
+                requestModel.Email, requestModel.Password);
+
+            if (result.Succeeded)
+            {
+                return Redirect(requestModel.ReturnUrl);
+            }
+
+            return View(new RegisterRequestModel { ReturnUrl = requestModel.ReturnUrl });
+        }
+    }
+}

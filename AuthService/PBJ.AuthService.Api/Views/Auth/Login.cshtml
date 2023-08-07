@@ -1,0 +1,27 @@
+﻿@model PBJ.AuthService.Api.RequestModels.LoginRequestModel
+
+<link rel="stylesheet" type="text/css" href="~/css/login-form.css"/>
+
+<div class="login-card">
+    <h2>Login Page</h2>
+    <h3>Enter Your Сredentials</h3>
+    <form class="login-form" asp-controller="Auth" asp-action="Login" method="post">
+        <input hidden asp-for="ReturnUrl"/>
+
+        <input type="text" placeholder="email" asp-for="Email">
+        <span asp-validation-for="Email"></span>
+
+        <input type="text" placeholder="password" asp-for="Password">
+        <span asp-validation-for="Password"></span>
+
+        <button type="submit">Login</button>
+
+        <a class="button" asp-controller="Auth" asp-action="Register"
+           asp-route-returnUrl="@Model.ReturnUrl">
+            Register
+        </a>
+    </form>
+
+        
+</div>
+
