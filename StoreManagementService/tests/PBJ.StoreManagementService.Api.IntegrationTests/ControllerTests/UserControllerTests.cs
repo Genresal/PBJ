@@ -4,6 +4,8 @@ using Bogus;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
+using PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.User;
 using System.Net;
 using Xunit;
@@ -12,117 +14,127 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class UserControllerTests : BaseControllerTest
     {
-        [Theory, AutoData]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
+        [Theory, CustomAutoData]
+        public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsOk(
+            PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
-            var (userDtos, response) = await
-                ExecuteWithFullResponseAsync<List<UserDto>>(
-                    $"{TestingConstants.UserApi}/{amount}", HttpMethod.Get);
+            var (paginationResponseDto, response) = await
+                ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
+                    $"{TestingConstants.UserApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            userDtos.Should().NotBeNull().And.AllBeOfType<UserDto>();
+            paginationResponseDto?.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
         }
 
         [Fact]
-        public async Task GetAmountAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        public async Task GetPaginatedAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                    $"{TestingConstants.UserApi}/error", HttpMethod.Get);
+                    $"{TestingConstants.UserApi}/paginated?page={0}&take={string.Empty}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory, AutoData]
-        public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsOk(int amount)
+        [Theory, CustomAutoData]
+        public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsOk(
+            PaginationRequestModel requestModel)
         {
             //Arrange
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
             //Act
-            var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&amount={amount}",
+            var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
+                $"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            userDtos.Should().NotBeNull().And.AllBeOfType<UserDto>();
-            userDtos?.ForEach(x => x.Id.Should().Be(userFollower.FollowerId));
+            paginationResponseDto.Should().NotBeNull();
+            paginationResponseDto?.Items.Should().BeAssignableTo<IEnumerable<UserDto>>();
+            paginationResponseDto?.Items.Should().NotBeNull().And.AllSatisfy(x => x.Id.Should().Be(userFollower.FollowerId));
         }
 
-        [Theory, AutoData]
-        public async Task GetFollowersAsync_WhenUserIdIsNotValid_ReturnsBadRequest(int amount)
-        {
-            //Arrange
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserApi}/followers?userId={string.Empty}&amount={amount}",
-                HttpMethod.Get);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
-
-        [Theory, AutoData]
-        public async Task GetFollowersAsync_WhenUserIdIsZero_ReturnsOk(int amount)
-        {
-            //Arrange
-            //Act
-            var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followers?userId={0}&amount={amount}",
-                HttpMethod.Get);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            userDtos.Should().NotBeNull().And.HaveCount(0);
-        }
-
-        [Theory, AutoData]
-        public async Task GetFollowersAsync_WhenAmountIsNotValid_ReturnsBadRequest(int userId)
-        {
-            //Arrange
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserApi}/followers?userId={userId}&amount={string.Empty}",
-                HttpMethod.Get);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
-
-        [Theory, AutoData]
-        public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsOk(int amount)
+        [Fact]
+        public async Task GetFollowersAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
             //Act
-            var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followings?followerId={userFollower.FollowerId}&amount={amount}",
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}/followers?userId={userFollower.UserId}&page={0}&take={0}",
+                HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetFollowersAsync_WhenUserIdIsNotValid_ReturnsBadRequest(
+            PaginationRequestModel requestModel)
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}/followers?userId={string.Empty}&page={0}&take={requestModel.Take}",
+                HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetFollowersAsync_WhenUserIdIsZero_ReturnsOk(
+            PaginationRequestModel requestModel)
+        {
+            //Arrange
+            //Act
+            var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
+                $"{TestingConstants.UserApi}/followers?userId={0}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            userDtos.Should().NotBeNull().And.AllBeOfType<UserDto>();
-            userDtos?.ForEach(x => x.Id.Should().Be(userFollower.UserId));
+            paginationResponseDto?.Items.Should().NotBeNull().And.BeEmpty();
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsOk(
+            PaginationRequestModel requestModel)
+        {
+            //Arrange
+            var userFollower = await _dataManager.CreateUserFollowerAsync();
+
+            //Act
+            var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
+                $"{TestingConstants.UserApi}/followings?followerId={userFollower.FollowerId}&page={requestModel.Page}&take={requestModel.Take}",
+                HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            paginationResponseDto?.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
+            paginationResponseDto?.Items.Should().NotBeNull().And.AllSatisfy(x => x.Id.Should().Be(userFollower.UserId));
         }
 
         [Theory, AutoData]
-        public async Task GetFollowingsAsync_WhenFollowerIdIsNotValid_ReturnsBadRequest(int amount)
+        public async Task GetFollowingsAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
+            var userFollower = await _dataManager.CreateUserFollowerAsync();
+
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserApi}/followings?followerId={string.Empty}&amount={amount}",
+                $"{TestingConstants.UserApi}/followings?followerId={userFollower.FollowerId}&page={0}&take={0}",
                 HttpMethod.Get);
 
             //Assert
@@ -130,31 +142,34 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, AutoData]
-        public async Task GetFollowingsAsync_WhenFollowerIdIsZero_ReturnsOk(int amount)
+        public async Task GetFollowingsAsync_WhenFollowerIdIsNotValid_ReturnsBadRequest(
+            PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
-            var (userDtos, response) = await ExecuteWithFullResponseAsync<List<UserDto>>(
-                $"{TestingConstants.UserApi}/followings?followerId={0}&amount={amount}",
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.UserApi}/followings?followerId={string.Empty}&page={requestModel.Page}&take={requestModel.Take}",
+                HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Theory, AutoData]
+        public async Task GetFollowingsAsync_WhenFollowerIdIsZero_ReturnsOk(
+            PaginationRequestModel requestModel)
+        {
+            //Arrange
+            //Act
+            var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
+                $"{TestingConstants.UserApi}/followings?followerId={0}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            userDtos.Should().NotBeNull().And.HaveCount(0);
-        }
-
-        [Theory, AutoData]
-        public async Task GetFollowingsAsync_WhenAmountIsNotValid_ReturnsBadRequest(int followerId)
-        {
-            //Arrange
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserApi}/followings?followerId={followerId}&amount={string.Empty}",
-                HttpMethod.Get);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            paginationResponseDto.Should().NotBeNull();
+            paginationResponseDto?.Items.Should().NotBeNull().And.AllBeAssignableTo<IEnumerable<UserDto>>().And.BeEmpty();
         }
 
         [Fact]

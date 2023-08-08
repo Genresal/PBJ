@@ -1,10 +1,13 @@
 ﻿using PBJ.StoreManagementService.Models.Comment;
+using PBJ.StoreManagementService.Models.Pagination;
 
 namespace PBJ.StoreManagementService.Business.Services.Abstract
 {
     public interface ICommentService
     {
-        Task<List<CommentDto>> GetAmountAsync(int amount);
+        Task<PaginationResponseDto<CommentDto>> GetPaginatedAsync(int page, int take);
+
+        Task<PaginationResponseDto<CommentDto>> GetByPostIdAsync(int postId, int page, int take);
 
         Task<CommentDto> GetAsync(int id);
 

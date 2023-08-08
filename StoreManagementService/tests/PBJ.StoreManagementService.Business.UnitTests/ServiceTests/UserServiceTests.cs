@@ -1,15 +1,15 @@
-﻿using AutoFixture;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services;
+using PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfigurations;
 using PBJ.StoreManagementService.Business.UnitTests.ServiceTests.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 using PBJ.StoreManagementService.Models.User;
 using System.Linq.Expressions;
-using PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfigurations;
+using PBJ.StoreManagementService.Models.Pagination;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
@@ -26,76 +26,112 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
         [Theory, AutoMockData]
-        public async Task GetAmountAsync_WhenEntitiesExists_ReturnsListOfDto(int amount,
-            List<User> users,
-            List<UserDto> userDtos)
+        public async Task GetAmountAsync_WhenEntitiesExists_ReturnsListOfDto(
+            int page,
+            int take,
+            PaginationResponse<User> response,
+            PaginationResponseDto<UserDto> responseDto)
         {
             //Arrange
-            _mockUserRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
-                .ReturnsAsync(users);
+            _mockUserRepository.Setup(x => x.GetPaginatedAsync(It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<Expression<Func<User, bool>>>(),
+                    It.IsAny<Expression<Func<User, int>>>(),
+                    It.IsAny<bool>()))
+                .ReturnsAsync(response);
 
-            _mockMapper.Setup(x => x.Map<List<UserDto>>(users)).Returns(userDtos);
+            _mockMapper.Setup(x => x.Map<PaginationResponseDto<UserDto>>(
+                    It.IsAny<PaginationResponse<User>>()))
+                .Returns(responseDto);
 
             var userService = new UserService(_mockUserRepository.Object,
                 _mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await userService.GetAmountAsync(amount);
+            var result = await userService.GetPaginatedAsync(page, take);
 
             //Assert
-            _mockUserRepository.Verify(x => x.GetAmountAsync(It.IsAny<int>()), Times.Once);
+            _mockUserRepository.Verify(x => x.GetPaginatedAsync(It.IsAny<int>(),
+                It.IsAny<int>(),
+                It.IsAny<Expression<Func<User, bool>>>(),
+                It.IsAny<Expression<Func<User, int>>>(),
+                It.IsAny<bool>()), Times.Once);
 
-            result.Should().BeOfType<List<UserDto>>().And.AllBeOfType<UserDto>();
+            result.Should().NotBeNull();
+            result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
         }
 
         [Theory, AutoMockData]
-        public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsListOfDto(int userId, 
-            int amount,
-            List<User> users,
-            List<UserDto> userDtos)
+        public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsListOfDto(
+            int userId,
+            int page,
+            int take,
+            PaginationResponse<User> response,
+            PaginationResponseDto<UserDto> responseDto)
         {
             //Arrange
             _mockUserRepository.Setup(x =>
-                    x.GetFollowersAsync(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(users);
+                    x.GetPaginatedAsync(It.IsAny<int>(),
+                        It.IsAny<int>(),
+                        It.IsAny<Expression<Func<User, bool>>>(),
+                        It.IsAny<Expression<Func<User, int>>>(),
+                        It.IsAny<bool>()))
+                .ReturnsAsync(response);
 
-            _mockMapper.Setup(x => x.Map<List<UserDto>>(users)).Returns(userDtos);
+            _mockMapper.Setup(x => x.Map<PaginationResponseDto<UserDto>>(
+                It.IsAny<PaginationResponse<User>>())).Returns(responseDto);
 
             var userService = new UserService(_mockUserRepository.Object,
                 _mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await userService.GetFollowersAsync(userId, amount);
+            var result = await userService.GetFollowersAsync(userId, page, take);
 
             //Assert
-            _mockUserRepository.Verify(x => x.GetFollowersAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            _mockUserRepository.Verify(x => x.GetPaginatedAsync(It.IsAny<int>(),
+                It.IsAny<int>(),
+                It.IsAny<Expression<Func<User, bool>>>(),
+                It.IsAny<Expression<Func<User, int>>>(),
+                It.IsAny<bool>()), Times.Once);
 
-            result.Should().NotBeNull().And.BeOfType<List<UserDto>>().And.AllBeOfType<UserDto>();
+            result.Should().NotBeNull();
+            result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
         }
 
         [Theory, AutoMockData]
-        public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsListOfDto(int followerId, 
-            int amount,
-            List<User> users,
-            List<UserDto> userDtos)
+        public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsListOfDto(
+            int followerId,
+            int page,
+            int take,
+            PaginationResponse<User> response,
+            PaginationResponseDto<UserDto> responseDto)
         {
             //Arrange
-            _mockUserRepository.Setup(x => x.GetFollowingsAsync(It.IsAny<int>(),
-                    It.IsAny<int>())).ReturnsAsync(users);
+            _mockUserRepository.Setup(x => x.GetPaginatedAsync(It.IsAny<int>(),
+                It.IsAny<int>(),
+                It.IsAny<Expression<Func<User, bool>>>(),
+                It.IsAny<Expression<Func<User, int>>>(),
+                It.IsAny<bool>())).ReturnsAsync(response);
 
-            _mockMapper.Setup(x => x.Map<List<UserDto>>(users)).Returns(userDtos);
+            _mockMapper.Setup(x => x.Map<PaginationResponseDto<UserDto>>(
+                It.IsAny<PaginationResponse<User>>())).Returns(responseDto);
 
             var userService = new UserService(_mockUserRepository.Object,
                 _mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await userService.GetFollowingsAsync(followerId, amount);
+            var result = await userService.GetFollowingsAsync(followerId, page, take);
 
             //Assert
-            _mockUserRepository.Verify(x => 
-                x.GetFollowingsAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            _mockUserRepository.Verify(x =>
+                x.GetPaginatedAsync(It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<Expression<Func<User, bool>>>(),
+                    It.IsAny<Expression<Func<User, int>>>(),
+                    It.IsAny<bool>()), Times.Once);
 
-            result.Should().NotBeNull().And.BeOfType<List<UserDto>>().And.AllBeOfType<UserDto>();
+            result.Should().NotBeNull();
+            result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
         }
 
         [Theory, AutoMockData]
@@ -146,7 +182,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             UserDto userDto)
         {
             //Arrange
-            _mockUserRepository.Setup(x => 
+            _mockUserRepository.Setup(x =>
                     x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(user);
 
@@ -159,7 +195,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             var result = await userService.GetAsync(email);
 
             //Assert
-            _mockUserRepository.Verify(x => 
+            _mockUserRepository.Verify(x =>
                 x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()), Times.Once);
 
             result.Should().NotBeNull().And.BeOfType<UserDto>();
@@ -169,7 +205,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         public async Task GetByEmailAsync_WhenEntityNotExists_ThrowsNotFoundException(string email)
         {
             //Arrange
-            _mockUserRepository.Setup(x => 
+            _mockUserRepository.Setup(x =>
                     x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(value: null);
 
@@ -182,7 +218,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             //Assert
             await act.Should().ThrowAsync<NotFoundException>();
 
-            _mockUserRepository.Verify(x => 
+            _mockUserRepository.Verify(x =>
                 x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()), Times.Once);
         }
 
@@ -312,7 +348,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             //Assert
             _mockUserRepository.Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
             _mockUserRepository.Verify(x => x.DeleteAsync(It.IsAny<User>()), Times.Once);
-            _mockUserFollowersRepository.Verify(x => 
+            _mockUserFollowersRepository.Verify(x =>
                 x.DeleteRangeAsync(It.IsAny<List<UserFollowers>>()), Times.AtLeast(2));
 
             result.Should().BeTrue();

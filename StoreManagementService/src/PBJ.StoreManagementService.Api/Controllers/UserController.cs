@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.User;
 
 namespace PBJ.StoreManagementService.Api.Controllers
@@ -15,26 +16,31 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _userService = userService;
         }
 
-        [HttpGet, Route("{amount}")]
-        public async Task<ActionResult> GetAmountAsync(int amount)
+        [HttpGet, Route("paginated")]
+        public async Task<ActionResult> GetPaginatedAsync([FromQuery] PaginationRequestModel requestModel)
         {
-            var result = await _userService.GetAmountAsync(amount);
+            var result = await _userService
+                .GetPaginatedAsync(requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }
 
         [HttpGet, Route("followers")]
-        public async Task<ActionResult> GetFollowersAsync(int userId, int amount)
+        public async Task<ActionResult> GetFollowersAsync(int userId, 
+            [FromQuery] PaginationRequestModel requestModel)
         {
-            var result = await _userService.GetFollowersAsync(userId, amount);
+            var result = await _userService
+                .GetFollowersAsync(userId, requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }
 
         [HttpGet, Route("followings")]
-        public async Task<ActionResult> GetFollowingsAsync(int followerId, int amount)
+        public async Task<ActionResult> GetFollowingsAsync(int followerId, 
+            [FromQuery] PaginationRequestModel requestModel)
         {
-            var result = await _userService.GetFollowingsAsync(followerId, amount);
+            var result = await _userService
+                .GetFollowingsAsync(followerId, requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }
