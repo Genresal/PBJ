@@ -1,5 +1,9 @@
 ﻿using FluentValidation;
+using IdentityServer4.Events;
+using IdentityServer4.Extensions;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PBJ.AuthService.Api.RequestModels;
 using PBJ.AuthService.Business.Services.Abstract;
 
@@ -40,15 +44,17 @@ namespace PBJ.AuthService.Api.Controllers
                 return View(requestModel);
             }
 
-            var result = await _authorizationService
-                .LoginAsync(requestModel.Email, requestModel.Password!);
+            var authResult = await _authorizationService
+                .LoginAsync(requestModel.Email!, requestModel.Password!);
 
-            if (result.Succeeded)
+            if (!authResult.Success)
             {
-                return Redirect(requestModel.ReturnUrl);
+                ModelState.AddModelError(nameof(LoginRequestModel.Email), authResult.ErrorMessage!);
+
+                return View(requestModel);
             }
 
-            return View();
+            return Redirect(requestModel.ReturnUrl!);
         }
 
         [HttpGet, Route("register")]
@@ -70,15 +76,42 @@ namespace PBJ.AuthService.Api.Controllers
                 return View(requestModel);
             }
 
-            var result = await _authorizationService.RegisterAsync(requestModel.UserName,
+            var authResult = await _authorizationService.RegisterAsync(requestModel.UserName,
                 requestModel.Email, requestModel.Password);
 
-            if (result.Succeeded)
+            if (!authResult.Success)
             {
-                return Redirect(requestModel.ReturnUrl);
+                ModelState.AddModelError(nameof(LoginRequestModel.Email), authResult.ErrorMessage!);
+
+                return View(new RegisterRequestModel { ReturnUrl = requestModel.ReturnUrl });
             }
 
-            return View(new RegisterRequestModel { ReturnUrl = requestModel.ReturnUrl });
+            return Redirect(requestModel.ReturnUrl);
+        }
+
+        [HttpGet, Route("logout")]
+        public async Task<ActionResult> Logout(string logoutId)
+        {
+            var logoutResult = await _authorizationService.LogoutAsync(logoutId);
+
+            if (string.IsNullOrWhiteSpace(logoutResult.PostLogoutRedirectUri))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            return Redirect(logoutResult.PostLogoutRedirectUri);
+        }
+
+        [HttpPost, Route("logout")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> LogoutAsync()
+        {
+            if (User?.Identity.IsAuthenticated == true)
+            {
+                await HttpContext.SignOutAsync();
+            }
+
+            return Redirect("login");
         }
     }
 }

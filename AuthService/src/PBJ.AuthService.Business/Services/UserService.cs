@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using PBJ.AuthService.Business.Exceptions;
+using PBJ.AuthService.Business.Results;
 using PBJ.AuthService.Business.Services.Abstract;
 using PBJ.AuthService.DataAccess.Entities;
 using PBJ.AuthService.DataAccess.Enums;
@@ -16,19 +16,27 @@ namespace PBJ.AuthService.Business.Services
             _userManager = userManager;
         }
 
-        public async Task<AuthUser> GetUserAsync(string email)
+        public async Task<AuthResult<AuthUser>> GetUserAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
             {
-                throw new NotFoundException("User not found!");
+                return new AuthResult<AuthUser>
+                {
+                    Success = false,
+                    ErrorMessage = "The user is not registered yet!"
+                };
             }
 
-            return user;
+            return new AuthResult<AuthUser>
+            {
+                Success = true,
+                Result = user
+            };
         }
 
-        public async Task<AuthUser> CreateUserAsync(string userName, string email, string password)
+        public async Task<AuthResult<AuthUser>> CreateUserAsync(string userName, string email, string password)
         {
             var user = new AuthUser
             {
@@ -40,7 +48,11 @@ namespace PBJ.AuthService.Business.Services
 
             if (!creationResult.Succeeded)
             {
-                throw new NotFoundException("Bla bla");
+                return new AuthResult<AuthUser>
+                {
+                    Success = false,
+                    ErrorMessage = creationResult.Errors.First().Description
+                };
             }
 
             await _userManager.AddToRoleAsync(user, Role.User.ToString());
@@ -54,7 +66,11 @@ namespace PBJ.AuthService.Business.Services
                 new Claim(ClaimTypes.Role, role)
             });
 
-            return user;
+            return new AuthResult<AuthUser>
+            {
+                Success = true,
+                Result = user
+            };
         }
     }
 }

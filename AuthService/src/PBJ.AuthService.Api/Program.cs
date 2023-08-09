@@ -17,6 +17,7 @@ namespace PBJ.AuthService.Api
             builder.Services.AddAuthDbContext(builder.Configuration);
             builder.Services.SetupIdentity();
             builder.Services.SetupIdentityServer(builder.Configuration);
+            builder.Services.SetupIdentityServerCookie();
             builder.Services.InititalizeDatabase();
             builder.Services.AddValidations();
 

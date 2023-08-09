@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using FluentValidation;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PBJ.AuthService.Api.RequestModels;
@@ -34,8 +32,6 @@ namespace PBJ.AuthService.Api.Extensions
 
             services.AddIdentityServer(options =>
                 {
-                    options.UserInteraction.LoginUrl = "/auth/login";
-
                     options.Events.RaiseErrorEvents = true;
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
@@ -60,6 +56,16 @@ namespace PBJ.AuthService.Api.Extensions
                     };
                 })
                 .AddDeveloperSigningCredential();
+        }
+
+        public static void SetupIdentityServerCookie(this IServiceCollection services)
+        {
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/auth/login";
+                options.LogoutPath = "/auth/logout";
+                options.Cookie.Name = "IdentityServer.Cookies";
+            });
         }
 
         public static void AddValidations(this IServiceCollection services)
