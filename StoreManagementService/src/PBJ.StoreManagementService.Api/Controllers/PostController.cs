@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.Post;
 
 namespace PBJ.StoreManagementService.Api.Controllers
@@ -15,18 +16,20 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _postService = postService;
         }
 
-        [HttpGet, Route("{amount}")]
-        public async Task<ActionResult> GetAmountAsync(int amount)
+        [HttpGet, Route("paginated")]
+        public async Task<ActionResult> GetPaginatedAsync([FromQuery] PaginationRequestModel requestModel)
         {
-            var result = await _postService.GetAmountAsync(amount);
+            var result = await _postService
+                .GetPaginatedAsync(requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }
 
-        [HttpGet, Route("user")]
-        public async Task<ActionResult> GetUserPostsAsync(int userId, int amount)
+        [HttpGet, Route("userId")]
+        public async Task<ActionResult> GetByPostId(int userId, [FromQuery] PaginationRequestModel requestModel)
         {
-            var result = await _postService.GetUserPostsAsync(userId, amount);
+            var result = await _postService
+                .GetByUserIdAsync(userId, requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }
