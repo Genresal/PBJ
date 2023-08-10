@@ -26,7 +26,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            paginationResponseDto.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
+            paginationResponseDto!.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            paginationResponseDto.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
+            paginationResponseDto!.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
         }
 
         [Fact]
