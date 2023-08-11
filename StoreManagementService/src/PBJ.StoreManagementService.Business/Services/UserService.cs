@@ -6,6 +6,7 @@ using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.User;
+using Serilog;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -88,6 +89,8 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.CreateAsync(user);
 
+            Log.Information("Created user: {@user}", user);
+
             return _mapper.Map<UserDto>(user);
         }
 
@@ -105,6 +108,8 @@ namespace PBJ.StoreManagementService.Business.Services
             existingUser.Id = id;
 
             await _userRepository.UpdateAsync(existingUser);
+
+            Log.Information("Updated user: {@existingUser}", existingUser);
 
             return _mapper.Map<UserDto>(existingUser);
         }
@@ -124,6 +129,8 @@ namespace PBJ.StoreManagementService.Business.Services
             {
                 await _userFollowersRepository.DeleteRangeAsync(existingUser.Followings);
             }
+
+            Log.Information("Deleted user: {@existingUser}", existingUser);
 
             return true;
         }

@@ -6,6 +6,7 @@ using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 using PBJ.StoreManagementService.Models.Comment;
 using PBJ.StoreManagementService.Models.Pagination;
+using Serilog;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -55,6 +56,8 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _commentRepository.CreateAsync(comment);
 
+            Log.Information("Created comment: {@comment}", comment);
+
             return _mapper.Map<CommentDto>(comment);
         }
 
@@ -71,6 +74,8 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _commentRepository.UpdateAsync(existingComment);
 
+            Log.Information("Updated comment: {@existingComment}", existingComment);
+
             return _mapper.Map<CommentDto>(existingComment);
         }
 
@@ -79,6 +84,8 @@ namespace PBJ.StoreManagementService.Business.Services
             var existingComment = await _commentRepository.GetAsync(id);
 
             await _commentRepository.DeleteAsync(existingComment);
+
+            Log.Information("Deleted comment: {@existingComment}", existingComment);
 
             return true;
         }

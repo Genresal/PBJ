@@ -93,7 +93,8 @@ namespace PBJ.AuthService.Business.Extensions
                 {
                     new Claim(ClaimTypes.Email, admin.Email),
                     new Claim(ClaimTypes.Name, admin.UserName),
-                    new Claim(ClaimTypes.Role, Role.Admin.ToString())
+                    new Claim(ClaimTypes.Role, Role.Admin.ToString()),
+                    new Claim(ClaimTypes.Role, Role.User.ToString())
                 }).GetAwaiter().GetResult();
 
                 userManager.AddToRoleAsync(admin, Role.Admin.ToString()).GetAwaiter().GetResult();

@@ -54,8 +54,12 @@ namespace PBJ.AuthService.Business.Configurations
                     RequireClientSecret = false,
                     RequireConsent = false,
                     RequirePkce = false,
-                    RedirectUris = { "https://localhost:7107/signin-oidc" },
-                    PostLogoutRedirectUris = { "https://localhost:7107/signout-callback-oidc" },
+                    RedirectUris =
+                    {
+                        "https://localhost:7231/signin-oidc",
+                        "https://www.getpostman.com/oath2/callback"
+                    },
+                    PostLogoutRedirectUris = { "https://localhost:7231/signout-callback-oidc" },
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
                     AllowedScopes =

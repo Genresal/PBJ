@@ -126,7 +126,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             paginationResponseDto?.Items.Should().NotBeNull().And.AllSatisfy(x => x.Id.Should().Be(userFollower.UserId));
         }
 
-        [Theory, AutoData]
+        [Fact]
         public async Task GetFollowingsAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
