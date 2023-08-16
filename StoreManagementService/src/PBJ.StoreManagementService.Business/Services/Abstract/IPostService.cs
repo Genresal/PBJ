@@ -1,12 +1,13 @@
-﻿using PBJ.StoreManagementService.Models.Post;
+﻿using PBJ.StoreManagementService.Models.Pagination;
+using PBJ.StoreManagementService.Models.Post;
 
 namespace PBJ.StoreManagementService.Business.Services.Abstract
 {
     public interface IPostService
     {
-        Task<List<PostDto>> GetAmountAsync(int amount);
+        Task<PaginationResponseDto<PostDto>> GetPaginatedAsync(int page, int take);
 
-        Task<List<PostDto>> GetUserPostsAsync(int userId, int amount);
+        Task<PaginationResponseDto<PostDto>> GetByUserIdAsync(int userId, int page, int take);
 
         Task<PostDto> GetAsync(int id);
 

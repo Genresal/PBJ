@@ -1,38 +1,92 @@
 ﻿using AutoFixture;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
+using PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations;
 using PBJ.StoreManagementService.Models.Comment;
+using PBJ.StoreManagementService.Models.Pagination;
 using System.Net;
-using AutoFixture.Xunit2;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class CommentControllerTests : BaseControllerTest
     {
-        [Theory, AutoData]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
+        [Theory, CustomAutoData]
+        public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsOk(
+            PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
-
-            var (commentDtos, response) = await ExecuteWithFullResponseAsync<List<CommentDto>>(
-                $"{TestingConstants.CommentApi}/{amount}", HttpMethod.Get);
+            var (paginationResponseDto, response) =
+                await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
+                $"{TestingConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            commentDtos.Should().NotBeNull().And.AllBeOfType<CommentDto>();
+            paginationResponseDto!.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
         }
 
         [Fact]
-        public async Task GetAmountAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        public async Task GetPaginatedAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}/error", HttpMethod.Get);
+                $"{TestingConstants.CommentApi}/paginated?page={string.Empty}&take={string.Empty}",
+                HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetByPostIdAsync_WhenRequestIsValid_ReturnsOk(
+            PaginationRequestModel requestModel)
+        {
+            //Arrange
+            var comment = await _dataManager.CreateCommentAsync();
+
+            //Act
+            var (paginationResponseDto, response) =
+                await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
+                    $"{TestingConstants.CommentApi}/postId?postId={comment.PostId}&page={requestModel.Page}&take={requestModel.Take}",
+                    HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            paginationResponseDto?.Items.Should().AllSatisfy(x => x.PostId.Should().Be(comment.PostId));
+            paginationResponseDto?.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetByPostIdAsync_WhenPostIdIsZero_ReturnsOk(
+            PaginationRequestModel requestModel)
+        {
+            //Arrange
+            //Act
+            var (paginationResponseDto, response) =
+                await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
+                    $"{TestingConstants.CommentApi}/postId?postId={0}&page={requestModel.Page}&take={requestModel.Take}",
+                    HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            paginationResponseDto!.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
+        }
+
+        [Fact]
+        public async Task GetByPostIdAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.CommentApi}/postId?postId={string.Empty}&page={string.Empty}&take={string.Empty}",
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -127,10 +181,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var comment = await _dataManager.CreateCommentAsync();
 
-            var commentRequestModel = _fixture.Build<CreateCommentRequestModel>()
-                .With(x => x.UserId, comment.UserId)
-                .With(x => x.PostId, comment.PostId)
-                .Create();
+            var commentRequestModel = _fixture.Create<UpdateCommentRequestModel>();
 
             var requestBody = BuildRequestBody(commentRequestModel);
 
@@ -141,8 +192,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            commentDto?.UserId.Should().Be(commentRequestModel.UserId);
-            commentDto?.PostId.Should().Be(commentRequestModel.PostId);
+            commentDto?.Content.Should().NotBe(comment.Content);
         }
 
         [Fact]

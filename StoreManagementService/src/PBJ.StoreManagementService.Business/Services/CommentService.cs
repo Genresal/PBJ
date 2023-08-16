@@ -5,6 +5,7 @@ using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 using PBJ.StoreManagementService.Models.Comment;
+using PBJ.StoreManagementService.Models.Pagination;
 using Serilog;
 
 namespace PBJ.StoreManagementService.Business.Services
@@ -21,11 +22,20 @@ namespace PBJ.StoreManagementService.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<List<CommentDto>> GetAmountAsync(int amount)
+        public async Task<PaginationResponseDto<CommentDto>> GetPaginatedAsync(int page, int take)
         {
-            var comments = await _commentRepository.GetAmountAsync(amount);
+            var paginationResponse = await _commentRepository.GetPaginatedAsync(
+                page, take, orderBy: x => x.Id);
 
-            return _mapper.Map<List<CommentDto>>(comments);
+            return _mapper.Map<PaginationResponseDto<CommentDto>>(paginationResponse);
+        }
+
+        public async Task<PaginationResponseDto<CommentDto>> GetByPostIdAsync(int postId, int page, int take)
+        {
+            var paginationResponse = await _commentRepository.GetPaginatedAsync<int>(
+                page, take, where: x => x.PostId == postId, orderBy: x => x.Id);
+
+            return _mapper.Map<PaginationResponseDto<CommentDto>>(paginationResponse);
         }
 
         public async Task<CommentDto> GetAsync(int id)

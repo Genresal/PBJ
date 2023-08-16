@@ -4,6 +4,7 @@ using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.Post;
 using Serilog;
 
@@ -21,18 +22,20 @@ namespace PBJ.StoreManagementService.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<List<PostDto>> GetAmountAsync(int amount)
+        public async Task<PaginationResponseDto<PostDto>> GetPaginatedAsync(int page, int take)
         {
-            var posts = await _postRepository.GetAmountAsync(amount);
+            var paginationResponse = await _postRepository.GetPaginatedAsync(
+                page, take, orderBy: x => x.Id);
 
-            return _mapper.Map<List<PostDto>>(posts);
+            return _mapper.Map<PaginationResponseDto<PostDto>>(paginationResponse);
         }
 
-        public async Task<List<PostDto>> GetUserPostsAsync(int userId, int amount)
+        public async Task<PaginationResponseDto<PostDto>> GetByUserIdAsync(int userId, int page, int take)
         {
-            var posts = await _postRepository.GetUserPostsAsync(userId, amount);
+            var paginationResponse = await _postRepository.GetPaginatedAsync(
+                page, take, where: x => x.UserId == userId, orderBy: x => x.Id);
 
-            return _mapper.Map<List<PostDto>>(posts);
+            return _mapper.Map<PaginationResponseDto<PostDto>>(paginationResponse);
         }
 
         public async Task<PostDto> GetAsync(int id)

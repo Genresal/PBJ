@@ -1,14 +1,15 @@
-﻿using PBJ.StoreManagementService.Models.User;
+﻿using PBJ.StoreManagementService.Models.Pagination;
+using PBJ.StoreManagementService.Models.User;
 
 namespace PBJ.StoreManagementService.Business.Services.Abstract
 {
     public interface IUserService
     {
-        Task<List<UserDto>> GetAmountAsync(int amount);
+        Task<PaginationResponseDto<UserDto>> GetPaginatedAsync(int page, int take);
 
-        Task<List<UserDto>> GetFollowersAsync(int userId, int amount);
+        Task<PaginationResponseDto<UserDto>> GetFollowersAsync(int userId, int page, int take);
 
-        Task<List<UserDto>> GetFollowingsAsync(int userId, int amount);
+        Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(int userId, int page, int take);
 
         Task<UserDto> GetAsync(int id);
 

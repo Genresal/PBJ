@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using PBJ.StoreManagementService.Business.Exceptions;
@@ -8,8 +7,9 @@ using PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfigurations;
 using PBJ.StoreManagementService.Business.UnitTests.ServiceTests.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
-using PBJ.StoreManagementService.Models.Comment;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.Post;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
@@ -24,53 +24,76 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
         [Theory, AutoMockData]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsListOfDto(int amount,
-            List<Post> posts,
-            List<PostDto> postDtos)
+        public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsListOfDto(
+            int page,
+            int take,
+            PaginationResponse<Post> response,
+            PaginationResponseDto<PostDto> responseDto)
         {
             //Arrange
-            _mockPostRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
-                .ReturnsAsync(posts);
+            _mockPostRepository.Setup(x => x.GetPaginatedAsync(It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<Expression<Func<Post, bool>>>(),
+                    It.IsAny<Expression<Func<Post, int>>>(),
+                    It.IsAny<bool>()))
+                .ReturnsAsync(response);
 
-            _mockMapper.Setup(x => x.Map<List<PostDto>>(It.IsAny<List<Post>>()))
-                .Returns(postDtos);
+            _mockMapper.Setup(x => x.Map<PaginationResponseDto<PostDto>>(
+                    It.IsAny<PaginationResponse<Post>>()))
+                .Returns(responseDto);
 
             var postService = new PostService(_mockPostRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await postService.GetAmountAsync(amount);
+            var result = await postService.GetPaginatedAsync(page, take);
 
             //Assert
             _mockPostRepository
-                .Verify(x => x.GetAmountAsync(It.IsAny<int>()), Times.Once);
+                .Verify(x => x.GetPaginatedAsync(It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<Expression<Func<Post, bool>>>(),
+                    It.IsAny<Expression<Func<Post, int>>>(),
+                    It.IsAny<bool>()), Times.Once);
 
-            result.Should().BeOfType<List<PostDto>>().And.AllBeOfType<PostDto>();
+            result.Should().NotBeNull();
+            result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<PostDto>>();
         }
 
         [Theory, AutoMockData]
-        public async Task GetUserPostsAsync_WhenRequestIsValid_ReturnsListOfDto(int userId,
-            int amount,
-            List<Post> posts,
-            List<PostDto> postDtos)
+        public async Task GetByUserIdAsync_WhenRequestIsValid_ReturnsListOfDto(int userId,
+            int page,
+            int take,
+            PaginationResponse<Post> response,
+            PaginationResponseDto<PostDto> responseDto)
         {
             //Arrange
             _mockPostRepository.Setup(x =>
-                    x.GetUserPostsAsync(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(posts);
+                    x.GetPaginatedAsync(It.IsAny<int>(),
+                        It.IsAny<int>(),
+                        It.IsAny<Expression<Func<Post, bool>>>(),
+                        It.IsAny<Expression<Func<Post, int>>>(),
+                        It.IsAny<bool>()))
+                .ReturnsAsync(response);
 
-            _mockMapper.Setup(x => x.Map<List<PostDto>>(It.IsAny<List<Post>>()))
-                .Returns(postDtos);
+            _mockMapper.Setup(x => x.Map<PaginationResponseDto<PostDto>>(
+                    It.IsAny<PaginationResponse<Post>>()))
+                .Returns(responseDto);
 
             var postService = new PostService(_mockPostRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await postService.GetUserPostsAsync(userId, amount);
+            var result = await postService.GetByUserIdAsync(userId, page, take);
 
             //Assert
-            _mockPostRepository.Verify(x => 
-                    x.GetUserPostsAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            _mockPostRepository.Verify(x =>
+                    x.GetPaginatedAsync(It.IsAny<int>(),
+                        It.IsAny<int>(),
+                        It.IsAny<Expression<Func<Post, bool>>>(),
+                        It.IsAny<Expression<Func<Post, int>>>(),
+                        It.IsAny<bool>()), Times.Once);
 
-            result.Should().NotBeNull().And.BeOfType<List<PostDto>>();
+            result.Should().NotBeNull();
+            result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<PostDto>>();
         }
 
         [Theory, AutoMockData]
