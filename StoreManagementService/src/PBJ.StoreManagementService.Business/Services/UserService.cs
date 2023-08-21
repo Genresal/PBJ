@@ -4,7 +4,9 @@ using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.User;
+using Serilog;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -23,25 +25,30 @@ namespace PBJ.StoreManagementService.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<List<UserDto>> GetAmountAsync(int amount)
+        public async Task<PaginationResponseDto<UserDto>> GetPaginatedAsync(int page, int take)
         {
-            var users = await _userRepository.GetAmountAsync(amount);
+            var paginationResponse = await _userRepository
+                .GetPaginatedAsync(page, take, orderBy: x => x.Id);
 
-            return _mapper.Map<List<UserDto>>(users);
+            return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
         }
 
-        public async Task<List<UserDto>> GetFollowersAsync(int userId, int amount)
+        public async Task<PaginationResponseDto<UserDto>> GetFollowersAsync(int userId, int page, int take)
         {
-            var followers = await _userRepository.GetFollowersAsync(userId, amount);
+            var paginationResponse = await _userRepository.GetPaginatedAsync(page, take, 
+                where: x => x.Followings!.Any(uf => uf.UserId == userId),
+                orderBy: x => x.Id);
 
-            return _mapper.Map<List<UserDto>>(followers);
+            return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
         }
 
-        public async Task<List<UserDto>> GetFollowingsAsync(int followerId, int amount)
+        public async Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(int followerId, int page, int take)
         {
-            var followers = await _userRepository.GetFollowingsAsync(followerId, amount);
+            var paginationResponse = await _userRepository.GetPaginatedAsync(page, take,
+                where: x => x.Followers!.Any(uf => uf.FollowerId == followerId),
+                orderBy: x => x.Id);
 
-            return _mapper.Map<List<UserDto>>(followers);
+            return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
         }
 
         public async Task<UserDto> GetAsync(int id)
@@ -82,6 +89,8 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userRepository.CreateAsync(user);
 
+            Log.Information("Created user: {@user}", user);
+
             return _mapper.Map<UserDto>(user);
         }
 
@@ -99,6 +108,8 @@ namespace PBJ.StoreManagementService.Business.Services
             existingUser.Id = id;
 
             await _userRepository.UpdateAsync(existingUser);
+
+            Log.Information("Updated user: {@existingUser}", existingUser);
 
             return _mapper.Map<UserDto>(existingUser);
         }
@@ -118,6 +129,8 @@ namespace PBJ.StoreManagementService.Business.Services
             {
                 await _userFollowersRepository.DeleteRangeAsync(existingUser.Followings);
             }
+
+            Log.Information("Deleted user: {@existingUser}", existingUser);
 
             return true;
         }

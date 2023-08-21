@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PBJ.StoreManagementService.DataAccess.Context;
+﻿using PBJ.StoreManagementService.DataAccess.Context;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 
@@ -10,11 +9,5 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         public PostRepository(DatabaseContext databaseContext)
             : base(databaseContext)
         { }
-
-        public async Task<List<Post>> GetUserPostsAsync(int userId, int amount)
-        {
-            return await _databaseContext.Posts.Include(x => x.Comments)
-                .Where(x => x.UserId == userId).Take(amount).ToListAsync();
-        }
     }
 }

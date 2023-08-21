@@ -1,5 +1,4 @@
 using AutoFixture;
-using Azure;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using PBJ.StoreManagementService.Api.IntegrationTests.Configuration;
