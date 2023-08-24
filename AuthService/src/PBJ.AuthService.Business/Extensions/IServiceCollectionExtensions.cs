@@ -97,6 +97,7 @@ namespace PBJ.AuthService.Business.Extensions
                 }).GetAwaiter().GetResult();
 
                 userManager.AddToRoleAsync(admin, Role.Admin.ToString()).GetAwaiter().GetResult();
+                userManager.AddToRoleAsync(user, Role.User.ToString());
             }
         }
     }

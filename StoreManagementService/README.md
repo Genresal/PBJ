@@ -1,2 +1,0 @@
-# PBJ
-Personal blog jornal

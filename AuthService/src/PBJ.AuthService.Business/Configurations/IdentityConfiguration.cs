@@ -1,9 +1,7 @@
-﻿using System.Security.Claims;
 using IdentityServer4;
 using IdentityServer4.Models;
 using PBJ.AuthService.DataAccess.Entities;
 using PBJ.AuthService.DataAccess.Enums;
-using static System.Net.WebRequestMethods;
 
 namespace PBJ.AuthService.Business.Configurations
 {

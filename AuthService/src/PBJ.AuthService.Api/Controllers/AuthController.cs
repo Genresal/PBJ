@@ -89,7 +89,7 @@ namespace PBJ.AuthService.Api.Controllers
         [HttpGet, Route("logout")]
         public async Task<ActionResult> LogoutAsync()
         {
-            if (User?.Identity!.IsAuthenticated == true)
+            if (User.Identity!.IsAuthenticated)
             {
                 await HttpContext.SignOutAsync();
             }
