@@ -1,3 +1,7 @@
+using PBJ.AuthService.Api.Extensions;
+using PBJ.AuthService.Business.Extensions;
+using PBJ.AuthService.DataAccess.Extensions;
+
 namespace PBJ.AuthService.Api
 {
     public class Program
@@ -7,7 +11,11 @@ namespace PBJ.AuthService.Api
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();
-
+            
+            builder.Services.AddAuthDbContext(builder.Configuration);
+            builder.Services.SetupIdentity();
+            builder.Services.SetupIdentityServer(builder.Configuration);
+            builder.Services.InititalizeDatabase();
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
@@ -21,7 +29,11 @@ namespace PBJ.AuthService.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
+          
             app.UseAuthorization();
+
+            app.UseIdentityServer();
 
             app.MapDefaultControllerRoute();
 
