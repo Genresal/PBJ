@@ -31,35 +31,35 @@ namespace PBJ.AuthService.Api.Extensions
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddIdentityServer(options =>
-                {
-                    options.UserInteraction.LoginUrl = "/auth/sign-in";
+            {
+                options.UserInteraction.LoginUrl = "/auth/login";
 
                     options.Events.RaiseErrorEvents = true;
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
-                })
-                .AddAspNetIdentity<AuthUser>()
-                .AddProfileService<ProfileService>()
-                .AddConfigurationStore<AuthDbContext>(options =>
+            })
+            .AddAspNetIdentity<AuthUser>()
+            .AddProfileService<ProfileService>()
+            .AddConfigurationStore<AuthDbContext>(options =>
+            {
+                options.ConfigureDbContext = builder =>
                 {
-                    options.ConfigureDbContext = builder =>
-                    {
-                        builder.UseSqlServer(connectionString);
-                        builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                    };
-                })
-                .AddOperationalStore<AuthDbContext>(options =>
+                    builder.UseSqlServer(connectionString);
+                    builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                };
+            })
+            .AddOperationalStore<AuthDbContext>(options =>
+            {
+                options.ConfigureDbContext = builder =>
                 {
-                    options.ConfigureDbContext = builder =>
-                    {
-                        builder.UseSqlServer(connectionString);
-                        builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                        options.EnableTokenCleanup = true;
-                        options.TokenCleanupInterval = 3600;
-                    };
-                })
-                .AddDeveloperSigningCredential();
+                    builder.UseSqlServer(connectionString);
+                    builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                    options.EnableTokenCleanup = true;
+                    options.TokenCleanupInterval = 3600;
+                };
+            })
+            .AddDeveloperSigningCredential();
         }
 
         public static void SetupIdentityServerCookie(this IServiceCollection services)
