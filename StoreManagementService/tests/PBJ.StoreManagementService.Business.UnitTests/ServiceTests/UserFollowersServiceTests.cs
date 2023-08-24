@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Linq.Expressions;
+using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -8,6 +9,7 @@ using PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfigurations;
 using PBJ.StoreManagementService.Business.UnitTests.ServiceTests.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.UserFollowers;
 using Xunit;
 
@@ -23,26 +25,40 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
         [Theory, AutoMockData]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsListOfDto(int amount,
-            List<UserFollowers> userFollowers,
-            List<UserFollowersDto> userFollowersDtos)
+        public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsListOfDto(
+            int page,
+            int take,
+            PaginationResponse<UserFollowers> response,
+            PaginationResponseDto<UserFollowersDto> responseDto)
         {
             //Arrange
-            _mockUserFollowersRepository.Setup(x => x.GetAmountAsync(It.IsAny<int>()))
-                .ReturnsAsync(userFollowers);
+            _mockUserFollowersRepository.Setup(x =>
+                    x.GetPaginatedAsync(It.IsAny<int>(), 
+                        It.IsAny<int>(),
+                        It.IsAny<Expression<Func<UserFollowers, bool>>>(),
+                    It.IsAny<Expression<Func<UserFollowers, int>>>(), 
+                        It.IsAny<bool>()))
+                .ReturnsAsync(response);
 
-            _mockMapper.Setup(x => x.Map<List<UserFollowersDto>>(userFollowers)).Returns(userFollowersDtos);
+            _mockMapper.Setup(x => 
+                x.Map<PaginationResponseDto<UserFollowersDto>>(It.IsAny<PaginationResponse<UserFollowers>>()))
+                .Returns(responseDto);
 
             var userFollowersService = new UserFollowersService(_mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await userFollowersService.GetAmountAsync(amount);
+            var result = await userFollowersService.GetPaginatedAsync(page, take);
 
             //Assert
             _mockUserFollowersRepository
-                .Verify(x => x.GetAmountAsync(It.IsAny<int>()), Times.Once);
+                .Verify(x => x.GetPaginatedAsync(It.IsAny<int>(), 
+                    It.IsAny<int>(),
+                    It.IsAny<Expression<Func<UserFollowers, bool>>>(),
+                    It.IsAny<Expression<Func<UserFollowers, int>>>(), 
+                    It.IsAny<bool>()), Times.Once);
 
-            result.Should().BeOfType<List<UserFollowersDto>>();
+            result.Should().NotBeNull();
+            result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserFollowersDto>>();
         }
 
         [Theory, AutoMockData]

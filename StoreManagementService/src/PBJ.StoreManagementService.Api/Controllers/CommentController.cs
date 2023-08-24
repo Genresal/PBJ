@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.Comment;
+using PBJ.StoreManagementService.Models.Pagination;
 
 namespace PBJ.StoreManagementService.Api.Controllers
 {
@@ -15,10 +16,20 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet, Route("{amount}")]
-        public async Task<ActionResult> GetAmountAsync(int amount)
+        [HttpGet, Route("paginated")]
+        public async Task<ActionResult> GetPaginatedAsync([FromQuery] PaginationRequestModel requestModel)
         {
-            var result = await _commentService.GetAmountAsync(amount);
+            var result = await _commentService
+                .GetPaginatedAsync(requestModel.Page, requestModel.Take);
+
+            return Ok(result);
+        }
+
+        [HttpGet, Route("postId")]
+        public async Task<ActionResult> GetByPostId(int postId, [FromQuery] PaginationRequestModel requestModel)
+        {
+            var result = await _commentService
+                .GetByPostIdAsync(postId, requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }

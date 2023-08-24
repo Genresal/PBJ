@@ -1,4 +1,5 @@
-﻿using PBJ.StoreManagementService.DataAccess.Entities.Abstract;
+﻿using PBJ.StoreManagementService.DataAccess.Entities;
+using PBJ.StoreManagementService.DataAccess.Entities.Abstract;
 using System.Linq.Expressions;
 
 namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
@@ -6,7 +7,9 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
     public interface IRepository<TEntity>
         where TEntity : BaseEntity
     {
-        Task<List<TEntity>> GetAmountAsync(int amount);
+        Task<PaginationResponse<TEntity>> GetPaginatedAsync<TProperty>(int page, int take,
+            Expression<Func<TEntity, bool>>? where = null,
+            Expression<Func<TEntity, TProperty>>? orderBy = null, bool acsOrder = true);
 
         Task<TEntity?> GetAsync(int id);
 

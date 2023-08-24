@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using AutoFixture.Kernel;
+﻿using AutoFixture.Kernel;
 using System.Reflection;
 
 namespace PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfigurations

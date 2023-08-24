@@ -4,7 +4,9 @@ using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.UserFollowers;
+using Serilog;
 
 namespace PBJ.StoreManagementService.Business.Services
 {
@@ -20,11 +22,12 @@ namespace PBJ.StoreManagementService.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<List<UserFollowersDto>> GetAmountAsync(int amount)
+        public async Task<PaginationResponseDto<UserFollowersDto>> GetPaginatedAsync(int page, int take)
         {
-            var userFollowers = await _userFollowersRepository.GetAmountAsync(amount);
+            var paginationResponse = await _userFollowersRepository
+                .GetPaginatedAsync(page, take, orderBy: x => x.Id);
 
-            return _mapper.Map<List<UserFollowersDto>>(userFollowers);
+            return _mapper.Map<PaginationResponseDto<UserFollowersDto>>(paginationResponse);
         }
 
         public async Task<UserFollowersDto> GetAsync(int id)
@@ -45,6 +48,8 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _userFollowersRepository.CreateAsync(userFollower);
 
+            Log.Information("Created userFollower: {@userFollower}", userFollower);
+
             return _mapper.Map<UserFollowersDto>(userFollower);
         }
 
@@ -53,6 +58,8 @@ namespace PBJ.StoreManagementService.Business.Services
             var existingUserFollower = await _userFollowersRepository.GetAsync(id);
 
             await _userFollowersRepository.DeleteAsync(existingUserFollower);
+
+            Log.Information("Deleted userFollower: {@existingUserFollower}", existingUserFollower);
 
             return true;
         }

@@ -1,8 +1,9 @@
 ﻿using AutoFixture;
-using AutoFixture.Xunit2;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
+using PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.UserFollowers;
 using System.Net;
 using Xunit;
@@ -11,28 +12,31 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class UserFollowersControllerTests : BaseControllerTest
     {
-        [Theory, AutoData]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
+        [Theory, CustomAutoData]
+        public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsOk(
+            PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
-            var (userFollowersDtos, response) =
-                await ExecuteWithFullResponseAsync<List<UserFollowersDto>>(
-                $"{TestingConstants.UserFollowersApi}/{amount}", HttpMethod.Get);
+            var (paginationResponseDto, response) =
+                await ExecuteWithFullResponseAsync<PaginationResponseDto<UserFollowersDto>>(
+                $"{TestingConstants.UserFollowersApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            userFollowersDtos.Should().NotBeNull().And.AllBeOfType<UserFollowersDto>();
+            paginationResponseDto?.Items.Should().NotBeNull().And.
+                BeAssignableTo<IEnumerable<UserFollowersDto>>();
         }
 
         [Fact]
-        public async Task GetAmountAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        public async Task GetPaginatedAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserFollowersApi}/error", HttpMethod.Get);
+                $"{TestingConstants.UserFollowersApi}/paginated?page={string.Empty}&take={string.Empty}",
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

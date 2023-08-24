@@ -17,6 +17,7 @@ namespace PBJ.StoreManagementService.Api
             builder.Services.AddAutoMapper();
             builder.Services.AddNewtonsoftJson();
             builder.Services.AddValidators();
+            builder.Services.BuildSerilog();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +26,7 @@ namespace PBJ.StoreManagementService.Api
             var app = builder.Build();
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+            app.UseMiddleware<LoggingMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {

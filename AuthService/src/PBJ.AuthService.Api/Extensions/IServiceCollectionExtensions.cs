@@ -34,10 +34,10 @@ namespace PBJ.AuthService.Api.Extensions
             {
                 options.UserInteraction.LoginUrl = "/auth/login";
 
-                    options.Events.RaiseErrorEvents = true;
-                    options.Events.RaiseInformationEvents = true;
-                    options.Events.RaiseFailureEvents = true;
-                    options.Events.RaiseSuccessEvents = true;
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
             })
             .AddAspNetIdentity<AuthUser>()
             .AddProfileService<ProfileService>()

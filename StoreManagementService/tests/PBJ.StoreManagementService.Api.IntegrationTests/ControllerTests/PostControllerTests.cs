@@ -1,94 +1,90 @@
 ﻿using AutoFixture;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
+using PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations;
+using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.Post;
 using System.Net;
-using AutoFixture.Xunit2;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class PostControllerTests : BaseControllerTest
     {
-        [Theory, AutoData]
-        public async Task GetAmountAsync_WhenRequestIsValid_ReturnsOk(int amount)
+        [Theory, CustomAutoData]
+        public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsOk(
+            PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
-            var (postDtos, response) = await ExecuteWithFullResponseAsync<List<PostDto>>(
-                $"{TestingConstants.PostApi}/{amount}", HttpMethod.Get);
+            var (paginationResponseDto, response) =
+                await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
+                $"{TestingConstants.PostApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            postDtos.Should().NotBeNull().And.AllBeOfType<PostDto>();
+            paginationResponseDto.Should().NotBeNull();
+            paginationResponseDto?.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<PostDto>>();
         }
 
         [Fact]
-        public async Task GetAmountAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        public async Task GetPaginatedAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}/error", HttpMethod.Get);
+                $"{TestingConstants.PostApi}/paginated?page={0}&take={string.Empty}",
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory, AutoData]
-        public async Task GetUserPostsAsync_WhenRequestIsValid_ReturnsOk(int amount)
+        [Theory, CustomAutoData]
+        public async Task GetByUserIdAsync_WhenRequestIsValid_ReturnsOk(
+            PaginationRequestModel requestModel)
         {
             //Arrange
             var post = await _dataManager.CreatePostAsync();
 
             //Act
-            var (postDtos, response) = await ExecuteWithFullResponseAsync<List<PostDto>>(
-                $"{TestingConstants.PostApi}/user?userId={post.UserId}&amount={amount}",
+            var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
+                $"{TestingConstants.PostApi}/userId?userId={post.UserId}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            postDtos.Should().NotBeNull().And.AllBeOfType<PostDto>();
-            postDtos?.ForEach(x => x.UserId.Should().Be(post.UserId));
+            paginationResponseDto?.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<PostDto>>();
+            paginationResponseDto?.Items.Should().AllSatisfy(x => x.UserId.Should().Be(post.UserId));
         }
 
-        [Theory, AutoData]
-        public async Task GetUserPostsAsync_WhenUserIdIsZero_ReturnsOK(int amount)
+        [Theory, CustomAutoData]
+        public async Task GetByUserIdAsync_WhenUserIdIsZero_ReturnsOK(
+            PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
-            var (postDtos, response) = await ExecuteWithFullResponseAsync<List<PostDto>>(
-                $"{TestingConstants.PostApi}/user?userId={0}&amount={amount}", HttpMethod.Get);
+            var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
+                $"{TestingConstants.PostApi}/userId?userId={0}&page={requestModel.Page}&take={requestModel.Take}",
+                HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            postDtos.Should().NotBeNull().And.HaveCount(0);
-        }
-
-        [Theory, AutoData]
-        public async Task GetUserPostsAsync_WhenUserIdIsNotValid_ReturnsBadRequest(int amount)
-        {
-            //Arrange
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}/user?userId={string.Empty}&amount={amount}",
-                HttpMethod.Get);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            paginationResponseDto?.Items.Should().NotBeNull().And.HaveCount(0);
         }
 
         [Fact]
-        public async Task GetUserPostsAsync_WhenAmountIsNotValid_ReturnsBadRequest()
+        public async Task GetByUserIdAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}/user?userId={1}&amount={string.Empty}", 
+                $"{TestingConstants.PostApi}/userId?userId={0}&page={0}&take={string.Empty}",
                 HttpMethod.Get);
 
             //Assert
@@ -102,7 +98,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var post = await _dataManager.CreatePostAsync();
 
             //Act
-            var (postDto, response) = 
+            var (postDto, response) =
                 await ExecuteWithFullResponseAsync<PostDto>($"{TestingConstants.PostApi}?id={post.Id}",
                     HttpMethod.Get);
 
@@ -192,7 +188,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            postDto?.UserId.Should().Be(post.UserId);
+            postDto?.Content.Should().NotBe(post.Content);
         }
 
         [Fact]
@@ -235,7 +231,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var post = await _dataManager.CreatePostAsync();
 
             //Act
-            var response = 
+            var response =
                 await ExecuteWithStatusCodeAsync($"{TestingConstants.PostApi}?id={post.Id}",
                     HttpMethod.Delete);
 
@@ -248,7 +244,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = 
+            var response =
                 await ExecuteWithStatusCodeAsync($"{TestingConstants.PostApi}?id={0}", HttpMethod.Delete);
 
             //Assert

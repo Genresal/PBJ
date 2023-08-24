@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.DataAccess", "src\PBJ.AuthService.DataAccess\PBJ.AuthService.DataAccess.csproj", "{2F2126F2-CB47-427D-8D0C-7624D4FC834A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Api", "src\PBJ.AuthService.Api\PBJ.AuthService.Api.csproj", "{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Business", "src\PBJ.AuthService.Business\PBJ.AuthService.Business.csproj", "{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Business", "src\PBJ.AuthService.Business\PBJ.AuthService.Business.csproj", "{0EFE64F8-CC26-421F-9C02-1D9DB5096453}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Api", "src\PBJ.AuthService.Api\PBJ.AuthService.Api.csproj", "{80E83359-1470-44A1-B900-C9F07D058E5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.DataAccess", "src\PBJ.AuthService.DataAccess\PBJ.AuthService.DataAccess.csproj", "{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2F2126F2-CB47-427D-8D0C-7624D4FC834A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F2126F2-CB47-427D-8D0C-7624D4FC834A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F2126F2-CB47-427D-8D0C-7624D4FC834A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F2126F2-CB47-427D-8D0C-7624D4FC834A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80E83359-1470-44A1-B900-C9F07D058E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80E83359-1470-44A1-B900-C9F07D058E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80E83359-1470-44A1-B900-C9F07D058E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80E83359-1470-44A1-B900-C9F07D058E5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EFE64F8-CC26-421F-9C02-1D9DB5096453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EFE64F8-CC26-421F-9C02-1D9DB5096453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EFE64F8-CC26-421F-9C02-1D9DB5096453}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EFE64F8-CC26-421F-9C02-1D9DB5096453}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
