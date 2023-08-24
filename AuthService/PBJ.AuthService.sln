@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Business", "src\PBJ.AuthService.Business\PBJ.AuthService.Business.csproj", "{4807C6C3-DD25-4ADC-AB3E-3B3A24196194}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.DataAccess", "src\PBJ.AuthService.DataAccess\PBJ.AuthService.DataAccess.csproj", "{2F2126F2-CB47-427D-8D0C-7624D4FC834A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Api", "src\PBJ.AuthService.Api\PBJ.AuthService.Api.csproj", "{949F7AB2-2A4D-4904-8C3C-FDFCD403B333}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Business", "src\PBJ.AuthService.Business\PBJ.AuthService.Business.csproj", "{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Api", "src\PBJ.AuthService.Api\PBJ.AuthService.Api.csproj", "{E6B9D457-6C5A-4AA9-A646-DFA68AAF57BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4807C6C3-DD25-4ADC-AB3E-3B3A24196194}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4807C6C3-DD25-4ADC-AB3E-3B3A24196194}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4807C6C3-DD25-4ADC-AB3E-3B3A24196194}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4807C6C3-DD25-4ADC-AB3E-3B3A24196194}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F2126F2-CB47-427D-8D0C-7624D4FC834A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F2126F2-CB47-427D-8D0C-7624D4FC834A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F2126F2-CB47-427D-8D0C-7624D4FC834A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F2126F2-CB47-427D-8D0C-7624D4FC834A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{949F7AB2-2A4D-4904-8C3C-FDFCD403B333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{949F7AB2-2A4D-4904-8C3C-FDFCD403B333}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{949F7AB2-2A4D-4904-8C3C-FDFCD403B333}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{949F7AB2-2A4D-4904-8C3C-FDFCD403B333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{381FC612-B6AD-4D5C-BB3B-3F48202BE7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6B9D457-6C5A-4AA9-A646-DFA68AAF57BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6B9D457-6C5A-4AA9-A646-DFA68AAF57BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6B9D457-6C5A-4AA9-A646-DFA68AAF57BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6B9D457-6C5A-4AA9-A646-DFA68AAF57BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

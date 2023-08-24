@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PBJ.AuthService.Api.RequestModels;
@@ -22,8 +22,8 @@ namespace PBJ.AuthService.Api.Extensions
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 4;
             })
-                .AddEntityFrameworkStores<AuthDbContext>()
-                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<AuthDbContext>()
+            .AddDefaultTokenProviders();
         }
 
         public static void SetupIdentityServer(this IServiceCollection services, IConfiguration configuration)
@@ -32,6 +32,8 @@ namespace PBJ.AuthService.Api.Extensions
 
             services.AddIdentityServer(options =>
                 {
+                    options.UserInteraction.LoginUrl = "/auth/sign-in";
+
                     options.Events.RaiseErrorEvents = true;
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
@@ -44,6 +46,7 @@ namespace PBJ.AuthService.Api.Extensions
                     options.ConfigureDbContext = builder =>
                     {
                         builder.UseSqlServer(connectionString);
+                        builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                     };
                 })
                 .AddOperationalStore<AuthDbContext>(options =>
@@ -51,6 +54,7 @@ namespace PBJ.AuthService.Api.Extensions
                     options.ConfigureDbContext = builder =>
                     {
                         builder.UseSqlServer(connectionString);
+                        builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                         options.EnableTokenCleanup = true;
                         options.TokenCleanupInterval = 3600;
                     };
