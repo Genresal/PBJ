@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
-using IdentityServer4.Events;
-using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PBJ.AuthService.Api.RequestModels;
 using PBJ.AuthService.Business.Services.Abstract;
 
@@ -90,25 +87,16 @@ namespace PBJ.AuthService.Api.Controllers
         }
 
         [HttpGet, Route("logout")]
-        public async Task<ActionResult> Logout(string logoutId)
-        {
-            var logoutResult = await _authorizationService.LogoutAsync(logoutId);
-
-            if (string.IsNullOrWhiteSpace(logoutResult.PostLogoutRedirectUri))
-            {
-                return RedirectToAction("Login", "Auth");
-            }
-
-            return Redirect(logoutResult.PostLogoutRedirectUri);
-        }
-
-        [HttpPost, Route("logout")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> LogoutAsync()
         {
-            if (User?.Identity.IsAuthenticated == true)
+            if (User?.Identity!.IsAuthenticated == true)
             {
                 await HttpContext.SignOutAsync();
+            }
+
+            foreach (string cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
             }
 
             return Redirect("login");

@@ -1,6 +1,4 @@
-﻿using IdentityServer4.Models;
-using IdentityServer4.Services;
-using Microsoft.AspNetCore.Http;
+﻿using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using PBJ.AuthService.Business.Results;
 using PBJ.AuthService.Business.Services.Abstract;
@@ -12,15 +10,12 @@ namespace PBJ.AuthService.Business.Services
     {
         private readonly SignInManager<AuthUser> _signInManager;
         private readonly IUserService _userService;
-        private readonly IIdentityServerInteractionService _interactionService;
 
         public AuthorizationService(SignInManager<AuthUser> signInManager,
-            IUserService userService,
-            IIdentityServerInteractionService interactionService)
+            IUserService userService)
         {
             _signInManager = signInManager;
             _userService = userService;
-            _interactionService = interactionService;
         }
 
         public async Task<AuthResult<SignInResult>> LoginAsync(string email, string password)
@@ -65,16 +60,6 @@ namespace PBJ.AuthService.Business.Services
                 Success = true,
                 Result = signInResult
             };
-        }
-
-
-        public async Task<LogoutRequest> LogoutAsync(string logoutId)
-        {
-            await _signInManager.SignOutAsync();
-
-            var logoutResult = await _interactionService.GetLogoutContextAsync(logoutId);
-
-            return logoutResult;
         }
     }
 }
