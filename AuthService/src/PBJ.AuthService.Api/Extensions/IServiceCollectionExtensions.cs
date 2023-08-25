@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PBJ.AuthService.Api.RequestModels;
@@ -22,8 +22,8 @@ namespace PBJ.AuthService.Api.Extensions
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 4;
             })
-                .AddEntityFrameworkStores<AuthDbContext>()
-                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<AuthDbContext>()
+            .AddDefaultTokenProviders();
         }
 
         public static void SetupIdentityServer(this IServiceCollection services, IConfiguration configuration)
@@ -31,31 +31,35 @@ namespace PBJ.AuthService.Api.Extensions
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddIdentityServer(options =>
+            {
+                options.UserInteraction.LoginUrl = "/auth/login";
+
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+            })
+            .AddAspNetIdentity<AuthUser>()
+            .AddProfileService<ProfileService>()
+            .AddConfigurationStore<AuthDbContext>(options =>
+            {
+                options.ConfigureDbContext = builder =>
                 {
-                    options.Events.RaiseErrorEvents = true;
-                    options.Events.RaiseInformationEvents = true;
-                    options.Events.RaiseFailureEvents = true;
-                    options.Events.RaiseSuccessEvents = true;
-                })
-                .AddAspNetIdentity<AuthUser>()
-                .AddProfileService<ProfileService>()
-                .AddConfigurationStore<AuthDbContext>(options =>
+                    builder.UseSqlServer(connectionString);
+                    builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                };
+            })
+            .AddOperationalStore<AuthDbContext>(options =>
+            {
+                options.ConfigureDbContext = builder =>
                 {
-                    options.ConfigureDbContext = builder =>
-                    {
-                        builder.UseSqlServer(connectionString);
-                    };
-                })
-                .AddOperationalStore<AuthDbContext>(options =>
-                {
-                    options.ConfigureDbContext = builder =>
-                    {
-                        builder.UseSqlServer(connectionString);
-                        options.EnableTokenCleanup = true;
-                        options.TokenCleanupInterval = 3600;
-                    };
-                })
-                .AddDeveloperSigningCredential();
+                    builder.UseSqlServer(connectionString);
+                    builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                    options.EnableTokenCleanup = true;
+                    options.TokenCleanupInterval = 3600;
+                };
+            })
+            .AddDeveloperSigningCredential();
         }
 
         public static void SetupIdentityServerCookie(this IServiceCollection services)

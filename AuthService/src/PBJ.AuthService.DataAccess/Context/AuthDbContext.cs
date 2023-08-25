@@ -9,19 +9,19 @@ namespace PBJ.AuthService.DataAccess.Context
     public class AuthDbContext : IdentityDbContext<AuthUser, AuthRole, int>,
         IConfigurationDbContext, IPersistedGrantDbContext
     {
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Client> Clients { get; set; } = null!;
 
-        public DbSet<ApiResource> ApiResources { get; set; }
+        public DbSet<ApiResource> ApiResources { get; set; } = null!;
 
-        public DbSet<ApiScope> ApiScopes { get; set; }
+        public DbSet<ApiScope> ApiScopes { get; set; } = null!;
 
-        public DbSet<IdentityResource> IdentityResources { get; set; }
+        public DbSet<IdentityResource> IdentityResources { get; set; } = null!;
 
-        public DbSet<ClientCorsOrigin> ClientCorsOrigins { get; set; }
+        public DbSet<ClientCorsOrigin> ClientCorsOrigins { get; set; } = null!;
 
-        public DbSet<PersistedGrant> PersistedGrants { get; set; }
+        public DbSet<PersistedGrant> PersistedGrants { get; set; } = null!;
 
-        public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
+        public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; } = null!;
 
         public AuthDbContext(DbContextOptions<AuthDbContext> options)
             : base(options)

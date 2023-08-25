@@ -2,14 +2,14 @@
 {
     public class RegisterRequestModel
     {
-        public string? UserName { get; set; }
+        public string UserName { get; set; } = null!;
 
-        public string? Email { get; set; }
+        public string Email { get; set; } = null!;
 
-        public string? Password { get; set; }
+        public string Password { get; set; } = null!;
 
-        public string? ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } = null!;
 
-        public string? ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; } = null!;
     }
 }
