@@ -5,6 +5,7 @@ using PBJ.AuthService.Business.Configurations;
 using PBJ.AuthService.DataAccess.Context;
 using PBJ.AuthService.DataAccess.Entities;
 using PBJ.AuthService.DataAccess.Enums;
+using System.Security.Claims;
 
 namespace PBJ.AuthService.Business.Extensions
 {
@@ -74,6 +75,28 @@ namespace PBJ.AuthService.Business.Extensions
                 userManager.CreateAsync(user, "password")
                     .GetAwaiter().GetResult();
 
+                userManager.AddClaimsAsync(user, new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Role, Role.User.ToString())
+                }).GetAwaiter().GetResult();
+
+                userManager.AddToRoleAsync(user, Role.User.ToString()).GetAwaiter().GetResult();
+
+                var admin = IdentityConfiguration.GetTestAdmin();
+
+                userManager.CreateAsync(admin, "admin")
+                    .GetAwaiter().GetResult();
+
+                userManager.AddClaimsAsync(admin, new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, admin.Email),
+                    new Claim(ClaimTypes.Name, admin.UserName),
+                    new Claim(ClaimTypes.Role, Role.Admin.ToString())
+                }).GetAwaiter().GetResult();
+
+                userManager.AddToRoleAsync(admin, Role.Admin.ToString()).GetAwaiter().GetResult();
                 userManager.AddToRoleAsync(user, Role.User.ToString());
             }
         }

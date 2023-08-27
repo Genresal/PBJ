@@ -1,4 +1,4 @@
-﻿using IdentityServer4;
+using IdentityServer4;
 using IdentityServer4.Models;
 using PBJ.AuthService.DataAccess.Entities;
 using PBJ.AuthService.DataAccess.Enums;
@@ -52,8 +52,8 @@ namespace PBJ.AuthService.Business.Configurations
                     RequireClientSecret = false,
                     RequireConsent = false,
                     RequirePkce = false,
-                    RedirectUris = { "http://localhost:<REACT-PORT>/callback", "http://localhost:<REACT-PORT>/refresh" },
-                    PostLogoutRedirectUris = { "http://localhost:<REACT-PORT>/logout" },
+                    RedirectUris = { "https://localhost:7107/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:7107/signout-callback-oidc" },
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
                     AllowedScopes =
@@ -62,7 +62,7 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "smsAPI",
-                    }
+                    },
                 },
                 new Client()
                 {
@@ -70,8 +70,9 @@ namespace PBJ.AuthService.Business.Configurations
                     ClientName = "Test Client",
                     ClientSecrets = { new Secret("test-secret".Sha256()) },
                     RequireConsent = false,
-                    RedirectUris = { "https://localhost:7107/signin-oidc", "https://localhost:7107/Auth/Login" },
-                    AllowedGrantTypes = GrantTypes.Code,
+                    RedirectUris = { "https://localhost:7107/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:7107/signout-callback-oidc" },
+                    AllowedGrantTypes = { GrantType.AuthorizationCode },
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
@@ -79,7 +80,7 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "testApi",
-                    }
+                    },
                 },
                 new Client
                 {
@@ -112,6 +113,15 @@ namespace PBJ.AuthService.Business.Configurations
             {
                 UserName = "JoeDoe",
                 Email = "joeDoe@email.com"
+            };
+        }
+
+        public static AuthUser GetTestAdmin()
+        {
+            return new AuthUser
+            {
+                UserName = "admin",
+                Email = "admin@email.com"
             };
         }
 
