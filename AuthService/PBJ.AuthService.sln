@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Api", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Business", "src\PBJ.AuthService.Business\PBJ.AuthService.Business.csproj", "{0EFE64F8-CC26-421F-9C02-1D9DB5096453}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Api", "src\PBJ.AuthService.Api\PBJ.AuthService.Api.csproj", "{949F7AB2-2A4D-4904-8C3C-FDFCD403B333}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBJ.AuthService.Api", "PBJ.AuthService.Api\PBJ.AuthService.Api.csproj", "{8D7F0F3E-47CA-453A-9425-EAFF131532DB}"
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.DataAccess", "src\PBJ.AuthService.DataAccess\PBJ.AuthService.DataAccess.csproj", "{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}"
 EndProject
 Global

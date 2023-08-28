@@ -107,6 +107,24 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "smsAPI",
                     }
+                },
+                new Client
+                {
+                    ClientId = "swagger-client",
+                    ClientName = "Swagger Client",
+                    ClientSecrets = { new Secret("swagger-secret".Sha256()) },
+                    RequirePkce = false,
+                    AllowedGrantTypes = { GrantType.AuthorizationCode },
+                    RedirectUris = { "https://localhost:7231/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins = {"https://localhost:7231"},
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "smsAPI",
+                    }
                 }
             };
         }

@@ -36,7 +36,6 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-
         [Authorize("Admin")]
         [HttpGet]
         public async Task<ActionResult> GetAsync(int id)
