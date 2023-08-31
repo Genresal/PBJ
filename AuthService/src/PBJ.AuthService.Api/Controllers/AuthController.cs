@@ -94,7 +94,7 @@ namespace PBJ.AuthService.Api.Controllers
                 await HttpContext.SignOutAsync();
             }
 
-            foreach (string cookie in Request.Cookies.Keys)
+            foreach (var cookie in Request.Cookies.Keys)
             {
                 Response.Cookies.Delete(cookie);
             }
