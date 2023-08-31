@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.NotificationService.Presentation", "src\NotificationService.Presentation\PBJ.NotificationService.Presentation.csproj", "{DCEDE6E5-7136-4DDE-90CB-895F6D301E94}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.NotificationService.Core", "src\PBJ.NotificationService.Core\PBJ.NotificationService.Core.csproj", "{1D1308B7-0509-46D5-B47D-F3F330E4D881}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.NotificationService.Domain", "src\PBJ.NotificationService.Core\PBJ.NotificationService.Domain.csproj", "{1D1308B7-0509-46D5-B47D-F3F330E4D881}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBJ.NotificationService.Application", "src\PBJ.NotificationService.Application\PBJ.NotificationService.Application.csproj", "{71FC0AAC-91B4-4EE2-A6BE-1D32D3C9BCDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{1D1308B7-0509-46D5-B47D-F3F330E4D881}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D1308B7-0509-46D5-B47D-F3F330E4D881}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D1308B7-0509-46D5-B47D-F3F330E4D881}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71FC0AAC-91B4-4EE2-A6BE-1D32D3C9BCDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71FC0AAC-91B4-4EE2-A6BE-1D32D3C9BCDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71FC0AAC-91B4-4EE2-A6BE-1D32D3C9BCDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71FC0AAC-91B4-4EE2-A6BE-1D32D3C9BCDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

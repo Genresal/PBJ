@@ -9,7 +9,10 @@
   <ItemGroup>
     <PackageReference Include="MassTransit" Version="8.1.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PBJ.NotificationService.Core\PBJ.NotificationService.Domain.csproj" />
   </ItemGroup>
 
 </Project>
