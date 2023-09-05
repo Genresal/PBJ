@@ -2,8 +2,8 @@
 
 namespace PBJ.NotificationService.Domain.Abstract
 {
-    public interface IMailService
+    public interface IMailBodyGenerator
     {
-        Task SendMessageAsync(string email, MailTemplateDto mailTemplateDto);
+        Task<string> GenerateBodyAsync(MailTemplateDto mailTemplate);
     }
 }

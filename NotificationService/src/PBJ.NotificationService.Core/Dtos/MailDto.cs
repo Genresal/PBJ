@@ -1,4 +1,4 @@
-﻿namespace PBJ.NotificationService.Core.Dtos
+﻿namespace PBJ.NotificationService.Domain.Dtos
 {
     public class MailDto
     {
