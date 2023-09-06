@@ -12,10 +12,20 @@ namespace PBJ.NotificationService.Application.Extensions
     {
         public static void SetupMassTransit(this IServiceCollection services)
         {
-            services.AddMassTransit(configurations =>
+            services.AddMassTransit(busConfig =>
             {
-                configurations.AddConsumer<MailCommentConsumer>();
-                configurations.UsingRabbitMq();
+                busConfig.AddConsumer<MailConsumer>();
+
+                busConfig.UsingRabbitMq((context, rbConfig) =>
+                {
+                    rbConfig.Host("localhost", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+
+                    rbConfig.ConfigureEndpoints(context);
+                });
             });
         }
 

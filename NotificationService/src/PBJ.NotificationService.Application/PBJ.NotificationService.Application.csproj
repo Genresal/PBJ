@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -12,6 +12,9 @@
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0" />
     <PackageReference Include="RazorLight" Version="2.3.1" />
   </ItemGroup>
+
+  <Import Project="..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems" Label="Shared"
+          Condition="Exists('..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems')" />
 
   <ItemGroup>
     <ProjectReference Include="..\PBJ.NotificationService.Core\PBJ.NotificationService.Domain.csproj" />
