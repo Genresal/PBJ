@@ -6,7 +6,6 @@ namespace PBJ.NotificationService.Presentation
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -22,7 +21,6 @@ namespace PBJ.NotificationService.Presentation
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
