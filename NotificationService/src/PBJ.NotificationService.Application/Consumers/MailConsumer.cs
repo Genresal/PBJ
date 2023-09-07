@@ -2,11 +2,11 @@
 using PBJ.NotificationService.Domain.Abstract;
 using PBJ.NotificationService.Domain.Constants;
 using PBJ.NotificationService.Domain.Dtos;
-using PBJ.Shared.QueueContext.Comment;
+using PBJ.Shared.QueueContext.MailDtos;
 
 namespace PBJ.NotificationService.Application.Consumers
 {
-    public class MailConsumer : IConsumer<CommentMail>
+    public class MailConsumer : IConsumer<MailDto>
     {
         private readonly IMailService _mailService;
 
@@ -15,12 +15,12 @@ namespace PBJ.NotificationService.Application.Consumers
             _mailService = mailService;
         }
 
-        public async Task Consume(ConsumeContext<CommentMail> context)
+        public async Task Consume(ConsumeContext<MailDto> context)
         {
             await _mailService.SendMessageAsync(context.Message.email, new MailTemplateDto()
             {
-                TemplateFile = Templates.CommentTemplateFile,
-                TemplateKey = Templates.CommentTemplate,
+                TemplateFile = Templates.MailTemplateFile,
+                TemplateKey = Templates.MailTemplate,
                 Data = context.Message.message
             });
         }

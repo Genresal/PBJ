@@ -14,7 +14,7 @@ namespace PBJ.NotificationService.Application.Extensions
         {
             services.AddMassTransit(busConfig =>
             {
-                busConfig.AddConsumer<MailConsumer>();
+                busConfig.AddConsumer<MailCommentConsumer>();
 
                 busConfig.UsingRabbitMq((context, rbConfig) =>
                 {

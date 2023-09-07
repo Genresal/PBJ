@@ -9,6 +9,6 @@
     <Import_RootNamespace>PBJ.Shared.QueueContext</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Comment\CommentMail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MailDtos\MailDtos.cs" />
   </ItemGroup>
 </Project>

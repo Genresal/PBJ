@@ -8,13 +8,13 @@
 
   <ItemGroup>
     <Content Remove="Templates\Base.cshtml" />
-    <Content Remove="Templates\Comment.cshtml" />
     <Content Remove="Templates\Head.cshtml" />
+    <Content Remove="Templates\MailTemplate.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Templates\Base.cshtml" />
-    <EmbeddedResource Include="Templates\Comment.cshtml" />
+    <EmbeddedResource Include="Templates\MailTemplate.cshtml" />
     <EmbeddedResource Include="Templates\Head.cshtml" />
   </ItemGroup>
 
