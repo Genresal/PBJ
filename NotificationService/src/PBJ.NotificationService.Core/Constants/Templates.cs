@@ -8,7 +8,7 @@
         public const string BaseTemplate = "Base";
         public const string BaseTemplateFile = "Base.cshtml";
 
-        public const string MailTemplate = "Comment";
-        public const string MailTemplateFile = "Comment.cshtml";
+        public const string MailTemplate = "MailTemplate";
+        public const string MailTemplateFile = "MailTemplate.cshtml";
     }
 }
