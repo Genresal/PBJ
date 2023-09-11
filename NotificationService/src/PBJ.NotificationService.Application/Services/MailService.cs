@@ -5,7 +5,6 @@ using MimeKit.Text;
 using PBJ.NotificationService.Domain.Abstract;
 using PBJ.NotificationService.Domain.Dtos;
 using PBJ.NotificationService.Domain.Options;
-using PBJ.NotificationService.Domain.Abstract;
 
 
 namespace PBJ.NotificationService.Application.Services

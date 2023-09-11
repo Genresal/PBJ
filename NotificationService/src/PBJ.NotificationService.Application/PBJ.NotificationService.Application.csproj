@@ -16,10 +16,6 @@
   <Import Project="..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems" Label="Shared"
           Condition="Exists('..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems')" />
 
-    <PackageReference Include="MassTransit" Version="8.1.0" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\PBJ.NotificationService.Core\PBJ.NotificationService.Domain.csproj" />
   </ItemGroup>

@@ -3,8 +3,6 @@ using PBJ.NotificationService.Domain.Abstract;
 using PBJ.NotificationService.Domain.Constants;
 using PBJ.NotificationService.Domain.Dtos;
 using PBJ.Shared.QueueContext.MailDtos;
-using PBJ.NotificationService.Core.Dtos;
-using PBJ.NotificationService.Domain.Abstract;
 
 namespace PBJ.NotificationService.Application.Consumers
 {
@@ -25,8 +23,6 @@ namespace PBJ.NotificationService.Application.Consumers
                 TemplateKey = Templates.MailTemplate,
                 Data = context.Message.message
             });
-            
-            await _mailService.SendMessageAsync(context.Message.Email, context.Message.Message);
         }
     }
 }
