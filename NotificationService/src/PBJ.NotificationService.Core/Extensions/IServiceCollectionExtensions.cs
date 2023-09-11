@@ -9,6 +9,7 @@ namespace PBJ.NotificationService.Domain.Extensions
         public static void AddDomainOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<MailBotOptions>(configuration.GetSection(MailBotOptions.MailBotConfigurations));
+            services.Configure<SmtpOptions>(configuration.GetSection(SmtpOptions.SmtpConfigurations));
         }
     }
 }
