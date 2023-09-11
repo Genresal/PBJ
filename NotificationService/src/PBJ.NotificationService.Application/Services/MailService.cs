@@ -1,10 +1,12 @@
-﻿using MailKit.Net.Smtp;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
 using PBJ.NotificationService.Domain.Abstract;
 using PBJ.NotificationService.Domain.Dtos;
 using PBJ.NotificationService.Domain.Options;
+using PBJ.NotificationService.Domain.Abstract;
+
 
 namespace PBJ.NotificationService.Application.Services
 {
@@ -44,6 +46,6 @@ namespace PBJ.NotificationService.Application.Services
 
                 await client.DisconnectAsync(true);
             }
-        }
+          }
     }
 }

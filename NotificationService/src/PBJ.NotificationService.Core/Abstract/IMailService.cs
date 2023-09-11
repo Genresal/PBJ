@@ -1,4 +1,4 @@
-﻿using PBJ.NotificationService.Domain.Dtos;
+using PBJ.NotificationService.Domain.Dtos;
 
 namespace PBJ.NotificationService.Domain.Abstract
 {

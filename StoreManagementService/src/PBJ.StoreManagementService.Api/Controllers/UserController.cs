@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.User;
 
 namespace PBJ.StoreManagementService.Api.Controllers
 {
+    [Authorize(Policy = "User")]
     [ApiController]
     [Route("api/user")]
     public class UserController : ControllerBase
@@ -45,6 +47,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public async Task<ActionResult> GetAsync(int id)
         {
@@ -61,6 +64,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<ActionResult> CreateAsync(UserRequestModel requestModel)
         {

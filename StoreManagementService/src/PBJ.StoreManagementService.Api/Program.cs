@@ -19,9 +19,13 @@ namespace PBJ.StoreManagementService.Api
             builder.Services.AddValidators();
             builder.Services.BuildSerilog();
 
+            builder.Services.BuildOptions(builder.Configuration);
+            builder.Services.SetupAuthentication();
+            builder.Services.SetupAuthorization();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwagger();
 
             var app = builder.Build();
 
@@ -31,10 +35,19 @@ namespace PBJ.StoreManagementService.Api
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMS V1");
+
+                    options.OAuthClientId("swagger-client");
+                    options.OAuthAppName("Sms API Swagger");
+                    options.OAuthClientSecret("swagger-secret");
+                });
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

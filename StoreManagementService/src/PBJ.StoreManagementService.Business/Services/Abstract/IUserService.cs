@@ -13,7 +13,7 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<UserDto> GetAsync(int id);
 
-        Task<UserDto> GetAsync(string login);
+        Task<UserDto> GetAsync(string email);
 
         Task<UserDto> CreateAsync(UserRequestModel userRequestModel);
 

@@ -52,8 +52,12 @@ namespace PBJ.AuthService.Business.Configurations
                     RequireClientSecret = false,
                     RequireConsent = false,
                     RequirePkce = false,
-                    RedirectUris = { "https://localhost:7107/signin-oidc" },
-                    PostLogoutRedirectUris = { "https://localhost:7107/signout-callback-oidc" },
+                    RedirectUris =
+                    {
+                        "https://localhost:7231/signin-oidc",
+                        "https://www.getpostman.com/oath2/callback"
+                    },
+                    PostLogoutRedirectUris = { "https://localhost:7231/signout-callback-oidc" },
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
                     AllowedScopes =
@@ -95,6 +99,24 @@ namespace PBJ.AuthService.Business.Configurations
                     AllowAccessTokensViaBrowser = true,
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     AllowOfflineAccess = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "smsAPI",
+                    }
+                },
+                new Client
+                {
+                    ClientId = "swagger-client",
+                    ClientName = "Swagger Client",
+                    ClientSecrets = { new Secret("swagger-secret".Sha256()) },
+                    RequirePkce = false,
+                    AllowedGrantTypes = { GrantType.AuthorizationCode },
+                    RedirectUris = { "https://localhost:7231/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins = {"https://localhost:7231"},
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.Profile,
