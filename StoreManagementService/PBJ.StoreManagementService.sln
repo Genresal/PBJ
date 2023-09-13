@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.StoreManagementService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.StoreManagementService.Models", "src\PBJ.StoreManagementService.Models\PBJ.StoreManagementService.Models.csproj", "{93526F2B-9899-4B32-BFFD-EAC7100C4E4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBJ.StoreManagementService.Business.UnitTests", "tests\PBJ.StoreManagementService.Business.UnitTests\PBJ.StoreManagementService.Business.UnitTests.csproj", "{99D48EAE-6361-4FE5-B1B4-37634C6AE7E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.StoreManagementService.Business.UnitTests", "tests\PBJ.StoreManagementService.Business.UnitTests\PBJ.StoreManagementService.Business.UnitTests.csproj", "{99D48EAE-6361-4FE5-B1B4-37634C6AE7E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBJ.StoreManagementService.Api.IntegrationTests", "tests\PBJ.StoreManagementService.Api.IntegrationTests\PBJ.StoreManagementService.Api.IntegrationTests.csproj", "{BAB28FAD-CB1E-4EC0-8715-52C67F9C0ED7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.StoreManagementService.Api.IntegrationTests", "tests\PBJ.StoreManagementService.Api.IntegrationTests\PBJ.StoreManagementService.Api.IntegrationTests.csproj", "{BAB28FAD-CB1E-4EC0-8715-52C67F9C0ED7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,5 +51,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E4EA93D9-3803-45E3-88D3-611187616F0A}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems*{51db99cf-aac9-4dd5-866a-a2a6dc495b89}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

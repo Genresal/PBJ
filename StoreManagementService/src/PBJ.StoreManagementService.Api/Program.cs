@@ -1,3 +1,5 @@
+using MassTransit;
+using MassTransit.Futures;
 using PBJ.StoreManagementService.Api.Extensions;
 using PBJ.StoreManagementService.Api.Middlewares;
 using PBJ.StoreManagementService.Business.Extensions;
@@ -22,10 +24,14 @@ namespace PBJ.StoreManagementService.Api
             builder.Services.BuildOptions(builder.Configuration);
             builder.Services.SetupAuthentication();
             builder.Services.SetupAuthorization();
+            builder.Services.SetupOptions(builder.Configuration);
+            builder.Services.SetupMassTransit();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwagger();
+
+            builder.Services.AddCors();
 
             var app = builder.Build();
             
@@ -35,6 +41,13 @@ namespace PBJ.StoreManagementService.Api
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMS V1");
+            });
+
+            app.UseCors(x =>
+            {
+                x.AllowAnyOrigin();
+                x.AllowAnyMethod();
+                x.AllowAnyHeader();
             });
 
             app.UseHttpsRedirection();

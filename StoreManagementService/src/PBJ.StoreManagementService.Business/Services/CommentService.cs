@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using MassTransit;
 using PBJ.StoreManagementService.Business.Constants;
 using PBJ.StoreManagementService.Business.Exceptions;
+using PBJ.StoreManagementService.Business.Producers.Abstract;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
@@ -14,12 +16,18 @@ namespace PBJ.StoreManagementService.Business.Services
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        private readonly IMessageProducer _messageProducer;
 
         public CommentService(ICommentRepository commentRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IUserRepository userRepository,
+            IMessageProducer messageProducer)
         {
             _commentRepository = commentRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
+            _messageProducer = messageProducer;
         }
 
         public async Task<PaginationResponseDto<CommentDto>> GetPaginatedAsync(int page, int take)
@@ -55,6 +63,10 @@ namespace PBJ.StoreManagementService.Business.Services
             var comment = _mapper.Map<Comment>(commentRequestModel);
 
             await _commentRepository.CreateAsync(comment);
+
+            var user = await _userRepository.GetAsync(comment.UserId);
+
+            await _messageProducer.PublicCommentMessageAsync(user!.Email!, "Hello from sms");
 
             Log.Information("Created comment: {@comment}", comment);
 
