@@ -1,70 +1,51 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
-using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handlers;
-using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Requirements;
 using PBJ.StoreManagementService.Business.Options;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
+using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Requirements;
 
 namespace PBJ.StoreManagementService.Api.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        private static ReactOidcOptions _reactOidcOptions = new();
-        private static SwaggerAuthOptions _swaggerAuthOptions = new();
+        private static AuthOptions _authOptions = new();
 
         public static void BuildOptions(this IServiceCollection services, IConfiguration configuration)
         {
-            configuration.GetSection(ReactOidcOptions.ReactOidcConfiguration).Bind(_reactOidcOptions);
-            configuration.GetSection(SwaggerAuthOptions.SwaggerAuthConfiguration).Bind(_swaggerAuthOptions);
+            configuration.GetSection(AuthOptions.AuthConfigurations).Bind(_authOptions);
         }
 
         public static void SetupAuthentication(this IServiceCollection services)
         {
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
-            {
-                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.Authority = _reactOidcOptions.Authority;
-                options.ClientId = _reactOidcOptions.ClientId;
-                options.ClientSecret = _reactOidcOptions.ClientSecret;
-                options.ResponseType = _reactOidcOptions.ResponseType!;
-
-                options.SaveTokens = true;
-                options.GetClaimsFromUserInfoEndpoint = true;
-
-                options.ClaimActions.MapJsonKey(ClaimTypes.Email, ClaimTypes.Email);
-                options.ClaimActions.MapJsonKey(ClaimTypes.Name, ClaimTypes.Name);
-                options.ClaimActions.MapJsonKey(ClaimTypes.Role, ClaimTypes.Role);
-            });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = _authOptions.Authority;
+                    options.TokenValidationParameters.ValidateAudience = false;
+                    options.TokenValidationParameters.ValidTypes = new[] { "at + jwt" };
+                });
         }
 
         public static void SetupAuthorization(this IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
+
                 options.AddPolicy("User", policy =>
                 {
-                    policy.Requirements.Add(new UserRequirement(_reactOidcOptions.Authority, Role.User.ToString()));
+                    policy.Requirements.Add(new UserRequirement(_authOptions.Authority, Role.User.ToString()));
                 });
 
                 options.AddPolicy("Admin", policy =>
                 {
-                    policy.Requirements.Add(new UserRequirement(_reactOidcOptions.Authority, Role.Admin.ToString()));
+                    policy.Requirements.Add(new UserRequirement(_authOptions.Authority, Role.Admin.ToString()));
                 });
             });
 
@@ -122,20 +103,30 @@ namespace PBJ.StoreManagementService.Api.Extensions
                     Version = "v1"
                 });
 
-                options.AddSecurityDefinition("aouth2", new OpenApiSecurityScheme
+                options.AddSecurityDefinition(_authOptions.AuthScheme, new OpenApiSecurityScheme
                 {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
+                    Description = "JWT Authorization header",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = _authOptions.AuthScheme,
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = _authOptions.AuthScheme }
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
                     {
-                        AuthorizationCode = new OpenApiOAuthFlow
+                        new OpenApiSecurityScheme
                         {
-                            AuthorizationUrl = new Uri(_swaggerAuthOptions.AuthorizationUrl),
-                            TokenUrl = new Uri(_swaggerAuthOptions.TokenUrl),
-                            Scopes = new Dictionary<string, string>
-                            {
-                                { _swaggerAuthOptions.Scope, "Full access to sms api" }
-                            }
-                        }
+                            Reference = new OpenApiReference {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = _authOptions.AuthScheme
+                            },
+                            Scheme = "oauth2",
+                            Name = _authOptions.AuthScheme,
+                            In = ParameterLocation.Header
+                        },
+                        new List<string>()
                     }
                 });
             });

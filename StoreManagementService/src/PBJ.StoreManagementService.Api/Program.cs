@@ -28,28 +28,22 @@ namespace PBJ.StoreManagementService.Api
             builder.Services.AddSwagger();
 
             var app = builder.Build();
-
+            
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseMiddleware<LoggingMiddleware>();
 
-            if (app.Environment.IsDevelopment())
+            app.UseSwaggerUI(options =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMS V1");
-
-                    options.OAuthClientId("swagger-client");
-                    options.OAuthAppName("Sms API Swagger");
-                    options.OAuthClientSecret("swagger-secret");
-                });
-            }
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMS V1");
+            });
 
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
 
             app.MapControllers();
 
