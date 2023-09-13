@@ -11,18 +11,18 @@ using PBJ.AuthService.DataAccess.Context;
 namespace PBJ.AuthService.DataAccess.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class AuthDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResource", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,6 +54,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Property<bool>("NonEditable")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("RequireResourceIndicator")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("ShowInDiscoveryDocument")
                         .HasColumnType("bit");
 
@@ -65,7 +68,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ApiResources");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceClaim", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResourceClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +89,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ApiResourceClaim");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceProperty", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResourceProperty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,7 +113,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ApiResourceProperty");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceScope", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResourceScope", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,7 +134,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ApiResourceScope");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceSecret", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResourceSecret", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,13 +167,16 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ApiResourceSecret");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScope", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiScope", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -184,8 +190,14 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Property<bool>("Enabled")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("LastAccessed")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NonEditable")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("Required")
                         .HasColumnType("bit");
@@ -193,12 +205,15 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Property<bool>("ShowInDiscoveryDocument")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("ApiScopes");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScopeClaim", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiScopeClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -219,7 +234,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ApiScopeClaim");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScopeProperty", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiScopeProperty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -243,7 +258,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ApiScopeProperty");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.Client", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -290,6 +305,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Property<string>("BackChannelLogoutUri")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CibaLifetime")
+                        .HasColumnType("int");
+
                     b.Property<string>("ClientClaimsPrefix")
                         .HasColumnType("nvarchar(max)");
 
@@ -305,8 +323,17 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Property<int?>("ConsentLifetime")
                         .HasColumnType("int");
 
+                    b.Property<bool?>("CoordinateLifetimeWithUserSession")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("DPoPClockSkew")
+                        .HasColumnType("time");
+
+                    b.Property<int>("DPoPValidationMode")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -332,6 +359,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Property<bool>("IncludeJwtId")
                         .HasColumnType("bit");
 
+                    b.Property<string>("InitiateLoginUri")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("LastAccessed")
                         .HasColumnType("datetime2");
 
@@ -343,6 +373,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
 
                     b.Property<string>("PairWiseSubjectSalt")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PollingInterval")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProtocolType")
                         .HasColumnType("nvarchar(max)");
@@ -357,6 +390,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("RequireConsent")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("RequireDPoP")
                         .HasColumnType("bit");
 
                     b.Property<bool>("RequirePkce")
@@ -385,7 +421,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientClaim", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -409,7 +445,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientClaim");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientCorsOrigin", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientCorsOrigin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -430,7 +466,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientCorsOrigins");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientGrantType", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientGrantType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -451,7 +487,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientGrantType");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientIdPRestriction", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientIdPRestriction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -472,7 +508,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientIdPRestriction");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientPostLogoutRedirectUri", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientPostLogoutRedirectUri", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -493,7 +529,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientPostLogoutRedirectUri");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientProperty", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientProperty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -517,7 +553,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientProperty");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientRedirectUri", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientRedirectUri", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -538,7 +574,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientRedirectUri");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientScope", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientScope", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -559,7 +595,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientScope");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientSecret", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientSecret", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -592,7 +628,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("ClientSecret");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
                     b.Property<string>("UserCode")
                         .HasColumnType("nvarchar(450)");
@@ -626,7 +662,47 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("DeviceCode", (string)null);
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResource", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.IdentityProvider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastAccessed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("NonEditable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Properties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Scheme")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityProviders");
+                });
+
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.IdentityResource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -669,7 +745,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("IdentityResources");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResourceClaim", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.IdentityResourceClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -690,7 +766,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("IdentityResourceClaim");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResourceProperty", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.IdentityResourceProperty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -714,7 +790,38 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("IdentityResourceProperty");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.Key", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Algorithm")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DataProtected")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsX509Certificate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Use")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Keys");
+                });
+
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
                 {
                     b.Property<string>("Key")
                         .HasColumnType("nvarchar(450)");
@@ -737,6 +844,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("SessionId")
                         .HasColumnType("nvarchar(max)");
 
@@ -749,6 +859,46 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("PersistedGrant", (string)null);
+                });
+
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ServerSideSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Renewed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Scheme")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SessionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServerSideSessions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -854,7 +1004,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PBJ.AuthService.DataAccess.Entities.ApplicationRole", b =>
+            modelBuilder.Entity("PBJ.AuthService.DataAccess.Entities.AuthRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -884,7 +1034,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("PBJ.AuthService.DataAccess.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("PBJ.AuthService.DataAccess.Entities.AuthUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -952,9 +1102,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceClaim", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResourceClaim", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiResource", "ApiResource")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.ApiResource", "ApiResource")
                         .WithMany("UserClaims")
                         .HasForeignKey("ApiResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -963,9 +1113,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("ApiResource");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceProperty", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResourceProperty", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiResource", "ApiResource")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.ApiResource", "ApiResource")
                         .WithMany("Properties")
                         .HasForeignKey("ApiResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -974,9 +1124,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("ApiResource");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceScope", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResourceScope", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiResource", "ApiResource")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.ApiResource", "ApiResource")
                         .WithMany("Scopes")
                         .HasForeignKey("ApiResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -985,9 +1135,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("ApiResource");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceSecret", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResourceSecret", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiResource", "ApiResource")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.ApiResource", "ApiResource")
                         .WithMany("Secrets")
                         .HasForeignKey("ApiResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -996,9 +1146,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("ApiResource");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScopeClaim", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiScopeClaim", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiScope", "Scope")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.ApiScope", "Scope")
                         .WithMany("UserClaims")
                         .HasForeignKey("ScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1007,9 +1157,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Scope");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScopeProperty", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiScopeProperty", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiScope", "Scope")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.ApiScope", "Scope")
                         .WithMany("Properties")
                         .HasForeignKey("ScopeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1018,9 +1168,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Scope");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientClaim", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientClaim", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("Claims")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1029,9 +1179,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientCorsOrigin", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientCorsOrigin", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("AllowedCorsOrigins")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1040,9 +1190,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientGrantType", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientGrantType", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("AllowedGrantTypes")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1051,9 +1201,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientIdPRestriction", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientIdPRestriction", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("IdentityProviderRestrictions")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1062,9 +1212,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientPostLogoutRedirectUri", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientPostLogoutRedirectUri", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("PostLogoutRedirectUris")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1073,9 +1223,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientProperty", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientProperty", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("Properties")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1084,9 +1234,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientRedirectUri", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientRedirectUri", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("RedirectUris")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1095,9 +1245,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientScope", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientScope", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("AllowedScopes")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1106,9 +1256,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientSecret", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ClientSecret", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.Client", "Client")
                         .WithMany("ClientSecrets")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1117,9 +1267,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResourceClaim", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.IdentityResourceClaim", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.IdentityResource", "IdentityResource")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.IdentityResource", "IdentityResource")
                         .WithMany("UserClaims")
                         .HasForeignKey("IdentityResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1128,9 +1278,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("IdentityResource");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResourceProperty", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.IdentityResourceProperty", b =>
                 {
-                    b.HasOne("IdentityServer4.EntityFramework.Entities.IdentityResource", "IdentityResource")
+                    b.HasOne("Duende.IdentityServer.EntityFramework.Entities.IdentityResource", "IdentityResource")
                         .WithMany("Properties")
                         .HasForeignKey("IdentityResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1141,7 +1291,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("PBJ.AuthService.DataAccess.Entities.ApplicationRole", null)
+                    b.HasOne("PBJ.AuthService.DataAccess.Entities.AuthRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1150,7 +1300,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("PBJ.AuthService.DataAccess.Entities.ApplicationUser", null)
+                    b.HasOne("PBJ.AuthService.DataAccess.Entities.AuthUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1159,7 +1309,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("PBJ.AuthService.DataAccess.Entities.ApplicationUser", null)
+                    b.HasOne("PBJ.AuthService.DataAccess.Entities.AuthUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1168,13 +1318,13 @@ namespace PBJ.AuthService.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("PBJ.AuthService.DataAccess.Entities.ApplicationRole", null)
+                    b.HasOne("PBJ.AuthService.DataAccess.Entities.AuthRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PBJ.AuthService.DataAccess.Entities.ApplicationUser", null)
+                    b.HasOne("PBJ.AuthService.DataAccess.Entities.AuthUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1183,14 +1333,14 @@ namespace PBJ.AuthService.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("PBJ.AuthService.DataAccess.Entities.ApplicationUser", null)
+                    b.HasOne("PBJ.AuthService.DataAccess.Entities.AuthUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResource", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiResource", b =>
                 {
                     b.Navigation("Properties");
 
@@ -1201,14 +1351,14 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("UserClaims");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScope", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ApiScope", b =>
                 {
                     b.Navigation("Properties");
 
                     b.Navigation("UserClaims");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.Client", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.Client", b =>
                 {
                     b.Navigation("AllowedCorsOrigins");
 
@@ -1229,7 +1379,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     b.Navigation("RedirectUris");
                 });
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResource", b =>
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.IdentityResource", b =>
                 {
                     b.Navigation("Properties");
 

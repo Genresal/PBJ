@@ -1,14 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.6.0" />
-    <PackageReference Include="IdentityServer4" Version="4.1.2" />
+    <PackageReference Include="Duende.IdentityServer" Version="6.3.4" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.4" />
+    <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.3.4" />
+    <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" Version="6.3.4" />
+    <PackageReference Include="FluentValidation" Version="11.7.1" />
   </ItemGroup>
 
   <ItemGroup>

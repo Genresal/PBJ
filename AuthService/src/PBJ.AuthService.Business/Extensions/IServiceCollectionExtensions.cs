@@ -1,11 +1,11 @@
-﻿using IdentityServer4.EntityFramework.Mappers;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using PBJ.AuthService.Business.Configurations;
 using PBJ.AuthService.DataAccess.Context;
 using PBJ.AuthService.DataAccess.Entities;
 using PBJ.AuthService.DataAccess.Enums;
 using System.Security.Claims;
+using Duende.IdentityServer.EntityFramework.Mappers;
 
 namespace PBJ.AuthService.Business.Extensions
 {
@@ -30,15 +30,15 @@ namespace PBJ.AuthService.Business.Extensions
                 authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
             }
 
-            if (!authDbContext.ApiResources.Any())
-            {
-                foreach (var apiResource in IdentityConfiguration.GetApiResources())
-                {
-                    authDbContext.ApiResources.Add(apiResource.ToEntity());
-                }
+            //if (!authDbContext.ApiResources.Any())
+            //{
+            //    foreach (var apiResource in IdentityConfiguration.GetApiResources())
+            //    {
+            //        authDbContext.ApiResources.Add(apiResource.ToEntity());
+            //    }
 
-                authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
-            }
+            //    authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
+            //}
 
             if (!authDbContext.ApiScopes.Any())
             {
