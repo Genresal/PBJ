@@ -1,6 +1,8 @@
-﻿using MassTransit;
-using PBJ.NotificationService.Core.Dtos;
+using MassTransit;
 using PBJ.NotificationService.Domain.Abstract;
+using PBJ.NotificationService.Domain.Constants;
+using PBJ.NotificationService.Domain.Dtos;
+using PBJ.Shared.QueueContext.MailDtos;
 
 namespace PBJ.NotificationService.Application.Consumers
 {
@@ -15,7 +17,12 @@ namespace PBJ.NotificationService.Application.Consumers
 
         public async Task Consume(ConsumeContext<MailDto> context)
         {
-            await _mailService.SendMessageAsync(context.Message.Email, context.Message.Message);
+            await _mailService.SendMessageAsync(context.Message.email, new MailTemplateDto()
+            {
+                TemplateFile = Templates.MailTemplateFile,
+                TemplateKey = Templates.MailTemplate,
+                Data = context.Message.message
+            });
         }
     }
 }
