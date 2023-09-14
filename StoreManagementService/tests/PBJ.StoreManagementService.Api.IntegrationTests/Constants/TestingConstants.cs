@@ -1,6 +1,6 @@
 ﻿namespace PBJ.StoreManagementService.Api.IntegrationTests.Constants
 {
-    public static class TestingConstants
+    public static partial class TestingConstants
     {
         public const string ContentType = "application/json";
 

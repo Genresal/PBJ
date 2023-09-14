@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MassTransit;
 using PBJ.StoreManagementService.Business.Constants;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Producers.Abstract;

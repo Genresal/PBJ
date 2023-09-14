@@ -4,6 +4,7 @@ using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
 using PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations;
+using PBJ.StoreManagementService.Api.IntegrationTests.Handlers;
 using PBJ.StoreManagementService.Models.Comment;
 using PBJ.StoreManagementService.Models.Pagination;
 using System.Net;
@@ -21,12 +22,24 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
-                $"{TestingConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
+                $"{TestingConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             paginationResponseDto!.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetPaginatedAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int page, int take)
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync(
+                    $"{TestingConstants.CommentApi}/paginated?page={page}&take={take}", HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]
@@ -36,7 +49,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var response = await ExecuteWithStatusCodeAsync(
                 $"{TestingConstants.CommentApi}/paginated?page={string.Empty}&take={string.Empty}",
-                HttpMethod.Get);
+                HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -53,7 +66,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
                     $"{TestingConstants.CommentApi}/postId?postId={comment.PostId}&page={requestModel.Page}&take={requestModel.Take}",
-                    HttpMethod.Get);
+                    HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -71,12 +84,28 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
                     $"{TestingConstants.CommentApi}/postId?postId={0}&page={requestModel.Page}&take={requestModel.Take}",
-                    HttpMethod.Get);
+                    HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             paginationResponseDto!.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetByPostIdAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
+            int postId,
+            int page,
+            int take)
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.CommentApi}/postId?postId={postId}&page={page}&take={take}",
+                HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]
@@ -86,7 +115,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var response = await ExecuteWithStatusCodeAsync(
                 $"{TestingConstants.CommentApi}/postId?postId={string.Empty}&page={string.Empty}&take={string.Empty}",
-                HttpMethod.Get);
+                HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -99,14 +128,35 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var comment = await _dataManager.CreateCommentAsync();
 
             //Act
-            var (commentDto, response) =
-                await ExecuteWithFullResponseAsync<CommentDto>($"{TestingConstants.CommentApi}?id={comment.Id}",
-                    HttpMethod.Get);
+            var (commentDto, response) = await ExecuteWithFullResponseAsync<CommentDto>(
+                $"{TestingConstants.CommentApi}?id={comment.Id}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             commentDto.Should().NotBeNull();
+        }
+
+        [Theory, AutoData]
+        public async Task GetAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int commentId)
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={commentId}",
+                    HttpMethod.Get);
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Theory, AutoData]
+        public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden(int commentId)
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={commentId}",
+                    HttpMethod.Get, token: JwtTokenHandler.UserToken);
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -115,7 +165,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={0}", HttpMethod.Get);
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={0}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -127,7 +177,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}?id={string.Empty}", HttpMethod.Get);
+                $"{TestingConstants.CommentApi}?id={string.Empty}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -149,13 +199,26 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (commentDto, response) = await
                 ExecuteWithFullResponseAsync<CommentDto>(TestingConstants.CommentApi,
-                    HttpMethod.Post, requestBody);
+                    HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             commentDto?.UserId.Should().Be(commentRequestModel.UserId);
             commentDto?.PostId.Should().Be(commentRequestModel.PostId);
+        }
+
+        [Fact]
+        public async Task CreateAsync_WhenTokenIsEmpty_ReturnsUnauthorized()
+        {
+            //Arrange
+            //Act
+            var response = await
+                ExecuteWithStatusCodeAsync(TestingConstants.CommentApi,
+                    HttpMethod.Post);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]
@@ -169,7 +232,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                    TestingConstants.CommentApi, HttpMethod.Post, requestBody);
+                    TestingConstants.CommentApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -187,12 +250,24 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (commentDto, response) = await ExecuteWithFullResponseAsync<CommentDto>(
-                $"{TestingConstants.CommentApi}?id={comment.Id}", HttpMethod.Put, requestBody);
+                $"{TestingConstants.CommentApi}?id={comment.Id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             commentDto?.Content.Should().NotBe(comment.Content);
+        }
+
+        [Theory, AutoData]
+        public async Task UpdateAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int commentId)
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{TestingConstants.CommentApi}?id={commentId}", HttpMethod.Put);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]
@@ -205,7 +280,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}?id={0}", HttpMethod.Put, requestBody);
+                $"{TestingConstants.CommentApi}?id={0}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -223,7 +298,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var response = await ExecuteWithStatusCodeAsync(
                 $"{TestingConstants.CommentApi}?id={id}", HttpMethod.Put,
-                requestBody);
+                requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -238,10 +313,23 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var response =
                 await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={comment.Id}",
-                    HttpMethod.Delete);
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Theory, AutoData]
+        public async Task DeleteAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int commentId)
+        {
+            //Arrange
+            //Act
+            var response =
+                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={commentId}",
+                    HttpMethod.Delete);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]
@@ -251,7 +339,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var response =
                 await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={0}",
-                    HttpMethod.Delete);
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -264,7 +352,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var response =
                 await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={string.Empty}",
-                    HttpMethod.Delete);
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

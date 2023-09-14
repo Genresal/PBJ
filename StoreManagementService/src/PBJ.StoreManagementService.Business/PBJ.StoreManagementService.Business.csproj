@@ -13,14 +13,14 @@
     <PackageReference Include="MassTransit" Version="8.1.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+    <PackageReference Include="Moq" Version="4.20.69" />
     <PackageReference Include="Serilog" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.1.0" />
   </ItemGroup>
 
-  <Import Project="..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems" 
-          Label="Shared" Condition="Exists('..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems')" />
+  <Import Project="..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems" Label="Shared" Condition="Exists('..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems')" />
 
   <ItemGroup>
     <ProjectReference Include="..\PBJ.StoreManagementService.DataAccess\PBJ.StoreManagementService.DataAccess.csproj" />

@@ -26,13 +26,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
         }
 
         protected async Task<HttpResponseMessage> ExecuteWithStatusCodeAsync(string requestUri,
-            HttpMethod httpMethod, StringContent? requestBody = null)
+            HttpMethod httpMethod, StringContent? requestBody = null, string token = "")
         {
             var requestMessage = new HttpRequestMessage
             {
                 RequestUri = new Uri(requestUri, UriKind.Relative),
                 Method = httpMethod,
-                Content = requestBody
+                Content = requestBody,
+                Headers = { Authorization = new AuthenticationHeaderValue("Bearer", token) }
             };
 
             var response = await _httpClient.SendAsync(requestMessage);
@@ -41,13 +42,15 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
         }
 
         protected async Task<(TReturn?, HttpResponseMessage)> ExecuteWithFullResponseAsync<TReturn>(string requestUri,
-            HttpMethod httpMethod, StringContent? requestBody = null)
+            HttpMethod httpMethod, StringContent? requestBody = null, string token = "")
         {
             var requestMessage = new HttpRequestMessage
             {
                 RequestUri = new Uri(requestUri, UriKind.Relative),
                 Method = httpMethod,
-                Content = requestBody
+                Content = requestBody,
+                Headers = { Authorization = new AuthenticationHeaderValue("Bearer", token) }
+
             };
 
             var response = await _httpClient.SendAsync(requestMessage);

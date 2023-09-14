@@ -23,7 +23,7 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
         {
             var token = (context.Resource as HttpContext)?.Request.Headers.Authorization.ToString().Split(" ").Last();
 
-            if (string.IsNullOrEmpty(token))
+            if (string.IsNullOrWhiteSpace(token))
             {
                 throw new UnauthorizedAccessException("Token cannot be null!");
             }
