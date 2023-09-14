@@ -53,6 +53,27 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
+  shared-project:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./Shared
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
   notification-service:
     runs-on: ubuntu-latest
 
