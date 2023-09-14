@@ -1,7 +1,9 @@
-﻿namespace PBJ.NotificationService.Domain.Abstract
+using PBJ.NotificationService.Domain.Dtos;
+
+namespace PBJ.NotificationService.Domain.Abstract
 {
     public interface IMailService
     {
-        Task SendMessageAsync(string email, string message);
+        Task SendMessageAsync(string email, MailTemplateDto mailTemplateDto);
     }
 }

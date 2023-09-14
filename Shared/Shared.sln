@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34009.444
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PBJ.Shared.QueueContext", "PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.shproj", "{5FC027EF-670D-43B8-9BE4-EF6BC06C8FEF}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2C7115A-A066-4D68-87AB-F98DE346BEFA}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems*{5fc027ef-670d-43b8-9be4-ef6bc06c8fef}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

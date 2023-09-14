@@ -1,0 +1,25 @@
+﻿@using PBJ.NotificationService.Domain.Dtos
+@using PBJ.NotificationService.Domain.Constants
+@inherits TemplatePage<MailTemplateDto>
+@using RazorLight
+@model MailTemplateDto
+
+@{
+    await IncludeAsync(Templates.HeadTemplate);
+}
+
+<div class="container">
+    <div class="header">
+        <h1>Your Personal Blog Journal</h1>
+        <p>Stay updated with the latest posts and thoughts.</p>
+    </div>
+    <div class="content">
+        <h2>Hi there!</h2>
+        @{
+            await IncludeAsync($"{Model.TemplateKey}", Model);
+        }
+    </div>
+    <div class="footer">
+        <p>If you no longer wish to receive these updates, <a href="#">unsubscribe</a> here.</p>
+    </div>
+</div>
