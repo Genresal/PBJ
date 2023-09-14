@@ -14,7 +14,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Configuration
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment("Test");
+            builder.UseEnvironment("Testing");
 
             builder.ConfigureServices(services =>
             {

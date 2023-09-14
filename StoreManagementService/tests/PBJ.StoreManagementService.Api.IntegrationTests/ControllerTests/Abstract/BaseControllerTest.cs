@@ -50,7 +50,6 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
                 Method = httpMethod,
                 Content = requestBody,
                 Headers = { Authorization = new AuthenticationHeaderValue("Bearer", token) }
-
             };
 
             var response = await _httpClient.SendAsync(requestMessage);

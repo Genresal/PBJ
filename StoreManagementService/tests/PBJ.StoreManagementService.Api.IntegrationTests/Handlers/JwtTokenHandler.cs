@@ -30,6 +30,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Handlers
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(
+                                        issuer: TestingConstants.Issuer,
                                         claims: claims, 
                                         expires: DateTime.Now.AddHours(1), 
                                         signingCredentials: signingCredentials);

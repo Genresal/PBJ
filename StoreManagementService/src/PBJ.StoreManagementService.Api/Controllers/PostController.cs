@@ -28,7 +28,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
         }
 
         [HttpGet, Route("userId")]
-        public async Task<ActionResult> GetByPostId(int userId, [FromQuery] PaginationRequestModel requestModel)
+        public async Task<ActionResult> GetByUserId(int userId, [FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _postService
                 .GetByUserIdAsync(userId, requestModel.Page, requestModel.Take);

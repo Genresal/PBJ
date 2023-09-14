@@ -8,6 +8,7 @@ using PBJ.StoreManagementService.Api.IntegrationTests.Handlers;
 using PBJ.StoreManagementService.Models.Comment;
 using PBJ.StoreManagementService.Models.Pagination;
 using System.Net;
+using Microsoft.AspNetCore.Localization;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
@@ -31,12 +32,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetPaginatedAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int page, int take)
+        public async Task GetPaginatedAsync_WhenTokenIsEmpty_ReturnsUnauthorized(PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                    $"{TestingConstants.CommentApi}/paginated?page={page}&take={take}", HttpMethod.Get);
+                    $"{TestingConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -95,13 +96,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         [Theory, CustomAutoData]
         public async Task GetByPostIdAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
             int postId,
-            int page,
-            int take)
+            PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}/postId?postId={postId}&page={page}&take={take}",
+                $"{TestingConstants.CommentApi}/postId?postId={postId}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
@@ -137,7 +137,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             commentDto.Should().NotBeNull();
         }
 
-        [Theory, AutoData]
+        [Theory, CustomAutoData]
         public async Task GetAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int commentId)
         {
             //Arrange
@@ -148,15 +148,15 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
-        [Theory, AutoData]
-        public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden(int commentId)
+        [Theory, CustomAutoData]
+        public async Task GetAsync_WhenRoleIsUser_ReturnsUnauthorized(int commentId)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={commentId}",
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]

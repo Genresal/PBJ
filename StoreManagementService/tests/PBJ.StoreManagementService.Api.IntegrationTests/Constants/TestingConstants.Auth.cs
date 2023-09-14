@@ -9,5 +9,7 @@
         public const string AdminUsername = "admin";
 
         public const string AdminEmail = "admin@email.com";
+
+        public const string Issuer = "https://localhost:7069";
     }
 }
