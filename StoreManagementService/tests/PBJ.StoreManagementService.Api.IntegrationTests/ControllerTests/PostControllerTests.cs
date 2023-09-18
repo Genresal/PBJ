@@ -152,7 +152,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetAsync_WhenRoleIsUser_ReturnsUnauthorized(int id)
+        public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden(int id)
         {
             //Arrange
             //Act
@@ -161,7 +161,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Fact]

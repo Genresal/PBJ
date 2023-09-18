@@ -1,4 +1,5 @@
 using AutoFixture;
+using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using PBJ.StoreManagementService.Api.IntegrationTests.Configuration;

@@ -246,7 +246,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetAsync_WhenRoleIsUser_ReturnsUnauthorized()
+        public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden()
         {
             //Arrange
             var user = await _dataManager.CreateUserAsync();
@@ -256,7 +256,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -366,7 +366,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task CreateAsync_WhenRoleIsUser_ReturnsUnauthorized()
+        public async Task CreateAsync_WhenRoleIsUser_ReturnsForbidden()
         {
             //Arrange
             //Act
@@ -374,7 +374,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                 TestingConstants.UserApi, HttpMethod.Post, token: JwtTokenHandler.UserToken);
 
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Fact]

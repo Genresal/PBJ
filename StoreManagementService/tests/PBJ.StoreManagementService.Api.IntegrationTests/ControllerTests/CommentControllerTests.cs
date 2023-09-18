@@ -8,7 +8,6 @@ using PBJ.StoreManagementService.Api.IntegrationTests.Handlers;
 using PBJ.StoreManagementService.Models.Comment;
 using PBJ.StoreManagementService.Models.Pagination;
 using System.Net;
-using Microsoft.AspNetCore.Localization;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
@@ -149,14 +148,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetAsync_WhenRoleIsUser_ReturnsUnauthorized(int commentId)
+        public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden(int commentId)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={commentId}",
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Fact]
