@@ -41,11 +41,12 @@ namespace PBJ.StoreManagementService.Api
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMS V1");
             });
 
-            app.UseCors(x =>
+            app.UseCors(builder =>
             {
-                x.AllowAnyOrigin();
-                x.AllowAnyMethod();
-                x.AllowAnyHeader();
+                builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
             });
 
             app.UseHttpsRedirection();

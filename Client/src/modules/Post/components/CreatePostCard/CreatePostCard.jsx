@@ -27,7 +27,7 @@ const CreatePostCard = ({createNewPost, user}) => {
                 </div>
             </div>
             <div className={classes.postContent}>
-                <TextField ref={inputRef} label="What's new?" variant="filled" fullWidth={4} rows={4} maxRows={4} multiline
+                <TextField ref={inputRef} label="What's new?" variant="filled" rows={4} maxRows={4} multiline
                 onChange={(e) => setPost({...post, content: e.target.value})}/>
             </div>
             <div className={classes.postActions} style={{marginTop: "30px"}}>

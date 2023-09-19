@@ -46,18 +46,16 @@ namespace PBJ.AuthService.Business.Configurations
             {
                 new Client
                 {
-                    ClientId = "react-client",
-                    ClientName = "React Client",
-                    ClientSecrets = { new Secret("react-secret".Sha256()) },
+                    ClientId = "pbj-client",
                     RequireClientSecret = false,
                     RequireConsent = false,
-                    RequirePkce = false,
+                    RequirePkce = true,
                     RedirectUris =
                     {
-                        "https://localhost:7231/signin-oidc",
-                        "https://www.getpostman.com/oath2/callback"
+                        "http://localhost:3000/callback",
                     },
-                    PostLogoutRedirectUris = { "https://localhost:7231/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:3000/signout-oidc" },
+                    AllowedCorsOrigins = { "http://localhost:3000" },
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
                     AllowedScopes =
@@ -66,7 +64,7 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "smsAPI",
-                    },
+                    }
                 },
                 new Client()
                 {
