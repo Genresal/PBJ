@@ -11,7 +11,7 @@ namespace PBJ.AuthService.Business.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static void InititalizeDatabase(this IServiceCollection services)
+        public static void InitializeDatabase(this IServiceCollection services)
         {
             var serviceProvider = services.BuildServiceProvider().CreateScope().ServiceProvider;
 
@@ -30,15 +30,15 @@ namespace PBJ.AuthService.Business.Extensions
                 authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
             }
 
-            //if (!authDbContext.ApiResources.Any())
-            //{
-            //    foreach (var apiResource in IdentityConfiguration.GetApiResources())
-            //    {
-            //        authDbContext.ApiResources.Add(apiResource.ToEntity());
-            //    }
+            if (!authDbContext.ApiResources.Any())
+            {
+                foreach (var apiResource in IdentityConfiguration.GetApiResources())
+                {
+                    authDbContext.ApiResources.Add(apiResource.ToEntity());
+                }
 
-            //    authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
-            //}
+                authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
+            }
 
             if (!authDbContext.ApiScopes.Any())
             {
@@ -77,8 +77,8 @@ namespace PBJ.AuthService.Business.Extensions
 
                 userManager.AddClaimsAsync(user, new List<Claim>
                 {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Email, user.Email!),
+                    new Claim(ClaimTypes.Name, user.UserName!),
                     new Claim(ClaimTypes.Role, Role.User.ToString())
                 }).GetAwaiter().GetResult();
 
@@ -91,8 +91,8 @@ namespace PBJ.AuthService.Business.Extensions
 
                 userManager.AddClaimsAsync(admin, new List<Claim>
                 {
-                    new Claim(ClaimTypes.Email, admin.Email),
-                    new Claim(ClaimTypes.Name, admin.UserName),
+                    new Claim(ClaimTypes.Email, admin.Email!),
+                    new Claim(ClaimTypes.Name, admin.UserName!),
                     new Claim(ClaimTypes.Role, Role.Admin.ToString())
                 }).GetAwaiter().GetResult();
 
