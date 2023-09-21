@@ -30,15 +30,15 @@ namespace PBJ.AuthService.Business.Extensions
                 authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
             }
 
-            //if (!authDbContext.ApiResources.Any())
-            //{
-            //    foreach (var apiResource in IdentityConfiguration.GetApiResources())
-            //    {
-            //        authDbContext.ApiResources.Add(apiResource.ToEntity());
-            //    }
+            if (!authDbContext.ApiResources.Any())
+            {
+               foreach (var apiResource in IdentityConfiguration.GetApiResources())
+               {
+                   authDbContext.ApiResources.Add(apiResource.ToEntity());
+               }
 
-            //    authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
-            //}
+               authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
+            }
 
             if (!authDbContext.ApiScopes.Any())
             {
