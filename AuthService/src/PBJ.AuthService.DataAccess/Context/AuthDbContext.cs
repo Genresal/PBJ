@@ -1,5 +1,5 @@
-﻿using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.EntityFramework.Interfaces;
+﻿using Duende.IdentityServer.EntityFramework.Entities;
+using Duende.IdentityServer.EntityFramework.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PBJ.AuthService.DataAccess.Entities;
@@ -15,13 +15,19 @@ namespace PBJ.AuthService.DataAccess.Context
 
         public DbSet<ApiScope> ApiScopes { get; set; } = null!;
 
-        public DbSet<IdentityResource> IdentityResources { get; set; } = null!;
+        public DbSet<IdentityResource> IdentityResources { get; set; }
 
-        public DbSet<ClientCorsOrigin> ClientCorsOrigins { get; set; } = null!;
+        public DbSet<PersistedGrant> PersistedGrants { get; set; }
 
-        public DbSet<PersistedGrant> PersistedGrants { get; set; } = null!;
+        public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
 
-        public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; } = null!;
+        public DbSet<Key> Keys { get; set; }
+
+        public DbSet<ServerSideSession> ServerSideSessions { get; set; }
+
+        public DbSet<ClientCorsOrigin> ClientCorsOrigins { get; set; }
+
+        public DbSet<IdentityProvider> IdentityProviders { get; set; }
 
         public AuthDbContext(DbContextOptions<AuthDbContext> options)
             : base(options)
@@ -42,7 +48,7 @@ namespace PBJ.AuthService.DataAccess.Context
             base.OnModelCreating(builder);
 
             builder.Entity<DeviceFlowCodes>().ToTable("DeviceCode").HasKey(x => x.UserCode);
-            builder.Entity<PersistedGrant>().ToTable(nameof(PersistedGrant)).HasKey(x => x.Key);
+            builder.Entity<PersistedGrant>().ToTable(nameof(PersistedGrant)).HasKey(x => x.Key);
         }
     }
 }

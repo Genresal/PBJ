@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Requirements;
@@ -19,21 +21,24 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserRequirement requirement)
         {
-            if (context.User.FindFirst(x => x.Type == ClaimTypes.NameIdentifier && x.Issuer == requirement.Issuer) == null)
+            var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken((context.Resource as HttpContext)?.Request.Headers.Authorization.ToString().Split(" ").Last());
+
+            if (jwtSecurityToken.Claims.First(x => x.Issuer == requirement.Issuer) == null)
             {
                 return Task.CompletedTask;
             }
 
-            var userName = context.User.FindFirst(x => x.Type == ClaimTypes.Name)!.Value;
-            var email = context.User.FindFirst(x => x.Type == ClaimTypes.Email)!.Value;
-            var role = context.User.FindFirst(x => x.Type == ClaimTypes.Role)!.Value;
+            var userName = jwtSecurityToken.Claims.First(x => x.Type == ClaimTypes.Name)?.Value;
+            var email = jwtSecurityToken.Claims.First(x => x.Type == ClaimTypes.Email)?.Value;
+            var role = jwtSecurityToken.Claims.First(x => x.Type == ClaimTypes.Role)?.Value;
 
             if (string.IsNullOrWhiteSpace(userName) && string.IsNullOrWhiteSpace(email))
             {
                 return Task.CompletedTask;
+
             }
 
-            CheckUserAsync(email, userName).GetAwaiter().GetResult();
+            CheckUserAsync(email!, userName!).GetAwaiter().GetResult();
 
             if (!string.IsNullOrEmpty(role) && role == Role.Admin.ToString())
             {

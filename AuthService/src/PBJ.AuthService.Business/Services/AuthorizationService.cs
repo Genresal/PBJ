@@ -1,5 +1,4 @@
-﻿using IdentityServer4.Services;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using PBJ.AuthService.Business.Results;
 using PBJ.AuthService.Business.Services.Abstract;
 using PBJ.AuthService.DataAccess.Entities;

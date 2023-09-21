@@ -18,7 +18,7 @@ namespace PBJ.AuthService.Api
             builder.Services.SetupIdentity();
             builder.Services.SetupIdentityServer(builder.Configuration);
             builder.Services.SetupIdentityServerCookie();
-            builder.Services.InititalizeDatabase();
+            builder.Services.InitializeDatabase();
             builder.Services.AddValidations();
 
             builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();

@@ -23,6 +23,7 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AllowedAccessTokenSigningAlgorithms = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "bit", nullable: false),
+                    RequireResourceIndicator = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastAccessed = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -45,7 +46,11 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Required = table.Column<bool>(type: "bit", nullable: false),
                     Emphasize = table.Column<bool>(type: "bit", nullable: false),
-                    ShowInDiscoveryDocument = table.Column<bool>(type: "bit", nullable: false)
+                    ShowInDiscoveryDocument = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastAccessed = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    NonEditable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,6 +119,9 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     AllowPlainTextPkce = table.Column<bool>(type: "bit", nullable: false),
                     RequireRequestObject = table.Column<bool>(type: "bit", nullable: false),
                     AllowAccessTokensViaBrowser = table.Column<bool>(type: "bit", nullable: false),
+                    RequireDPoP = table.Column<bool>(type: "bit", nullable: false),
+                    DPoPValidationMode = table.Column<int>(type: "int", nullable: false),
+                    DPoPClockSkew = table.Column<TimeSpan>(type: "time", nullable: false),
                     FrontChannelLogoutUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FrontChannelLogoutSessionRequired = table.Column<bool>(type: "bit", nullable: false),
                     BackChannelLogoutUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -135,12 +143,16 @@ namespace PBJ.AuthService.DataAccess.Migrations
                     AlwaysSendClientClaims = table.Column<bool>(type: "bit", nullable: false),
                     ClientClaimsPrefix = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PairWiseSubjectSalt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastAccessed = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    InitiateLoginUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserSsoLifetime = table.Column<int>(type: "int", nullable: true),
                     UserCodeType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeviceCodeLifetime = table.Column<int>(type: "int", nullable: false),
+                    CibaLifetime = table.Column<int>(type: "int", nullable: true),
+                    PollingInterval = table.Column<int>(type: "int", nullable: true),
+                    CoordinateLifetimeWithUserSession = table.Column<bool>(type: "bit", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastAccessed = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NonEditable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -168,6 +180,27 @@ namespace PBJ.AuthService.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IdentityProviders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Scheme = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Properties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastAccessed = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    NonEditable = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IdentityProviders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IdentityResources",
                 columns: table => new
                 {
@@ -190,10 +223,29 @@ namespace PBJ.AuthService.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Keys",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Version = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Use = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Algorithm = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsX509Certificate = table.Column<bool>(type: "bit", nullable: false),
+                    DataProtected = table.Column<bool>(type: "bit", nullable: false),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Keys", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PersistedGrant",
                 columns: table => new
                 {
                     Key = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SessionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -207,6 +259,27 @@ namespace PBJ.AuthService.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PersistedGrant", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServerSideSessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Scheme = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SessionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Renewed = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Expires = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServerSideSessions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -860,13 +933,22 @@ namespace PBJ.AuthService.DataAccess.Migrations
                 name: "DeviceCode");
 
             migrationBuilder.DropTable(
+                name: "IdentityProviders");
+
+            migrationBuilder.DropTable(
                 name: "IdentityResourceClaim");
 
             migrationBuilder.DropTable(
                 name: "IdentityResourceProperty");
 
             migrationBuilder.DropTable(
+                name: "Keys");
+
+            migrationBuilder.DropTable(
                 name: "PersistedGrant");
+
+            migrationBuilder.DropTable(
+                name: "ServerSideSessions");
 
             migrationBuilder.DropTable(
                 name: "ApiResources");
