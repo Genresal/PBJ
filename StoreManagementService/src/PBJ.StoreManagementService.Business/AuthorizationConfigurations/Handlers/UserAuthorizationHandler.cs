@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
@@ -42,6 +43,7 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
             if (string.IsNullOrWhiteSpace(userName) && string.IsNullOrWhiteSpace(email))
             {
                 return Task.CompletedTask;
+
             }
 
             CheckUserAsync(email!, userName!).GetAwaiter().GetResult();
