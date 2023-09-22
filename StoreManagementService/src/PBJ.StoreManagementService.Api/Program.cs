@@ -1,3 +1,5 @@
+using MassTransit;
+using MassTransit.Futures;
 using PBJ.StoreManagementService.Api.Extensions;
 using PBJ.StoreManagementService.Api.Middlewares;
 using PBJ.StoreManagementService.Business.Extensions;
@@ -22,6 +24,8 @@ namespace PBJ.StoreManagementService.Api
             builder.Services.BuildOptions(builder.Configuration);
             builder.Services.SetupAuthentication();
             builder.Services.SetupAuthorization();
+            builder.Services.SetupOptions(builder.Configuration);
+            builder.Services.SetupMassTransit();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

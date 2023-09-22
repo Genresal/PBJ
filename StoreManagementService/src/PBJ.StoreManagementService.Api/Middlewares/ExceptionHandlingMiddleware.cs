@@ -53,6 +53,10 @@ namespace PBJ.StoreManagementService.Api.Middlewares
                     code = HttpStatusCode.Conflict;
                     break;
 
+                case UnauthorizedAccessException:
+                    code = HttpStatusCode.Unauthorized;
+                    break;
+
                 default:
                     code = HttpStatusCode.InternalServerError;
                     break;

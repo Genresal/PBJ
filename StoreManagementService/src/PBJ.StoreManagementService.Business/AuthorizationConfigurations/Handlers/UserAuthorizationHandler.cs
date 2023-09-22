@@ -1,11 +1,12 @@
-﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Requirements;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handlers
@@ -21,7 +22,14 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserRequirement requirement)
         {
-            var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken((context.Resource as HttpContext)?.Request.Headers.Authorization.ToString().Split(" ").Last());
+            var token = (context.Resource as HttpContext)?.Request.Headers.Authorization.ToString().Split(" ").Last();
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new UnauthorizedAccessException("Token cannot be null!");
+            }
+
+            var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
 
             if (jwtSecurityToken.Claims.First(x => x.Issuer == requirement.Issuer) == null)
             {
