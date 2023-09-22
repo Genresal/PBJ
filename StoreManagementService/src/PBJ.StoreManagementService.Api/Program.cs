@@ -1,3 +1,5 @@
+using MassTransit;
+using MassTransit.Futures;
 using PBJ.StoreManagementService.Api.Extensions;
 using PBJ.StoreManagementService.Api.Middlewares;
 using PBJ.StoreManagementService.Business.Extensions;
