@@ -2,7 +2,7 @@
 import NavMenu from "../UI/NavMenu/NavMenu.jsx";
 import { useState } from "react";
 import { getByUserIdAsync } from "../modules/Post/api/getByUserIdAsync.js"
-import {userManager} from "../services/AuthService.js"
+import {token, userManager} from "../services/AuthService.js"
 
 export default function HomePage() {
 
@@ -11,14 +11,11 @@ export default function HomePage() {
 
 
   const getToken = () => {
-    userManager.getUser().then((user) => {
-      if(user) {
-        console.log(user.access_token)
-      }
-      else {
-        console.log("Ты еблан");
-      }
-    })
+    console.log(token)
+
+    if(localStorage.getItem("auth")){
+      console.log(localStorage.getItem("auth"));
+    }
   }
 
   const getPosts = async () => {

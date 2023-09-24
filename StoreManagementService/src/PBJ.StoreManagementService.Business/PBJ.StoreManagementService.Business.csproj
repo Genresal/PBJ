@@ -20,7 +20,8 @@
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.1.0" />
   </ItemGroup>
 
-  <Import Project="..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems" Label="Shared" Condition="Exists('..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems')" />
+  <Import Project="..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems" 
+          Label="Shared" Condition="Exists('..\..\..\Shared\PBJ.Shared.QueueContext\PBJ.Shared.QueueContext.projitems')" />
 
   <ItemGroup>
     <ProjectReference Include="..\PBJ.StoreManagementService.DataAccess\PBJ.StoreManagementService.DataAccess.csproj" />

@@ -2,7 +2,6 @@ import {Route, Routes, BrowserRouter } from 'react-router-dom';
 import './App.css'
 import HomePage from "./pages/HomePage.jsx";
 import Callback from './pages/Callback';
-import PagesProvider from './PagesProvider';
 
 function App() {
   return (  
@@ -11,7 +10,7 @@ function App() {
             <Route path="/" element={<HomePage/>}/>
             <Route path="callback" element={<Callback/>}/>
           </Routes>
-    </BrowserRouter>  
+    </BrowserRouter>
   )
 }
 
