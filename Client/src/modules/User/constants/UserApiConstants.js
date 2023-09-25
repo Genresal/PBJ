@@ -1,1 +1,0 @@
-export const BASE_USER_URL = "https://localhost:7231/api/user";
