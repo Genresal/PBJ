@@ -1,16 +1,15 @@
-import {Route, Routes, BrowserRouter } from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import './App.css'
-import HomePage from "./pages/HomePage.jsx";
-import Callback from './pages/Callback';
+import PagesProvider from './PagesProvider';
+import AppRouter from './AppRouter/AppRouter';
 
 function App() {
-  return (  
-    <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage/>}/>
-            <Route path="callback" element={<Callback/>}/>
-          </Routes>
-    </BrowserRouter>
+  return (
+    <PagesProvider>
+      <BrowserRouter>
+        <AppRouter/>
+      </BrowserRouter>
+    </PagesProvider>
   )
 }
 

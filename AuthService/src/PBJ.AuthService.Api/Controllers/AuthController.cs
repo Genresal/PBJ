@@ -46,7 +46,7 @@ namespace PBJ.AuthService.Api.Controllers
 
             if (!authResult.Success)
             {
-                ModelState.AddModelError(nameof(LoginRequestModel.ReturnUrl), authResult.ErrorMessage!);
+                ModelState.AddModelError(nameof(LoginRequestModel.Password), authResult.ErrorMessage!);
 
                 return View(requestModel);
             }

@@ -15,7 +15,7 @@
         <div class="password-container">
             <input type="password" placeholder="Password..." asp-for="Password" id="password">
             <span asp-validation-for="Password"></span>
-            <i class="fa fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;" aria-hidden="true"></i>
+            <i class="fa fa-eye" id="togglePassword" style="margin-left: -30px;margin-top: 15px; cursor: pointer;" aria-hidden="true"></i>
         </div>
 
         
@@ -30,10 +30,10 @@
 </div>
 
 <script type="text/ecmascript">
-        var togglePassword = document.getElementById("togglePassword");
-        var password = document.getElementById("password");
+    var togglePassword = document.getElementById("togglePassword");
+    var password = document.getElementById("password");
 
-        togglePassword.addEventListener("click", (event) => {
+    togglePassword.addEventListener("click", (event) => {
         var type = password.getAttribute("type") === "password" ? "text" : "password";
 
         password.setAttribute("type", type);
