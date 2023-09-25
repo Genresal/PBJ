@@ -22,7 +22,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
-                $"{TestingConstants.PostApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.PostApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -38,7 +38,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}/paginated?page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/paginated?page={requestModel.Page}&take={requestModel.Take}",
                     HttpMethod.Get);
 
             //Assert
@@ -51,7 +51,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}/paginated?page={0}&take={string.Empty}",
+                $"{ApiConstants.PostApi}/paginated?page={0}&take={string.Empty}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -67,7 +67,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
-                $"{TestingConstants.PostApi}/userId?userId={post.UserId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/userId?userId={post.UserId}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -85,7 +85,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}/userId?userId={userId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/userId?userId={userId}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
@@ -99,7 +99,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
-                $"{TestingConstants.PostApi}/userId?userId={0}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/userId?userId={0}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -114,7 +114,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}/userId?userId={0}&page={0}&take={string.Empty}",
+                $"{ApiConstants.PostApi}/userId?userId={0}&page={0}&take={string.Empty}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -129,7 +129,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (postDto, response) =
-                await ExecuteWithFullResponseAsync<PostDto>($"{TestingConstants.PostApi}?id={post.Id}",
+                await ExecuteWithFullResponseAsync<PostDto>($"{ApiConstants.PostApi}?id={post.Id}",
                     HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
@@ -144,7 +144,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.PostApi}?id={id}",
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.PostApi}?id={id}",
                     HttpMethod.Get);
 
             //Assert
@@ -157,7 +157,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.PostApi}?id={id}",
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.PostApi}?id={id}",
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -170,7 +170,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}?id={-1}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                $"{ApiConstants.PostApi}?id={-1}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -182,7 +182,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}?id={string.Empty}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                $"{ApiConstants.PostApi}?id={string.Empty}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -201,7 +201,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (postDto, response) = await ExecuteWithFullResponseAsync<PostDto>(
-                TestingConstants.PostApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
+                ApiConstants.PostApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -215,7 +215,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                TestingConstants.PostApi, HttpMethod.Post);
+                ApiConstants.PostApi, HttpMethod.Post);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -233,7 +233,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                TestingConstants.PostApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
+                ApiConstants.PostApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -251,7 +251,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (postDto, response) = await ExecuteWithFullResponseAsync<PostDto>(
-                $"{TestingConstants.PostApi}?id={post.Id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.PostApi}?id={post.Id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -265,7 +265,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}?id={id}", HttpMethod.Put);
+                $"{ApiConstants.PostApi}?id={id}", HttpMethod.Put);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -281,7 +281,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}?id={0}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.PostApi}?id={0}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -298,7 +298,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.PostApi}?id={id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.PostApi}?id={id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -312,7 +312,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.PostApi}?id={post.Id}",
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.PostApi}?id={post.Id}",
                     HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -325,7 +325,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.PostApi}?id={id}",
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.PostApi}?id={id}",
                     HttpMethod.Delete);
 
             //Assert
@@ -338,7 +338,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.PostApi}?id={0}", HttpMethod.Delete, token: JwtTokenHandler.UserToken);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.PostApi}?id={0}", HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -349,7 +349,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.PostApi}?id={string.Empty}",
+            var response = await ExecuteWithStatusCodeAsync($"{ApiConstants.PostApi}?id={string.Empty}",
                 HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
