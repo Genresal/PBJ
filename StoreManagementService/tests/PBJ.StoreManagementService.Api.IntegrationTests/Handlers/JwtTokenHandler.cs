@@ -11,10 +11,10 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Handlers
         private static string _secretKey = "Super secret secretTestKey";
 
         public static string UserToken => 
-            GenerateToken(TestingConstants.UserUsername, TestingConstants.UserEmail, Role.User);
+            GenerateToken(AuthConstants.UserUsername, AuthConstants.UserEmail, Role.User);
 
         public static string AdminToken =>
-            GenerateToken(TestingConstants.AdminUsername, TestingConstants.AdminEmail, Role.Admin);
+            GenerateToken(AuthConstants.AdminUsername, AuthConstants.AdminEmail, Role.Admin);
 
         private static string GenerateToken(string username, string email, Role role)
         {
@@ -30,7 +30,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Handlers
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(
-                                        issuer: TestingConstants.Issuer,
+                                        issuer: AuthConstants.Issuer,
                                         claims: claims, 
                                         expires: DateTime.Now.AddHours(1), 
                                         signingCredentials: signingCredentials);

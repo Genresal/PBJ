@@ -64,7 +64,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
         {
             var requestBody = new StringContent(JsonConvert.SerializeObject(requestModel));
 
-            requestBody.Headers.ContentType = new MediaTypeHeaderValue(TestingConstants.ContentType);
+            requestBody.Headers.ContentType = new MediaTypeHeaderValue(ApiConstants.ContentType);
 
             return requestBody;
         }

@@ -22,7 +22,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
-                $"{TestingConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -36,7 +36,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                    $"{TestingConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
+                    $"{ApiConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -48,7 +48,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}/paginated?page={string.Empty}&take={string.Empty}",
+                $"{ApiConstants.CommentApi}/paginated?page={string.Empty}&take={string.Empty}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -65,7 +65,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
-                    $"{TestingConstants.CommentApi}/postId?postId={comment.PostId}&page={requestModel.Page}&take={requestModel.Take}",
+                    $"{ApiConstants.CommentApi}/postId?postId={comment.PostId}&page={requestModel.Page}&take={requestModel.Take}",
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -83,7 +83,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
-                    $"{TestingConstants.CommentApi}/postId?postId={0}&page={requestModel.Page}&take={requestModel.Take}",
+                    $"{ApiConstants.CommentApi}/postId?postId={0}&page={requestModel.Page}&take={requestModel.Take}",
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -100,7 +100,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}/postId?postId={postId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.CommentApi}/postId?postId={postId}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
@@ -113,7 +113,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}/postId?postId={string.Empty}&page={string.Empty}&take={string.Empty}",
+                $"{ApiConstants.CommentApi}/postId?postId={string.Empty}&page={string.Empty}&take={string.Empty}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -128,7 +128,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (commentDto, response) = await ExecuteWithFullResponseAsync<CommentDto>(
-                $"{TestingConstants.CommentApi}?id={comment.Id}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                $"{ApiConstants.CommentApi}?id={comment.Id}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -141,7 +141,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={commentId}",
+            var response = await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={commentId}",
                     HttpMethod.Get);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -152,7 +152,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             //Act
-            var response = await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={commentId}",
+            var response = await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={commentId}",
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -164,7 +164,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={0}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={0}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -176,7 +176,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}?id={string.Empty}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                $"{ApiConstants.CommentApi}?id={string.Empty}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -197,7 +197,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (commentDto, response) = await
-                ExecuteWithFullResponseAsync<CommentDto>(TestingConstants.CommentApi,
+                ExecuteWithFullResponseAsync<CommentDto>(ApiConstants.CommentApi,
                     HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -213,7 +213,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await
-                ExecuteWithStatusCodeAsync(TestingConstants.CommentApi,
+                ExecuteWithStatusCodeAsync(ApiConstants.CommentApi,
                     HttpMethod.Post);
 
             //Assert
@@ -231,7 +231,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                    TestingConstants.CommentApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
+                    ApiConstants.CommentApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -249,7 +249,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (commentDto, response) = await ExecuteWithFullResponseAsync<CommentDto>(
-                $"{TestingConstants.CommentApi}?id={comment.Id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.CommentApi}?id={comment.Id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -263,7 +263,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}?id={commentId}", HttpMethod.Put);
+                $"{ApiConstants.CommentApi}?id={commentId}", HttpMethod.Put);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -279,7 +279,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}?id={0}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.CommentApi}?id={0}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -296,7 +296,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.CommentApi}?id={id}", HttpMethod.Put,
+                $"{ApiConstants.CommentApi}?id={id}", HttpMethod.Put,
                 requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -311,7 +311,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={comment.Id}",
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={comment.Id}",
                     HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -324,7 +324,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={commentId}",
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={commentId}",
                     HttpMethod.Delete);
 
             //Assert
@@ -337,7 +337,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={0}",
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={0}",
                     HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -350,7 +350,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.CommentApi}?id={string.Empty}",
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={string.Empty}",
                     HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
