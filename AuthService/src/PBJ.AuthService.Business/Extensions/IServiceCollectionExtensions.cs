@@ -32,12 +32,12 @@ namespace PBJ.AuthService.Business.Extensions
 
             if (!authDbContext.ApiResources.Any())
             {
-                foreach (var apiResource in IdentityConfiguration.GetApiResources())
-                {
-                    authDbContext.ApiResources.Add(apiResource.ToEntity());
-                }
+               foreach (var apiResource in IdentityConfiguration.GetApiResources())
+               {
+                   authDbContext.ApiResources.Add(apiResource.ToEntity());
+               }
 
-                authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
+               authDbContext.SaveChangesAsync().GetAwaiter().GetResult();
             }
 
             if (!authDbContext.ApiScopes.Any())
