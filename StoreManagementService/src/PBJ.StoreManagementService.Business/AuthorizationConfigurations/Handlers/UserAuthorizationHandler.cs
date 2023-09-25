@@ -22,9 +22,9 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserRequirement requirement)
         {
-            var token = (context.Resource as HttpContext)?.Request.Headers.Authorization.ToString().Split(" ").Last();
+            var token = (context.Resource as HttpContext)?.Request.Headers.Authorization.ToString().Replace("Bearer", "").Trim();
 
-            if (string.IsNullOrEmpty(token))
+            if (string.IsNullOrWhiteSpace(token))
             {
                 throw new UnauthorizedAccessException("Token cannot be null!");
             }

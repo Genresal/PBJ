@@ -3,6 +3,7 @@ using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
 using PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations;
+using PBJ.StoreManagementService.Api.IntegrationTests.Handlers;
 using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.UserFollowers;
 using System.Net;
@@ -20,7 +21,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<UserFollowersDto>>(
-                $"{TestingConstants.UserFollowersApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
+                $"{ApiConstants.UserFollowersApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -29,14 +30,28 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                 BeAssignableTo<IEnumerable<UserFollowersDto>>();
         }
 
+        [Theory, CustomAutoData]
+        public async Task GetPaginatedAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
+            PaginationRequestModel requestModel)
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync(
+                    $"{ApiConstants.UserFollowersApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", 
+                    HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
         [Fact]
         public async Task GetPaginatedAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserFollowersApi}/paginated?page={string.Empty}&take={string.Empty}",
-                HttpMethod.Get);
+                $"{ApiConstants.UserFollowersApi}/paginated?page={string.Empty}&take={string.Empty}",
+                HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -50,11 +65,34 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (userFollowerDto, response) = await ExecuteWithFullResponseAsync<UserFollowersDto>(
-                $"{TestingConstants.UserFollowersApi}?id={userFollower.Id}", HttpMethod.Get);
+                $"{ApiConstants.UserFollowersApi}?id={userFollower.Id}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             userFollowerDto.Should().NotBeNull();
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int id)
+        {
+            //Arrange
+            //Act
+            var response= await ExecuteWithStatusCodeAsync(
+                $"{ApiConstants.UserFollowersApi}?id={id}", HttpMethod.Get);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Theory, CustomAutoData]
+        public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden(int id)
+        {
+            //Arrange
+            //Act
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{ApiConstants.UserFollowersApi}?id={id}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -63,7 +101,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserFollowersApi}?id={0}", HttpMethod.Get);
+                $"{ApiConstants.UserFollowersApi}?id={0}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -75,7 +113,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{TestingConstants.UserFollowersApi}?id={string.Empty}", HttpMethod.Get);
+                $"{ApiConstants.UserFollowersApi}?id={string.Empty}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -97,12 +135,24 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (userFollowerDto, response) = await ExecuteWithFullResponseAsync<UserFollowersDto>(
-                TestingConstants.UserFollowersApi, HttpMethod.Post, requestBody);
+                ApiConstants.UserFollowersApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             userFollowerDto?.UserId.Should().Be(userFollowersRequestModel.UserId);
+        }
+
+        [Fact]
+        public async Task CreateAsync_WhenTokenIsEmpty_ReturnsUnauthorized()
+        {
+            //Arrange
+            //Act
+            var response= await ExecuteWithStatusCodeAsync(
+                ApiConstants.UserFollowersApi, HttpMethod.Post);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]
@@ -116,7 +166,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                TestingConstants.UserFollowersApi, HttpMethod.Post, requestBody);
+                ApiConstants.UserFollowersApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -130,11 +180,24 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.UserFollowersApi}?id={userFollower.Id}",
-                    HttpMethod.Delete);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?id={userFollower.Id}",
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Theory, CustomAutoData]
+        public async Task DeleteAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int id)
+        {
+            //Arrange
+            //Act
+            var response =
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?id={id}",
+                    HttpMethod.Delete);
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]
@@ -143,8 +206,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.UserFollowersApi}?id={0}",
-                    HttpMethod.Delete);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?id={0}",
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -156,8 +219,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{TestingConstants.UserFollowersApi}?id={string.Empty}",
-                    HttpMethod.Delete);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?id={string.Empty}",
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

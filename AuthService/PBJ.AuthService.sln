@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Api", "src\PBJ.AuthService.Api\PBJ.AuthService.Api.csproj", "{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C1CDC60A-F291-40F0-856C-75B7E28AD659}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.Business", "src\PBJ.AuthService.Business\PBJ.AuthService.Business.csproj", "{0EFE64F8-CC26-421F-9C02-1D9DB5096453}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBJ.AuthService.Api", "src\PBJ.AuthService.Api\PBJ.AuthService.Api.csproj", "{9A4B6348-5C06-42EF-BBAE-5F0C92786591}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PBJ.AuthService.DataAccess", "src\PBJ.AuthService.DataAccess\PBJ.AuthService.DataAccess.csproj", "{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBJ.AuthService.Business", "src\PBJ.AuthService.Business\PBJ.AuthService.Business.csproj", "{E258260A-8900-4795-85B2-8E1AB7BF3ADF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBJ.AuthService.DataAccess", "src\PBJ.AuthService.DataAccess\PBJ.AuthService.DataAccess.csproj", "{6C48392A-ED0C-4DF3-8B1F-46AF3735E7D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +17,28 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B60492C-80A1-4D75-AAB0-CB9DEE915A32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0EFE64F8-CC26-421F-9C02-1D9DB5096453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EFE64F8-CC26-421F-9C02-1D9DB5096453}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EFE64F8-CC26-421F-9C02-1D9DB5096453}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EFE64F8-CC26-421F-9C02-1D9DB5096453}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66B1245C-750C-4B3A-BF64-50D1AD0B55F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A4B6348-5C06-42EF-BBAE-5F0C92786591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A4B6348-5C06-42EF-BBAE-5F0C92786591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A4B6348-5C06-42EF-BBAE-5F0C92786591}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A4B6348-5C06-42EF-BBAE-5F0C92786591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E258260A-8900-4795-85B2-8E1AB7BF3ADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E258260A-8900-4795-85B2-8E1AB7BF3ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E258260A-8900-4795-85B2-8E1AB7BF3ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E258260A-8900-4795-85B2-8E1AB7BF3ADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C48392A-ED0C-4DF3-8B1F-46AF3735E7D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C48392A-ED0C-4DF3-8B1F-46AF3735E7D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C48392A-ED0C-4DF3-8B1F-46AF3735E7D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C48392A-ED0C-4DF3-8B1F-46AF3735E7D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36A487A6-6CC4-44AC-A8A8-B7ED31F605E5}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9A4B6348-5C06-42EF-BBAE-5F0C92786591} = {C1CDC60A-F291-40F0-856C-75B7E28AD659}
+		{E258260A-8900-4795-85B2-8E1AB7BF3ADF} = {C1CDC60A-F291-40F0-856C-75B7E28AD659}
+		{6C48392A-ED0C-4DF3-8B1F-46AF3735E7D1} = {C1CDC60A-F291-40F0-856C-75B7E28AD659}
 	EndGlobalSection
 EndGlobal

@@ -9,6 +9,7 @@ using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
 using PBJ.StoreManagementService.Models.Comment;
 using System.Linq.Expressions;
+using PBJ.StoreManagementService.Business.Producers.Abstract;
 using PBJ.StoreManagementService.Models.Pagination;
 using Xunit;
 
@@ -17,10 +18,14 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
     public class CommentServiceTests : BaseServiceTests
     {
         private readonly Mock<ICommentRepository> _mockCommentRepository;
+        private readonly Mock<IUserRepository> _mockUserRepository;
+        private readonly Mock<IMessageProducer> _mockMessageProducer;
 
         public CommentServiceTests()
         {
             _mockCommentRepository = new Mock<ICommentRepository>();
+            _mockUserRepository = new Mock<IUserRepository>();
+            _mockMessageProducer = new Mock<IMessageProducer>();
         }
 
         [Theory, AutoMockData]
@@ -42,7 +47,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
                     It.IsAny<PaginationResponse<Comment>>()))
                 .Returns(responseDto);
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var result = await commentService.GetPaginatedAsync(page, take);
@@ -78,7 +83,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
                     It.IsAny<PaginationResponse<Comment>>()))
                 .Returns(responseDto);
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var result = await commentService.GetByPostIdAsync(postId, page, take);
@@ -105,7 +110,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 
             _mockMapper.Setup(x => x.Map<CommentDto>(comment)).Returns(commentDto);
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var result = await commentService.GetAsync(id);
@@ -124,7 +129,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockCommentRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
                 .ReturnsAsync(value: null);
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var act = () => commentService.GetAsync(id);
@@ -138,7 +143,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         [Theory, AutoMockData]
         public async Task CreateAsync_WhenRequestIsValid_ReturnsCreatedDto(Comment comment,
             CommentDto commentDto,
-            CreateCommentRequestModel commentRequestModel)
+            CreateCommentRequestModel commentRequestModel,
+            User user)
         {
             //Arrange
             _mockCommentRepository.Setup(x => x.CreateAsync(It.IsAny<Comment>()));
@@ -146,7 +152,11 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockMapper.Setup(x => x.Map<Comment>(commentRequestModel)).Returns(comment);
             _mockMapper.Setup(x => x.Map<CommentDto>(comment)).Returns(commentDto);
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>())).ReturnsAsync(user);
+
+            _mockMessageProducer.Setup(x => x.PublicCommentMessageAsync(It.IsAny<string>(), It.IsAny<string>()));
+
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var result = await commentService
@@ -155,6 +165,10 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             //Assert
             _mockCommentRepository
                 .Verify(x => x.CreateAsync(It.IsAny<Comment>()), Times.Once);
+
+            _mockUserRepository.Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
+
+            _mockMessageProducer.Verify(x => x.PublicCommentMessageAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
             result.Should().NotBeNull().And.BeOfType<CommentDto>();
         }
@@ -174,7 +188,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockMapper.Setup(x => x.Map<Comment>(commentRequestModel)).Returns(comment);
             _mockMapper.Setup(x => x.Map<CommentDto>(comment)).Returns(commentDto);
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var result = await commentService.UpdateAsync(id, commentRequestModel);
@@ -194,7 +208,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockCommentRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
                 .ReturnsAsync(value: null);
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var act = () => commentService.UpdateAsync(id, commentRequestModel);
@@ -212,7 +226,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             //Arrange
             _mockCommentRepository.Setup(x => x.DeleteAsync(It.IsAny<Comment>()));
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var result = await commentService.DeleteAsync(id);
@@ -231,7 +245,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockCommentRepository.Setup(x => x.DeleteAsync(It.IsAny<Comment>()))
                 .Throws<DbUpdateException>();
 
-            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object);
+            var commentService = new CommentService(_mockCommentRepository.Object, _mockMapper.Object, _mockUserRepository.Object, _mockMessageProducer.Object);
 
             //Act
             var act = () => commentService.DeleteAsync(1);

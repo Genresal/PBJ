@@ -25,12 +25,12 @@ namespace PBJ.StoreManagementService.Api.Extensions
         public static void SetupAuthentication(this IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = _authOptions.Authority;
-                    options.TokenValidationParameters.ValidateAudience = false;
-                    options.TokenValidationParameters.ValidTypes = new[] { "at + jwt" };
-                });
+            .AddJwtBearer(options =>
+            {
+                options.Authority = _authOptions.Authority;
+                options.TokenValidationParameters.ValidateAudience = false;
+                options.TokenValidationParameters.ValidTypes = new[] { "at + jwt" };
+            });
         }
 
         public static void SetupAuthorization(this IServiceCollection services)
