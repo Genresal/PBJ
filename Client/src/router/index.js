@@ -3,7 +3,7 @@ import HomePage from "../pages/HomePage";
 import StartPage from "../pages/StartPage";
 
 export const privateRoutes = [
-    { path: "/home", component: HomePage, exact: true }
+    { path: "/", component: HomePage, exact: true }
 ]
 
 export const publicRoutes = [

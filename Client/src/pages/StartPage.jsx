@@ -66,19 +66,6 @@ export default function StartPage() {
               Log in
             </CustomButton>
         </Grid>
-        <Grid item>
-            <CustomButton onClick={() => {window.location.href = "https://localhost:7069/auth/register"; userManager.singinRedirectCallback()}} style={{
-              textTransform: "none",
-              borderRadius: "5%",
-              color: "black",
-              fontWeight: "bold",
-              borderColor: "lightgray",
-              paddingTop: "15px",
-              paddingLeft: "15px"
-            }}>
-              Create an account
-            </CustomButton>
-        </Grid>
       </Grid>
     </Box>
   )
