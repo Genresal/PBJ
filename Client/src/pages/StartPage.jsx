@@ -1,8 +1,7 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import CustomButton from "../UI/Button/CustomButton"
 import GoogleIcon from '@mui/icons-material/Google';
 import Separator from "../UI/Separator/Separator";
 import { useContext } from "react";
@@ -37,7 +36,7 @@ export default function StartPage() {
       </Grid>
       <Grid container direction="row" rowSpacing={1}>
         <Grid item xs="auto">
-            <CustomButton variant="outlined" endIcon={<GoogleIcon/>} 
+            <Button variant="outlined" endIcon={<GoogleIcon/>} 
             style={{
               textTransform: "none",
               borderRadius: "5%",
@@ -48,13 +47,13 @@ export default function StartPage() {
               paddingLeft: "15px"
             }}>
               Sign in with Google(Not Implemented)
-            </CustomButton>
+            </Button>
         </Grid>
         <Grid item>
           <Separator text="or"/>
         </Grid>
         <Grid item>
-            <CustomButton onClick={() => {userManager.signinRedirect()}} style={{
+            <Button onClick={() => {userManager.signinRedirect()}} style={{
               textTransform: "none",
               borderRadius: "5%",
               color: "black",
@@ -64,7 +63,7 @@ export default function StartPage() {
               paddingLeft: "15px"
             }}>
               Log in
-            </CustomButton>
+            </Button>
         </Grid>
       </Grid>
     </Box>
