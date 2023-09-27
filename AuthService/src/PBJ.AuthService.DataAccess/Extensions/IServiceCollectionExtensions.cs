@@ -15,5 +15,11 @@ namespace PBJ.AuthService.DataAccess.Extensions
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
             });
         }
+
+        public static void MigrateDatabase(this IServiceCollection services)
+        {
+            services.BuildServiceProvider().CreateScope().ServiceProvider
+                .GetRequiredService<AuthDbContext>().Database.Migrate();
+        }
     }
 }

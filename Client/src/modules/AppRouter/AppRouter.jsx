@@ -1,7 +1,7 @@
 import { Switch, Route } from "react-router-dom";
-import { publicRoutes, privateRoutes } from "../router";
+import { publicRoutes, privateRoutes } from "./routes";
 import { useContext } from "react";
-import { PagesContext } from "../PagesProvider";
+import { PagesContext } from "../Provider/PagesProvider";
 
 export default function AppRouter() {
     const {isAuthenticated} = useContext(PagesContext)

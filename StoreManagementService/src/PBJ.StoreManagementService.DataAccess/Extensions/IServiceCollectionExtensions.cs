@@ -25,5 +25,11 @@ namespace PBJ.StoreManagementService.DataAccess.Extensions
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IUserFollowersRepository, UserFollowersRepository>();
         }
+
+        public static void MigrateDatabase(this IServiceCollection services)
+        {
+            services.BuildServiceProvider().CreateScope().ServiceProvider
+                .GetRequiredService<DatabaseContext>().Database.Migrate();
+        }
     }
 }

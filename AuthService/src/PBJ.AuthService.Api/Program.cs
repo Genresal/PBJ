@@ -24,6 +24,8 @@ namespace PBJ.AuthService.Api
             builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+            builder.Services.MigrateDatabase();
+
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())

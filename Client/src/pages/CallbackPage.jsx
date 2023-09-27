@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { PagesContext } from "../PagesProvider"
+import { PagesContext } from "../modules/Provider/PagesProvider"
 
 export default function CallbackPage() {
   const {userManager} = useContext(PagesContext)

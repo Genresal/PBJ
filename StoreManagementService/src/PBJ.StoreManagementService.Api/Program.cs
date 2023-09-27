@@ -33,6 +33,8 @@ namespace PBJ.StoreManagementService.Api
 
             builder.Services.AddCors();
 
+            builder.Services.MigrateDatabase();
+
             var app = builder.Build();
             
             app.UseMiddleware<ExceptionHandlingMiddleware>();

@@ -1,7 +1,7 @@
 import {BrowserRouter} from 'react-router-dom';
 import './App.css'
-import PagesProvider from './PagesProvider';
-import AppRouter from './AppRouter/AppRouter';
+import PagesProvider from './modules/Provider/PagesProvider';
+import AppRouter from './modules/AppRouter/AppRouter';
 
 function App() {
   return (
