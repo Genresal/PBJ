@@ -111,6 +111,11 @@ body {
     text-decoration: none;
 }
 
+.password-container {
+    display: flex;
+    flex-direction: row;
+}
+
 .login-form a.button:hover {
     background: #019e6a;
 }
@@ -123,9 +128,9 @@ body {
 
 @media (width >= 500px) {
     body {
-        .login-card{
+        .login-card {
             margin: 0;
             width: 400px;
         }
-}
+    }
 }

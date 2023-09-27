@@ -31,6 +31,8 @@ namespace PBJ.StoreManagementService.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwagger();
 
+            builder.Services.AddCors();
+
             var app = builder.Build();
             
             app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -39,6 +41,14 @@ namespace PBJ.StoreManagementService.Api
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMS V1");
+            });
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
             });
 
             app.UseHttpsRedirection();

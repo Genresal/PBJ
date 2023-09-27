@@ -30,11 +30,21 @@ namespace PBJ.AuthService.Business.Services
                 };
             }
 
-            var signInResult = await _signInManager.PasswordSignInAsync(userServiceResult.Result!, password, false, false);
+            var signInResult = await _signInManager.PasswordSignInAsync(userServiceResult.Result!, password, 
+                false, false);
+
+            if (!signInResult.Succeeded)
+            {
+                return new AuthResult<SignInResult>
+                {
+                    Success = false,
+                    ErrorMessage = "Invalid credentials"
+                };
+            }
 
             return new AuthResult<SignInResult>
             {
-                Success = true,
+                Success = signInResult.Succeeded,
                 Result = signInResult
             };
         }

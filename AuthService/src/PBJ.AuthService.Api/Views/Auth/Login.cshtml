@@ -1,6 +1,7 @@
 ﻿@model PBJ.AuthService.Api.RequestModels.LoginRequestModel
 
 <link rel="stylesheet" type="text/css" href="~/css/login-form.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
 <div class="login-card">
     <h2>Login Page</h2>
@@ -8,11 +9,16 @@
     <form class="login-form" asp-controller="Auth" asp-action="Login" method="post">
         <input hidden asp-for="ReturnUrl"/>
 
-        <input type="text" placeholder="email" asp-for="Email">
+        <input type="text" placeholder="Email..." asp-for="Email">
         <span asp-validation-for="Email"></span>
+        
+        <div class="password-container">
+            <input type="password" placeholder="Password..." asp-for="Password" id="password">
+            <span asp-validation-for="Password"></span>
+            <i class="fa fa-eye" id="togglePassword" style="margin-left: -30px;margin-top: 15px; cursor: pointer;" aria-hidden="true"></i>
+        </div>
 
-        <input type="text" placeholder="password" asp-for="Password">
-        <span asp-validation-for="Password"></span>
+        
 
         <button type="submit">Login</button>
 
@@ -21,7 +27,17 @@
             Register
         </a>
     </form>
-
-        
 </div>
 
+<script type="text/ecmascript">
+    var togglePassword = document.getElementById("togglePassword");
+    var password = document.getElementById("password");
+
+    togglePassword.addEventListener("click", (event) => {
+        var type = password.getAttribute("type") === "password" ? "text" : "password";
+
+        password.setAttribute("type", type);
+
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
