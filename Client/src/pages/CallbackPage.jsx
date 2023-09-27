@@ -8,7 +8,7 @@ export default function CallbackPage() {
     <>
       {
         userManager.signinRedirectCallback().then(user => {
-          window.location.href = "http://localhost:3000/home"
+          window.location.href = "http://localhost:3000"
         })
       }   
     </>
