@@ -32,7 +32,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
 
             var comment = _fixture.Create<Comment>();
 
-            comment.UserId = post.UserId;
+            comment.UserEmail = post.UserEmail;
             comment.PostId = post.Id;
 
             _databaseContext.Comments.Add(comment);
@@ -46,7 +46,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
             var user = await CreateUserAsync();
 
             var post = _fixture.Create<Post>();
-            post.UserId = user.Id;
+            post.UserEmail = user.Email;
 
             _databaseContext.Posts.Add(post);
             await _databaseContext.SaveChangesAsync();
@@ -71,8 +71,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
 
             var userFollower = _fixture.Create<UserFollowers>();
 
-            userFollower.UserId = user1.Id;
-            userFollower.FollowerId = user2.Id;
+            userFollower.UserEmail = user1.Email;
+            userFollower.FollowerEmail = user2.Email;
 
             _databaseContext.UserFollowers.Add(userFollower);
             await _databaseContext.SaveChangesAsync();

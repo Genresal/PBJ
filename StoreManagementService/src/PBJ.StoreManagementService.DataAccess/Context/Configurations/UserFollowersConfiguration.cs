@@ -15,26 +15,30 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
 
             builder.HasOne(uf => uf.User)
                 .WithMany(u => u.Followers)
-                .HasForeignKey(uf => uf.UserId)
+                .HasForeignKey(uf => uf.UserEmail)
+                .HasPrincipalKey(u => u.Email)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(uf => uf.Follower)
                 .WithMany(u => u.Followings)
-                .HasForeignKey(uf => uf.FollowerId)
+                .HasForeignKey(uf => uf.UserEmail)
+                .HasPrincipalKey(u => u.Email)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasData(
-                new UserFollowers()
+                new UserFollowers
                 {
                     Id = 1,
-                    UserId = 1,
-                    FollowerId = 2
+                    UserEmail = "unique1@email.com",
+                    FollowerEmail = "unique2@email.com"
                 },
-                new UserFollowers()
+                new UserFollowers
                 {
                     Id = 2,
-                    UserId = 2,
-                    FollowerId = 1
+                    UserEmail = "unique2@email.com",
+                    FollowerEmail = "unique1@email.com"
                 }
                 );
         }

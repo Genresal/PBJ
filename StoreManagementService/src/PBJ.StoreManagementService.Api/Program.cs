@@ -33,7 +33,10 @@ namespace PBJ.StoreManagementService.Api
 
             builder.Services.AddCors();
 
-            builder.Services.MigrateDatabase();
+            if (!builder.Environment.IsEnvironment("Testing"))
+            {
+                builder.Services.MigrateDatabase();
+            }
 
             var app = builder.Build();
             

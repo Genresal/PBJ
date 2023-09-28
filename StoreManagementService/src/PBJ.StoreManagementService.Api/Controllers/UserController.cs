@@ -28,34 +28,26 @@ namespace PBJ.StoreManagementService.Api.Controllers
         }
 
         [HttpGet, Route("followers")]
-        public async Task<ActionResult> GetFollowersAsync(int userId, 
+        public async Task<ActionResult> GetFollowersAsync(string userEmail, 
             [FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _userService
-                .GetFollowersAsync(userId, requestModel.Page, requestModel.Take);
+                .GetFollowersAsync(userEmail, requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }
 
         [HttpGet, Route("followings")]
-        public async Task<ActionResult> GetFollowingsAsync(int followerId, 
+        public async Task<ActionResult> GetFollowingsAsync(string followerEmail, 
             [FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _userService
-                .GetFollowingsAsync(followerId, requestModel.Page, requestModel.Take);
+                .GetFollowingsAsync(followerEmail, requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }
 
         [Authorize(Policy = "Admin")]
-        [HttpGet]
-        public async Task<ActionResult> GetAsync(int id)
-        {
-            var result = await _userService.GetAsync(id);
-
-            return Ok(result);
-        }
-
         [HttpGet, Route("email")]
         public async Task<ActionResult> GetAsync(string email)
         {

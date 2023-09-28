@@ -79,6 +79,8 @@ namespace PBJ.AuthService.Business.Extensions
                 {
                     new Claim(ClaimTypes.Email, user.Email!),
                     new Claim(ClaimTypes.Name, user.UserName!),
+                    new Claim("surname", user.Surname),
+                    new Claim(ClaimTypes.DateOfBirth, user.BirthDate.ToShortDateString()),
                     new Claim(ClaimTypes.Role, Role.User.ToString())
                 }).GetAwaiter().GetResult();
 
@@ -93,6 +95,8 @@ namespace PBJ.AuthService.Business.Extensions
                 {
                     new Claim(ClaimTypes.Email, admin.Email!),
                     new Claim(ClaimTypes.Name, admin.UserName!),
+                    new Claim("surname", admin.Surname),
+                    new Claim(ClaimTypes.DateOfBirth, admin.BirthDate.ToShortDateString()),
                     new Claim(ClaimTypes.Role, Role.Admin.ToString())
                 }).GetAwaiter().GetResult();
 

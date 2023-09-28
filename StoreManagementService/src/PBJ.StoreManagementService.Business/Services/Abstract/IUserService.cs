@@ -7,11 +7,9 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
     {
         Task<PaginationResponseDto<UserDto>> GetPaginatedAsync(int page, int take);
 
-        Task<PaginationResponseDto<UserDto>> GetFollowersAsync(int userId, int page, int take);
+        Task<PaginationResponseDto<UserDto>> GetFollowersAsync(string userEmail, int page, int take);
 
-        Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(int userId, int page, int take);
-
-        Task<UserDto> GetAsync(int id);
+        Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(string followerEmail, int page, int take);
 
         Task<UserDto> GetAsync(string email);
 

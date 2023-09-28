@@ -6,11 +6,11 @@ namespace PBJ.StoreManagementService.Models.UserFollowers
     {
         public int Id { get; set; }
 
-        public int UserId { get; set; }
+        public string UserEmail { get; set; } = null!;
 
         public UserDto? User { get; set; }
 
-        public int FollowerId { get; set; }
+        public string FollowerEmail { get; set; } = null!;
 
         public UserDto? Follower { get; set; }
     }

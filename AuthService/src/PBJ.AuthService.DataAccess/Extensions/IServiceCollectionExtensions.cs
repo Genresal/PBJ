@@ -11,7 +11,10 @@ namespace PBJ.AuthService.DataAccess.Extensions
         {
             services.AddDbContext<AuthDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), options =>
+                {
+                    options.EnableRetryOnFailure();
+                });
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
             });
         }

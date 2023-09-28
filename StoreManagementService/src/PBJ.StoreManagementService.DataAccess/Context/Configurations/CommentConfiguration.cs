@@ -22,37 +22,32 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .IsRequired()
                 .HasColumnType("date");
 
-            builder.Property(x => x.UserId)
-                .IsRequired();
-
-            builder.HasOne(c => c.User)
-                .WithMany(u => u.Comments)
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Property(x => x.PostId)
-                .IsRequired();
+            builder.HasOne(p => p.User)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(c => c.UserEmail)
+                .HasPrincipalKey(u => u.Email)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
-                new Comment()
+                new Comment
                 {
                     Id = 1,
                     Content = "CommentContent1",
-                    CreatedAt = DateTime.Now,
-                    UserId = 1,
+                    UserEmail = "unique1@email.com",
                     PostId = 2
                 },
-                new Comment()
+                new Comment
                 {
                     Id = 2,
                     Content = "CommentContent2",
-                    CreatedAt = DateTime.Now,
-                    UserId = 2,
+                    UserEmail = "unique2@email.com",
                     PostId = 1
                 }
                 );

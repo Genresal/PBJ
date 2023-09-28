@@ -1,11 +1,9 @@
 import { UserManager, WebStorageStateStore } from 'oidc-client';
-import { useState, createContext } from 'react'
-import { useEffect } from 'react';
+import { useState, createContext, useEffect } from 'react'
 import axios from 'axios';
 import { decodeToken } from 'react-jwt';
 import { EmailClaim } from '../../constants/ClaimConstants';
 import { getUserByEmail } from '../User/api/getUserByEmail';
-import { useMemo } from 'react';
 
 export const PagesContext = createContext(null);
 
@@ -34,24 +32,32 @@ export default function PagesProvider({children}) {
     }
 
     const getUser = async (access_token) => {
-        const decodedToken = decodeToken(access_token);
+        if (user === null) {
+            const decodedToken = decodeToken(access_token);
 
-        const user = await getUserByEmail(decodedToken[EmailClaim]);
-        
+            const requestedUser = await getUserByEmail(decodedToken[EmailClaim]);
+    
+            console.log("get user")
+
+            return requestedUser;
+        }
+
         return user;
     }
 
     useEffect(() => {
-        userManager.getUser().then(async (user) => {
-            if(user) {
-                setIsAuthenticated(true)
 
-                axios.defaults.headers.common["Authorization"] = `Bearer ${user.access_token}`;
+        console.log(1);
+        // userManager.getUser().then(async (user) => {
+        //     if(user) {
+        //         setIsAuthenticated(true)
 
-                setUser(await getUser(user.access_token));
-            }
-        })
-    }, [])
+        //         axios.defaults.headers.common["Authorization"] = `Bearer ${user.access_token}`;
+
+        //         setUser(await getUser(user.access_token));
+        //     }
+        // })
+    }, [user])
 
     return (
         <PagesContext.Provider value={ContextValues}>

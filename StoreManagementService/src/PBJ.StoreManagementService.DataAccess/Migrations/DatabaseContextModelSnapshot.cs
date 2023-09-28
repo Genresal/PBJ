@@ -41,14 +41,15 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserEmail");
 
                     b.ToTable("Comments");
 
@@ -57,17 +58,17 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "CommentContent1",
-                            CreatedAt = new DateTime(2023, 7, 24, 15, 47, 26, 976, DateTimeKind.Local).AddTicks(7593),
+                            CreatedAt = new DateTime(2023, 9, 28, 14, 55, 53, 209, DateTimeKind.Local).AddTicks(7174),
                             PostId = 2,
-                            UserId = 1
+                            UserEmail = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
                             Content = "CommentContent2",
-                            CreatedAt = new DateTime(2023, 7, 24, 15, 47, 26, 976, DateTimeKind.Local).AddTicks(7606),
+                            CreatedAt = new DateTime(2023, 9, 28, 14, 55, 53, 209, DateTimeKind.Local).AddTicks(7219),
                             PostId = 1,
-                            UserId = 2
+                            UserEmail = "unique2@email.com"
                         });
                 });
 
@@ -87,12 +88,13 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("date");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserEmail");
 
                     b.ToTable("Posts");
 
@@ -101,15 +103,15 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            CreatedAt = new DateTime(2023, 7, 24, 15, 47, 26, 977, DateTimeKind.Local).AddTicks(4862),
-                            UserId = 1
+                            CreatedAt = new DateTime(2023, 9, 28, 14, 55, 53, 210, DateTimeKind.Local).AddTicks(3622),
+                            UserEmail = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            CreatedAt = new DateTime(2023, 7, 24, 15, 47, 26, 977, DateTimeKind.Local).AddTicks(4877),
-                            UserId = 2
+                            CreatedAt = new DateTime(2023, 9, 28, 14, 55, 53, 210, DateTimeKind.Local).AddTicks(3640),
+                            UserEmail = "unique1@email.com"
                         });
                 });
 
@@ -121,30 +123,15 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("date");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nchar");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nchar");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nchar");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nchar");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
 
@@ -152,20 +139,12 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            BirthDate = new DateTime(2023, 7, 24, 15, 47, 26, 977, DateTimeKind.Local).AddTicks(8963),
-                            Email = "login1",
-                            LastName = "Lastname1",
-                            Name = "Name1",
-                            Surname = "Surname1"
+                            Email = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
-                            BirthDate = new DateTime(2023, 7, 24, 15, 47, 26, 977, DateTimeKind.Local).AddTicks(8972),
-                            Email = "login2",
-                            LastName = "Lastname2",
-                            Name = "Name2",
-                            Surname = "Surname2"
+                            Email = "unique2@email.com"
                         });
                 });
 
@@ -177,15 +156,20 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("FollowerId")
-                        .HasColumnType("int");
+                    b.Property<string>("FollowerEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nchar(50)");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FollowerId");
+                    b.HasIndex("UserEmail");
 
                     b.HasIndex("UserId");
 
@@ -195,14 +179,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            FollowerId = 2,
-                            UserId = 1
+                            FollowerEmail = "unique2@email.com",
+                            UserEmail = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
-                            FollowerId = 1,
-                            UserId = 2
+                            FollowerEmail = "unique1@email.com",
+                            UserEmail = "unique2@email.com"
                         });
                 });
 
@@ -216,8 +200,9 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("UserEmail")
+                        .HasPrincipalKey("Email")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -229,7 +214,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 {
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserEmail")
+                        .HasPrincipalKey("Email")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -240,15 +226,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 {
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.User", "Follower")
                         .WithMany("Followings")
-                        .HasForeignKey("FollowerId")
+                        .HasForeignKey("UserEmail")
+                        .HasPrincipalKey("Email")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.User", "User")
                         .WithMany("Followers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Follower");
 

@@ -30,10 +30,10 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<PaginationResponseDto<PostDto>>(paginationResponse);
         }
 
-        public async Task<PaginationResponseDto<PostDto>> GetByUserIdAsync(int userId, int page, int take)
+        public async Task<PaginationResponseDto<PostDto>> GetByUserEmailAsync(string userEmail, int page, int take)
         {
             var paginationResponse = await _postRepository.GetPaginatedAsync(
-                page, take, where: x => x.UserId == userId, orderBy: x => x.Id);
+                page, take, where: x => x.UserEmail == userEmail, orderBy: x => x.Id);
 
             return _mapper.Map<PaginationResponseDto<PostDto>>(paginationResponse);
         }

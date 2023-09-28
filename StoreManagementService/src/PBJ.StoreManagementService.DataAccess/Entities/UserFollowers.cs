@@ -4,11 +4,11 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
 {
     public class UserFollowers : BaseEntity
     {
-        public int UserId { get; set; }
+        public string UserEmail { get; set; } = null!;
 
         public User? User { get; set; }
 
-        public int FollowerId { get; set; }
+        public string FollowerEmail { get; set; } = null!;
 
         public User? Follower { get; set; }
     }

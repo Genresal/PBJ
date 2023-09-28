@@ -59,7 +59,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetByUserIdAsync_WhenRequestIsValid_ReturnsOk(
+        public async Task GetByUserEmailAsync_WhenRequestIsValid_ReturnsOk(
             PaginationRequestModel requestModel)
         {
             //Arrange
@@ -67,18 +67,18 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
-                $"{ApiConstants.PostApi}/userId?userId={post.UserId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/userId?userId={post.UserEmail}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             paginationResponseDto?.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<PostDto>>();
-            paginationResponseDto?.Items.Should().AllSatisfy(x => x.UserId.Should().Be(post.UserId));
+            paginationResponseDto?.Items.Should().AllSatisfy(x => x.UserEmail.Should().Be(post.UserEmail));
         }
 
         [Theory, CustomAutoData]
-        public async Task GetByUserIdAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
+        public async Task GetByUserEmailAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
             int userId,
             PaginationRequestModel requestModel)
         {
@@ -93,7 +93,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetByUserIdAsync_WhenUserIdIsZero_ReturnsOK(
+        public async Task GetByUserEmailAsync_WhenUserIdIsZero_ReturnsOK(
             PaginationRequestModel requestModel)
         {
             //Arrange
@@ -109,7 +109,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetByUserIdAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        public async Task GetByUserEmailAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             //Act
@@ -195,7 +195,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user = await _dataManager.CreateUserAsync();
 
             var postRequestModel = _fixture.Build<CreatePostRequestModel>()
-                .With(x => x.UserId, user.Id).Create();
+                .With(x => x.UserEmail, user.Email).Create();
 
             var requestBody = BuildRequestBody(postRequestModel);
 
@@ -206,7 +206,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            postDto?.UserId.Should().Be(postRequestModel.UserId);
+            postDto?.UserEmail.Should().Be(postRequestModel.UserEmail);
         }
 
         [Fact]

@@ -13,6 +13,12 @@ namespace PBJ.AuthService.Api.Validators
             RuleFor(x => x.UserName).MinimumLength(5)
                 .WithMessage("Username must contain at least 5 characters");
 
+            RuleFor(x => x.Surname).NotEmpty()
+                .WithMessage("Required field");
+
+            RuleFor(x => x.BirthDate).NotNull()
+                .WithMessage("Required field");
+
             RuleFor(x => x.Email).EmailAddress()
                 .WithMessage("Please enter valid email address");
 

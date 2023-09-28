@@ -2,8 +2,8 @@
 {
     public class UserFollowersRequestModel
     {
-        public int UserId { get; set; }
+        public string UserEmail { get; set; } = null!;
 
-        public int FollowerId { get; set; }
+        public string FollowerEmail { get; set; } = null!;
     }
 }

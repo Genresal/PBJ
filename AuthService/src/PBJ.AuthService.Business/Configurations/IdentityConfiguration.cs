@@ -131,8 +131,9 @@ namespace PBJ.AuthService.Business.Configurations
         {
             return new AuthUser
             {
-                UserName = "JoeDoe",
-                Email = "joeDoe@email.com"
+                UserName = "Joe",
+                Email = "joeDoe@email.com",
+                Surname = "Doe",
             };
         }
 
@@ -141,7 +142,8 @@ namespace PBJ.AuthService.Business.Configurations
             return new AuthUser
             {
                 UserName = "admin",
-                Email = "admin@email.com"
+                Email = "admin@email.com", 
+                Surname = "",
             };
         }
 

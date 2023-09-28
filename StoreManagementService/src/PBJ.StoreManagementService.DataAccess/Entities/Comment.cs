@@ -6,9 +6,9 @@ namespace PBJ.StoreManagementService.DataAccess.Entities
     {
         public string? Content { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public int UserId { get; set; }
+        public string UserEmail { get; set; } = null!;
 
         public User? User { get; set; }
 

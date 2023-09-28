@@ -127,8 +127,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user2 = await _dataManager.CreateUserAsync();
 
             var userFollowersRequestModel = _fixture.Build<UserFollowersRequestModel>()
-                .With(x => x.UserId, user1.Id)
-                .With(x => x.FollowerId, user2.Id)
+                .With(x => x.UserEmail, user1.Email)
+                .With(x => x.FollowerEmail, user2.Email)
                 .Create();
 
             var requestBody = BuildRequestBody(userFollowersRequestModel);
@@ -140,7 +140,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            userFollowerDto?.UserId.Should().Be(userFollowersRequestModel.UserId);
+            userFollowerDto?.UserEmail.Should().Be(userFollowersRequestModel.UserEmail);
         }
 
         [Fact]
@@ -160,7 +160,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         {
             //Arrange
             var userFollowersRequestModel = _fixture.Build<UserFollowersRequestModel>()
-                .With(x => x.UserId, 0).Create();
+                .With(x => x.UserEmail, "").Create();
 
             var requestBody = BuildRequestBody(userFollowersRequestModel);
 

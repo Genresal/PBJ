@@ -22,28 +22,25 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .IsRequired()
                 .HasColumnType("date");
 
-            builder.Property(x => x.UserId)
-                .IsRequired();
-
             builder.HasOne(p => p.User)
                 .WithMany(u => u.Posts)
-                .HasForeignKey(p => p.UserId)
+                .HasForeignKey(p => p.UserEmail)
+                .HasPrincipalKey(u => u.Email)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
-                new Post()
+                new Post
                 {
                     Id = 1,
                     Content = "PostContent1",
-                    CreatedAt = DateTime.Now,
-                    UserId = 1
+                    UserEmail = "unique1@email.com"
                 },
-                new Post()
+                new Post
                 {
                     Id = 2,
                     Content = "PostContent2",
-                    CreatedAt = DateTime.Now,
-                    UserId = 2
+                    UserEmail = "unique1@email.com"
                 }
                 );
         }
