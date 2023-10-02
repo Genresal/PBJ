@@ -1,18 +1,10 @@
 import { Button, Grid, Divider } from "@mui/material";
 import { Box } from "@mui/system";
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useContext } from "react";
 import { PagesContext } from "../modules/Provider/PagesProvider";
+import { Item } from "../UI/Item/Item";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 export default function StartPage() {
   const { userManager } = useContext(PagesContext);

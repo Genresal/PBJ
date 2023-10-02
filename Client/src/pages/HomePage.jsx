@@ -1,4 +1,4 @@
-import NavMenu from "../UI/NavMenu/NavMenu";
+import NavMenu from "../UI/NavMenu/NavMenu"
 
 export default function HomePage() {
   return (

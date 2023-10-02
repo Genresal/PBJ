@@ -2,8 +2,8 @@ import { UserManager, WebStorageStateStore } from 'oidc-client';
 import { useState, createContext, useEffect } from 'react'
 import axios from 'axios';
 import { decodeToken } from 'react-jwt';
-import { EmailClaim } from '../../constants/ClaimConstants';
-import { getUserByEmail } from '../User/api/getUserByEmail';
+import { BirthDateClaim, EmailClaim, NameClaim, RoleClaim, SurnameClaim } from '../../constants/ClaimConstants';
+import NavMenu from '../../UI/NavMenu/NavMenu';
 
 export const PagesContext = createContext(null);
 
@@ -21,7 +21,13 @@ const userManager = new UserManager({
 export default function PagesProvider({children}) {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        email: "",
+        name: "",
+        surname: "",
+        birthDate: "",
+        role: ""
+    });
 
     const ContextValues = {
         isAuthenticated,
@@ -31,33 +37,34 @@ export default function PagesProvider({children}) {
         setUser
     }
 
-    const getUser = async (access_token) => {
-        if (user === null) {
-            const decodedToken = decodeToken(access_token);
-
-            const requestedUser = await getUserByEmail(decodedToken[EmailClaim]);
+    const getUser = (access_token) => {
     
-            console.log("get user")
+        const decodedToken = decodeToken(access_token);
 
-            return requestedUser;
+        console.log(decodedToken)
+
+        const decodedUser = {
+            email: decodedToken[EmailClaim],
+            name: decodedToken[NameClaim],
+            surname: decodedToken[SurnameClaim],
+            birthDate: decodedToken[BirthDateClaim],
+            role: decodedToken[RoleClaim]
         }
 
-        return user;
+        return decodedUser;
     }
 
     useEffect(() => {
+        userManager.getUser().then(async (userInfo) => {
+            if(userInfo) {
+                setIsAuthenticated(true)
+                
+                axios.defaults.headers.common["Authorization"] = `Bearer ${userInfo.access_token}`;
 
-        console.log(1);
-        // userManager.getUser().then(async (user) => {
-        //     if(user) {
-        //         setIsAuthenticated(true)
-
-        //         axios.defaults.headers.common["Authorization"] = `Bearer ${user.access_token}`;
-
-        //         setUser(await getUser(user.access_token));
-        //     }
-        // })
-    }, [user])
+                setUser(getUser(userInfo.access_token));
+            }
+        })
+    }, [])
 
     return (
         <PagesContext.Provider value={ContextValues}>
