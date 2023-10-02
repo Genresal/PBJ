@@ -5,7 +5,6 @@ import { useContext } from "react";
 import { PagesContext } from "../modules/Provider/PagesProvider";
 import { Item } from "../UI/Item/Item";
 
-
 export default function StartPage() {
   const { userManager } = useContext(PagesContext);
 
