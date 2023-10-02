@@ -54,7 +54,7 @@ namespace PBJ.AuthService.Business.Configurations
                     {
                         "http://localhost:3000/callback",
                     },
-                    PostLogoutRedirectUris = { "http://localhost:3000/signout-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:3000" },
                     AllowedCorsOrigins = { "http://localhost:3000" },
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowOfflineAccess = true,
