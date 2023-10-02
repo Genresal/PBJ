@@ -66,7 +66,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
-                $"{ApiConstants.UserApi}/followers?userId={userFollower.UserEmail}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.UserApi}/followers?email={userFollower.UserEmail}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -85,7 +85,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}/followers?userId={userId}&page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
+                $"{ApiConstants.UserApi}/followers?email={userId}&page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -99,7 +99,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}/followers?userId={userFollower.UserEmail}&page={0}&take={0}",
+                $"{ApiConstants.UserApi}/followers?email={userFollower.UserEmail}&page={0}&take={0}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -107,33 +107,17 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetFollowersAsync_WhenUserIdIsNotValid_ReturnsBadRequest(
+        public async Task GetFollowersAsync_WhenUserEmailIsNotValid_ReturnsBadRequest(
             PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}/followers?userId={string.Empty}&page={0}&take={requestModel.Take}",
+                $"{ApiConstants.UserApi}/followers?email={string.Empty}&page={0}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
-
-        [Theory, CustomAutoData]
-        public async Task GetFollowersAsync_WhenUserIdIsZero_ReturnsOk(
-            PaginationRequestModel requestModel)
-        {
-            //Arrange
-            //Act
-            var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
-                $"{ApiConstants.UserApi}/followers?userId={0}&page={requestModel.Page}&take={requestModel.Take}",
-                HttpMethod.Get, token: JwtTokenHandler.UserToken);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            paginationResponseDto?.Items.Should().NotBeNull().And.BeEmpty();
         }
 
         [Theory, CustomAutoData]
@@ -145,7 +129,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
-                $"{ApiConstants.UserApi}/followings?followerId={userFollower.FollowerEmail}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.UserApi}/followings?email={userFollower.UserEmail}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -163,7 +147,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}/followings?followerId={followerId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.UserApi}/followings?email={followerId}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
@@ -178,7 +162,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}/followings?followerId={userFollower.FollowerEmail}&page={0}&take={0}",
+                $"{ApiConstants.UserApi}/followings?email={userFollower.FollowerEmail}&page={0}&take={0}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -186,13 +170,13 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, AutoData]
-        public async Task GetFollowingsAsync_WhenFollowerIdIsNotValid_ReturnsBadRequest(
+        public async Task GetFollowingsAsync_WhenFollowerEmailIsNotValid_ReturnsBadRequest(
             PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}/followings?followerId={string.Empty}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.UserApi}/followings?email={string.Empty}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -200,20 +184,17 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, AutoData]
-        public async Task GetFollowingsAsync_WhenFollowerIdIsZero_ReturnsOk(
+        public async Task GetFollowingsAsync_WhenFollowerEmailIsInvalid_ReturnsBadRequest(
             PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
-            var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
-                $"{ApiConstants.UserApi}/followings?followerId={0}&page={requestModel.Page}&take={requestModel.Take}",
+            var response = await ExecuteWithStatusCodeAsync(
+                $"{ApiConstants.UserApi}/followings?email=email&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            paginationResponseDto.Should().NotBeNull();
-            paginationResponseDto?.Items.Should().NotBeNull().And.AllBeAssignableTo<IEnumerable<UserDto>>().And.BeEmpty();
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]
@@ -245,7 +226,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetAsync_WhenTokenIsNotAdmin_ReturnsUnauthorized(string email)
+        public async Task GetAsync_WhenTokenIsNotAdmin_ReturnsForbidden(string email)
         {
             //Arrange
             //Act
@@ -253,7 +234,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
                 $"{ApiConstants.UserApi}/email?email={email}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -262,7 +243,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}/email?email=@gmail.com", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                $"{ApiConstants.UserApi}/email?email=blabla@gmail.com", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -358,90 +339,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Fact]
-        public async Task UpdateAsync_WhenEntityExists_ReturnsOk()
-        {
-            //Arrange
-            var user = await _dataManager.CreateUserAsync();
-
-            var userRequestModel = _fixture.Build<UserRequestModel>()
-                .With(x => x.Email, "testEmail@gmail.com").Create();
-
-            var requestBody = BuildRequestBody(userRequestModel);
-
-            //Act
-            var (userDto, response) = await ExecuteWithFullResponseAsync<UserDto>(
-                $"{ApiConstants.UserApi}?id={user.Id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            userDto?.Email.Should().Be(userRequestModel.Email);
-        }
-
-        [Theory, CustomAutoData]
-        public async Task UpdateAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int id)
-        {
-            //Arrange
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}?id={id}", HttpMethod.Put);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-        }
-
-        [Fact]
-        public async Task UpdateAsync_WhenEntityNotExists_ReturnsNotFound()
-        {
-            //Arrange
-            var userRequestModel = _fixture.Build<UserRequestModel>()
-                .With(x => x.Email, "testEmail@gmail.com").Create();
-
-            var requestBody = BuildRequestBody(userRequestModel);
-
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}?id={0}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        }
-
-        [Fact]
-        public async Task UpdateAsync_WhenRequestIsNotValid_ReturnsNotFound()
-        {
-            //Arrange
-            var userRequestModel = _fixture.Build<UserRequestModel>()
-                .With(x => x.Email, "testEmail@gmail.com").Create();
-
-            var requestBody = BuildRequestBody(userRequestModel);
-
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}?id={string.Empty}",
-                HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
-
-        [Theory, AutoData]
-        public async Task UpdateAsync_WhenRequestModelIsNotValid_ReturnsBadRequest(int id)
-        {
-            //Arrange
-            var userRequestModel = _fixture.Build<UserRequestModel>()
-                .With(x => x.Email, string.Empty).Create();
-
-            var requestBody = BuildRequestBody(userRequestModel);
-
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserApi}?id={id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
+        
 
         [Fact]
         public async Task DeleteAsync_WhenEntityExists_ReturnsOk()

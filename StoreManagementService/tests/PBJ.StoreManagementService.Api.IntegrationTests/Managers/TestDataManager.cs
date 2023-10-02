@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Bogus;
 using PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations;
 using PBJ.StoreManagementService.DataAccess.Context;
 using PBJ.StoreManagementService.DataAccess.Entities;
@@ -57,6 +58,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Managers
         public async Task<User> CreateUserAsync()
         {
             var user = _fixture.Create<User>();
+
+            user.Email = new Faker().Internet.Email();
 
             _databaseContext.Users.Add(user);
             await _databaseContext.SaveChangesAsync();

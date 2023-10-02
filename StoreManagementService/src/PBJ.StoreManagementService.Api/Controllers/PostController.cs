@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.Post;
+using PBJ.StoreManagementService.Models.User;
 
 namespace PBJ.StoreManagementService.Api.Controllers
 {
@@ -27,11 +28,11 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("userId")]
-        public async Task<ActionResult> GetByUserEmailAsync(string userEmail, [FromQuery] PaginationRequestModel requestModel)
+        [HttpGet, Route("email")]
+        public async Task<ActionResult> GetByUserEmailAsync([FromQuery] UserRequestModel userRequestModel, [FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _postService
-                .GetByUserEmailAsync(userEmail, requestModel.Page, requestModel.Take);
+                .GetByUserEmailAsync(userRequestModel.Email!, requestModel.Page, requestModel.Take);
 
             return Ok(result);
         }

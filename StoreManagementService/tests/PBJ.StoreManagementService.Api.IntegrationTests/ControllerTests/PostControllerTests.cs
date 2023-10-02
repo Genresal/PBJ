@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
+using Bogus;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
@@ -67,7 +68,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
-                $"{ApiConstants.PostApi}/userId?userId={post.UserEmail}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/email?email={post.UserEmail}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -79,13 +80,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
         [Theory, CustomAutoData]
         public async Task GetByUserEmailAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
-            int userId,
             PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.PostApi}/userId?userId={userId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/email?email={new Faker().Internet.Email()}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
@@ -93,13 +93,13 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetByUserEmailAsync_WhenUserIdIsZero_ReturnsOK(
+        public async Task GetByUserEmailAsync_WhenUserEmailIsInvalid_ReturnsOK(
             PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
-                $"{ApiConstants.PostApi}/userId?userId={0}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/email?email={new Faker().Internet.Email()}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -114,7 +114,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.PostApi}/userId?userId={0}&page={0}&take={string.Empty}",
+                $"{ApiConstants.PostApi}/email?email={new Faker().Internet.Email()}&page={0}&take={string.Empty}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert

@@ -22,7 +22,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
 
             builder.HasOne(uf => uf.Follower)
                 .WithMany(u => u.Followings)
-                .HasForeignKey(uf => uf.UserEmail)
+                .HasForeignKey(uf => uf.FollowerEmail)
                 .HasPrincipalKey(u => u.Email)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);

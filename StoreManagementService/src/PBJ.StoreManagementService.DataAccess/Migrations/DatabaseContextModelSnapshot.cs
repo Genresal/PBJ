@@ -58,7 +58,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "CommentContent1",
-                            CreatedAt = new DateTime(2023, 9, 28, 14, 55, 53, 209, DateTimeKind.Local).AddTicks(7174),
+                            CreatedAt = new DateTime(2023, 10, 2, 12, 34, 2, 145, DateTimeKind.Local).AddTicks(3835),
                             PostId = 2,
                             UserEmail = "unique1@email.com"
                         },
@@ -66,7 +66,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 2,
                             Content = "CommentContent2",
-                            CreatedAt = new DateTime(2023, 9, 28, 14, 55, 53, 209, DateTimeKind.Local).AddTicks(7219),
+                            CreatedAt = new DateTime(2023, 10, 2, 12, 34, 2, 145, DateTimeKind.Local).AddTicks(3880),
                             PostId = 1,
                             UserEmail = "unique2@email.com"
                         });
@@ -103,14 +103,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            CreatedAt = new DateTime(2023, 9, 28, 14, 55, 53, 210, DateTimeKind.Local).AddTicks(3622),
+                            CreatedAt = new DateTime(2023, 10, 2, 12, 34, 2, 146, DateTimeKind.Local).AddTicks(390),
                             UserEmail = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            CreatedAt = new DateTime(2023, 9, 28, 14, 55, 53, 210, DateTimeKind.Local).AddTicks(3640),
+                            CreatedAt = new DateTime(2023, 10, 2, 12, 34, 2, 146, DateTimeKind.Local).AddTicks(411),
                             UserEmail = "unique1@email.com"
                         });
                 });
@@ -158,20 +158,17 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("FollowerEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nchar(50)");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("nchar(50)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserEmail");
+                    b.HasIndex("FollowerEmail");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserEmail");
 
                     b.ToTable("UserFollowers");
 
@@ -226,14 +223,17 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 {
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.User", "Follower")
                         .WithMany("Followings")
-                        .HasForeignKey("UserEmail")
+                        .HasForeignKey("FollowerEmail")
                         .HasPrincipalKey("Email")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PBJ.StoreManagementService.DataAccess.Entities.User", "User")
                         .WithMany("Followers")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserEmail")
+                        .HasPrincipalKey("Email")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Follower");
 
