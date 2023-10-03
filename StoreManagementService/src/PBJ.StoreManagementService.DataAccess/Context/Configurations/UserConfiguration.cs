@@ -10,27 +10,10 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
         {
             builder.HasKey(x => x.Id);
 
+            builder.HasIndex(x => x.Email).IsUnique();
+
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd();
-
-            builder.Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(30)
-                .HasColumnType("nchar");
-
-            builder.Property(x => x.Surname)
-                .IsRequired()
-                .HasMaxLength(30)
-                .HasColumnType("nchar");
-
-            builder.Property(x => x.LastName)
-                .IsRequired()
-                .HasMaxLength(30)
-                .HasColumnType("nchar");
-
-            builder.Property(x => x.BirthDate)
-                .IsRequired(false)
-                .HasColumnType("date");
 
             builder.Property(x => x.Email)
                 .IsRequired()
@@ -38,23 +21,15 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .HasColumnType("nchar");
 
             builder.HasData(
-                new User()
+                new User
                 {
                     Id = 1,
-                    Name = "Name1",
-                    Surname = "Surname1",
-                    LastName = "Lastname1",
-                    BirthDate = DateTime.Now,
-                    Email = "login1"
+                    Email = "unique1@email.com"
                 },
-                new User()
+                new User
                 {
                     Id = 2,
-                    Name = "Name2",
-                    Surname = "Surname2",
-                    LastName = "Lastname2",
-                    BirthDate = DateTime.Now,
-                    Email = "login2"
+                    Email = "unique2@email.com"
                 }
             );
         }

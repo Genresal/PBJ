@@ -11,7 +11,7 @@ namespace PBJ.StoreManagementService.Models.Comment
 
         public DateTime CreatedAt { get; set; }
 
-        public int UserId { get; set; }
+        public string UserEmail { get; set; } = null!;
 
         public UserDto? User { get; set; }
 

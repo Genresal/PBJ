@@ -63,7 +63,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 
         [Theory, AutoMockData]
         public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsListOfDto(
-            int userId,
+            string userEmail,
             int page,
             int take,
             PaginationResponse<User> response,
@@ -85,7 +85,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
                 _mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await userService.GetFollowersAsync(userId, page, take);
+            var result = await userService.GetFollowersAsync(userEmail, page, take);
 
             //Assert
             _mockUserRepository.Verify(x => x.GetPaginatedAsync(It.IsAny<int>(),
@@ -100,7 +100,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 
         [Theory, AutoMockData]
         public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsListOfDto(
-            int followerId,
+            string followerEmail,
             int page,
             int take,
             PaginationResponse<User> response,
@@ -120,7 +120,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
                 _mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await userService.GetFollowingsAsync(followerId, page, take);
+            var result = await userService.GetFollowingsAsync(followerEmail, page, take);
 
             //Assert
             _mockUserRepository.Verify(x =>

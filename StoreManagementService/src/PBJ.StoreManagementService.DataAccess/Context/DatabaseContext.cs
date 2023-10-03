@@ -15,12 +15,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context
         public DbSet<UserFollowers> UserFollowers { get; set; }
 
         public DatabaseContext(DbContextOptions options) : base(options)
-        {
-            if (Database.IsRelational())
-            {
-                Database.Migrate();
-            }
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

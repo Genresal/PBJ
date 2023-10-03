@@ -8,12 +8,43 @@ using PBJ.StoreManagementService.Api.IntegrationTests.Handlers;
 using PBJ.StoreManagementService.Models.Comment;
 using PBJ.StoreManagementService.Models.Pagination;
 using System.Net;
+using PBJ.StoreManagementService.Models.User;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class CommentControllerTests : BaseControllerTest
     {
+        [Fact]
+        public async Task GetAsync_Concurrency_ReturnsOk()
+        {
+
+            var user = await _dataManager.CreateUserAsync();
+
+            async Task<(UserDto, HttpResponseMessage)> GetUserAsync()
+            {
+                var (userDto, response) =
+                    await ExecuteWithFullResponseAsync<UserDto>($"{ApiConstants.UserApi}?id={user.Id}",
+                        HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+
+                return (userDto, response);
+            }
+
+            var apiTasks = new List<Task<(UserDto item1, HttpResponseMessage item2)>>
+            {
+                GetUserAsync(),
+                GetUserAsync(),
+                GetUserAsync(),
+                GetUserAsync(),
+                GetUserAsync(),
+                GetUserAsync()
+            };
+
+            var results = await Task.WhenAll(apiTasks);
+            var res = results.Length;
+        }
+
+
         [Theory, CustomAutoData]
         public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsOk(
             PaginationRequestModel requestModel)
@@ -190,7 +221,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             var commentRequestModel = _fixture.Build<CreateCommentRequestModel>()
                 .With(x => x.PostId, post.Id)
-                .With(x => x.UserId, post.UserId)
+                .With(x => x.UserEmail, post.UserEmail)
                 .Create();
 
             var requestBody = BuildRequestBody(commentRequestModel);
@@ -203,7 +234,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            commentDto?.UserId.Should().Be(commentRequestModel.UserId);
+            commentDto?.UserEmail.Should().Be(commentRequestModel.UserEmail);
             commentDto?.PostId.Should().Be(commentRequestModel.PostId);
         }
 

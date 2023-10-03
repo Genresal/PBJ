@@ -84,7 +84,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Configuration
             {
                 options.UseInMemoryDatabase("pbjTest");
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            });
+            }, ServiceLifetime.Scoped);
         }
     }
 }

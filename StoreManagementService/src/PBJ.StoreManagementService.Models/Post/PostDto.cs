@@ -11,7 +11,7 @@ namespace PBJ.StoreManagementService.Models.Post
 
         public DateTime CreatedAt { get; set; }
 
-        public int UserId { get; set; }
+        public string UserEmail { get; set; } = null!;
 
         public UserDto? User { get; set; }
 

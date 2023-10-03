@@ -8,7 +8,7 @@ namespace PBJ.StoreManagementService.Api.Validators
         public CreatePostValidator()
         {
             RuleFor(x => x.Content).NotEmpty().NotNull().MinimumLength(30);
-            RuleFor(x => x.UserId).Must(x => x > 0);
+            RuleFor(x => x.UserEmail).NotNull().NotEmpty().EmailAddress();
         }
     }
 }

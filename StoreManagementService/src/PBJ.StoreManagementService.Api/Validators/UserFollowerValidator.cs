@@ -7,8 +7,10 @@ namespace PBJ.StoreManagementService.Api.Validators
     {
         public UserFollowerValidator()
         {
-            RuleFor(x => x.UserId).Must(x => x > 0);
-            RuleFor(x => x.FollowerId).Must(x => x > 0);
+            RuleFor(x => x.UserEmail)
+                .NotNull().NotEmpty().EmailAddress().MaximumLength(50);
+            RuleFor(x => x.FollowerEmail)
+                .NotNull().NotEmpty().EmailAddress().MaximumLength(50);
         }
     }
 }

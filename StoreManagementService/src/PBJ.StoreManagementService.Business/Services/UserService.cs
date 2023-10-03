@@ -33,19 +33,19 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
         }
 
-        public async Task<PaginationResponseDto<UserDto>> GetFollowersAsync(int userId, int page, int take)
+        public async Task<PaginationResponseDto<UserDto>> GetFollowersAsync(string userEmail, int page, int take)
         {
             var paginationResponse = await _userRepository.GetPaginatedAsync(page, take, 
-                where: x => x.Followings!.Any(uf => uf.UserId == userId),
+                where: x => x.Followings!.Any(uf => uf.UserEmail == userEmail),
                 orderBy: x => x.Id);
 
             return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
         }
 
-        public async Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(int followerId, int page, int take)
+        public async Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(string followerEmail, int page, int take)
         {
             var paginationResponse = await _userRepository.GetPaginatedAsync(page, take,
-                where: x => x.Followers!.Any(uf => uf.FollowerId == followerId),
+                where: x => x.Followers!.Any(uf => uf.UserEmail == followerEmail),
                 orderBy: x => x.Id);
 
             return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);

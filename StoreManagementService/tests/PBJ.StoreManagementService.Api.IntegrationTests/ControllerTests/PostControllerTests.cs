@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
+using Bogus;
 using FluentAssertions;
 using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
@@ -59,7 +60,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetByUserIdAsync_WhenRequestIsValid_ReturnsOk(
+        public async Task GetByUserEmailAsync_WhenRequestIsValid_ReturnsOk(
             PaginationRequestModel requestModel)
         {
             //Arrange
@@ -67,25 +68,24 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
-                $"{ApiConstants.PostApi}/userId?userId={post.UserId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/email?email={post.UserEmail}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             paginationResponseDto?.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<PostDto>>();
-            paginationResponseDto?.Items.Should().AllSatisfy(x => x.UserId.Should().Be(post.UserId));
+            paginationResponseDto?.Items.Should().AllSatisfy(x => x.UserEmail.Should().Be(post.UserEmail));
         }
 
         [Theory, CustomAutoData]
-        public async Task GetByUserIdAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
-            int userId,
+        public async Task GetByUserEmailAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
             PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.PostApi}/userId?userId={userId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/email?email={new Faker().Internet.Email()}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
@@ -93,13 +93,13 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Theory, CustomAutoData]
-        public async Task GetByUserIdAsync_WhenUserIdIsZero_ReturnsOK(
+        public async Task GetByUserEmailAsync_WhenUserEmailIsInvalid_ReturnsOK(
             PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<PostDto>>(
-                $"{ApiConstants.PostApi}/userId?userId={0}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.PostApi}/email?email={new Faker().Internet.Email()}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -109,12 +109,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task GetByUserIdAsync_WhenRequestIsNotValid_ReturnsBadRequest()
+        public async Task GetByUserEmailAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.PostApi}/userId?userId={0}&page={0}&take={string.Empty}",
+                $"{ApiConstants.PostApi}/email?email={new Faker().Internet.Email()}&page={0}&take={string.Empty}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -195,7 +195,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             var user = await _dataManager.CreateUserAsync();
 
             var postRequestModel = _fixture.Build<CreatePostRequestModel>()
-                .With(x => x.UserId, user.Id).Create();
+                .With(x => x.UserEmail, user.Email).Create();
 
             var requestBody = BuildRequestBody(postRequestModel);
 
@@ -206,7 +206,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            postDto?.UserId.Should().Be(postRequestModel.UserId);
+            postDto?.UserEmail.Should().Be(postRequestModel.UserEmail);
         }
 
         [Fact]

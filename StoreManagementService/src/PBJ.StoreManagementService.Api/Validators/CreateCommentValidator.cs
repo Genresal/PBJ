@@ -8,7 +8,7 @@ namespace PBJ.StoreManagementService.Api.Validators
         public CreateCommentValidator()
         {
             RuleFor(x => x.Content).NotEmpty().NotNull();
-            RuleFor(x => x.UserId).Must(x => x > 0);
+            RuleFor(x => x.UserEmail).NotNull().NotEmpty().EmailAddress();
             RuleFor(x => x.PostId).Must(x => x > 0);
         }
     }

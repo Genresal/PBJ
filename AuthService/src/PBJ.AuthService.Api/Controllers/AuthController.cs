@@ -99,7 +99,7 @@ namespace PBJ.AuthService.Api.Controllers
                 Response.Cookies.Delete(cookie);
             }
 
-            return Redirect("login");
+            return Redirect("http://localhost:3000");
         }
     }
 }

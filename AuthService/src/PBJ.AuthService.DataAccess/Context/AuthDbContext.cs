@@ -31,12 +31,7 @@ namespace PBJ.AuthService.DataAccess.Context
 
         public AuthDbContext(DbContextOptions<AuthDbContext> options)
             : base(options)
-        {
-            if (Database.IsRelational())
-            {
-                Database.Migrate();
-            }
-        }
+        { }
 
         public Task<int> SaveChangesAsync()
         {

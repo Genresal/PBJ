@@ -4,20 +4,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Requirements;
-using PBJ.StoreManagementService.DataAccess.Entities;
-using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using PBJ.StoreManagementService.Business.Services.Abstract;
+using PBJ.StoreManagementService.Models.User;
+using Serilog;
 
 namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handlers
 {
     public class UserAuthorizationHandler : AuthorizationHandler<UserRequirement>
     {
-        private readonly IUserRepository _userService;
+        private readonly IUserService _userService;
 
         public UserAuthorizationHandler(IServiceProvider serviceProvider)
         {
-            _userService = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IUserRepository>();
+            _userService = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IUserService>();
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserRequirement requirement)
@@ -65,17 +65,16 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
 
         private async Task CheckUserAsync(string email, string userName)
         {
-            var user = await _userService.FirstOrDefaultAsync(x => x.Email == email);
-
-            if (user == null)
+            try
             {
-                await _userService.CreateAsync(new User()
+                await _userService.CreateAsync(new UserRequestModel()
                 {
                     Email = email,
-                    Name = userName,
-                    LastName = string.Empty,
-                    Surname = string.Empty,
                 });
+            }
+            catch (Exception ex)
+            {
+                Log.Information("Authorization handler throws exception with message: {message}", ex.Message);
             }
         }
     }

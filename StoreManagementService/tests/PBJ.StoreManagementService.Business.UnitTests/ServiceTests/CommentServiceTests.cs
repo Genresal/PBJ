@@ -152,7 +152,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockMapper.Setup(x => x.Map<Comment>(commentRequestModel)).Returns(comment);
             _mockMapper.Setup(x => x.Map<CommentDto>(comment)).Returns(commentDto);
 
-            _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>())).ReturnsAsync(user);
+            _mockUserRepository.Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(user);
 
             _mockMessageProducer.Setup(x => x.PublicCommentMessageAsync(It.IsAny<string>(), It.IsAny<string>()));
 
@@ -166,7 +166,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockCommentRepository
                 .Verify(x => x.CreateAsync(It.IsAny<Comment>()), Times.Once);
 
-            _mockUserRepository.Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
+            _mockUserRepository.Verify(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()), Times.Once);
 
             _mockMessageProducer.Verify(x => x.PublicCommentMessageAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 

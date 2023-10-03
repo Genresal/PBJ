@@ -60,7 +60,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
         [Theory, AutoMockData]
-        public async Task GetByUserIdAsync_WhenRequestIsValid_ReturnsListOfDto(int userId,
+        public async Task GetByUserEmailAsync_WhenRequestIsValid_ReturnsListOfDto(
+            string userEmail,
             int page,
             int take,
             PaginationResponse<Post> response,
@@ -82,7 +83,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             var postService = new PostService(_mockPostRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await postService.GetByUserIdAsync(userId, page, take);
+            var result = await postService.GetByUserEmailAsync(userEmail, page, take);
 
             //Assert
             _mockPostRepository.Verify(x =>

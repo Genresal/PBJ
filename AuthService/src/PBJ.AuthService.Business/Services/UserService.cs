@@ -63,6 +63,8 @@ namespace PBJ.AuthService.Business.Services
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim("surname", user.Surname),
+                new Claim(ClaimTypes.DateOfBirth, user.BirthDate.ToShortDateString()),
                 new Claim(ClaimTypes.Role, role)
             });
 

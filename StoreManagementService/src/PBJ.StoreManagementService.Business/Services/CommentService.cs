@@ -64,7 +64,7 @@ namespace PBJ.StoreManagementService.Business.Services
 
             await _commentRepository.CreateAsync(comment);
 
-            var user = await _userRepository.GetAsync(comment.UserId);
+            var user = await _userRepository.FirstOrDefaultAsync(x => x.Email == comment.UserEmail);
 
             await _messageProducer.PublicCommentMessageAsync(user!.Email!, "Hello from sms");
 
