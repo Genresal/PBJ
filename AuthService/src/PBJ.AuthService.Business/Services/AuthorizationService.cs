@@ -49,9 +49,9 @@ namespace PBJ.AuthService.Business.Services
             };
         }
 
-        public async Task<AuthResult<SignInResult>> RegisterAsync(string username, string email, string password)
+        public async Task<AuthResult<SignInResult>> RegisterAsync(string username, string surname, DateTime birthDate, string email, string password)
         {
-            var userServiceResult = await _userService.CreateUserAsync(username, email, password);
+            var userServiceResult = await _userService.CreateUserAsync(username, surname, birthDate, email, password);
 
             if (!userServiceResult.Success)
             {

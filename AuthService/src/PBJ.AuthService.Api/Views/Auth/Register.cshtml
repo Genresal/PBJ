@@ -16,7 +16,7 @@
         <input type="text" placeholder="Surname..." asp-for="Surname">
         <span asp-validation-for="Surname"></span>
 
-        <input type="date" placeholder="Bith date..." asp-for="BirthDate">
+        <input type="date" value="2013-01-08" placeholder="Bith date..." asp-for="BirthDate">
         <span asp-validation-for="BirthDate"></span>
 
         <input type="text" placeholder="Email..." asp-for="Email">
@@ -24,9 +24,9 @@
 
         <div class="password-container">
             <input type="password" placeholder="Password..." asp-for="Password" id="password">
-            <span asp-validation-for="Password"></span>
             <i class="fa fa-eye" id="togglePassword" style="margin-left: -30px;margin-top: 15px; cursor: pointer;" aria-hidden="true"></i>
         </div>
+        <span asp-validation-for="Password"></span>
 
         <input type="password" placeholder="ConfirmPassword..." asp-for="ConfirmPassword" id="confirm-password">
         <span asp-validation-for="ConfirmPassword"></span>

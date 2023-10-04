@@ -53,6 +53,7 @@ namespace PBJ.AuthService.Business.Configurations
                     RedirectUris =
                     {
                         "http://localhost:3000/callback",
+                        "http://localhost:3000/refresh"
                     },
                     PostLogoutRedirectUris = { "http://localhost:3000" },
                     AllowedCorsOrigins = { "http://localhost:3000" },

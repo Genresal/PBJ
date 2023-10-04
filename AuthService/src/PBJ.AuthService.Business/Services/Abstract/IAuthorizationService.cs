@@ -7,6 +7,6 @@ namespace PBJ.AuthService.Business.Services.Abstract
     {
         Task<AuthResult<SignInResult>> LoginAsync(string email, string password);
 
-        Task<AuthResult<SignInResult>> RegisterAsync(string username, string email, string password);
+        Task<AuthResult<SignInResult>> RegisterAsync(string username, string surname, DateTime bithDate, string email, string password);
     }
 }

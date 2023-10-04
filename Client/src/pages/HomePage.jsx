@@ -1,11 +1,13 @@
 import NavMenu from "../UI/NavMenu/NavMenu"
+import Posts from "../modules/Post/components/Posts/Posts"
 
 export default function HomePage() {
+  
   return (
     <>
       <NavMenu/>
 
-      <h1>HOME PAGE</h1>
+      <Posts/>
     </>
   )
 }

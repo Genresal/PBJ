@@ -73,8 +73,8 @@ namespace PBJ.AuthService.Api.Controllers
                 return View(requestModel);
             }
 
-            var authResult = await _authorizationService.RegisterAsync(requestModel.UserName,
-                requestModel.Email, requestModel.Password);
+            var authResult = await _authorizationService.RegisterAsync(requestModel.UserName, 
+                requestModel.Surname, requestModel.BirthDate, requestModel.Email, requestModel.Password);
 
             if (!authResult.Success)
             {
