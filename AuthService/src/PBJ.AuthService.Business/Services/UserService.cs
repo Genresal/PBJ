@@ -36,7 +36,11 @@ namespace PBJ.AuthService.Business.Services
             };
         }
 
-        public async Task<AuthResult<AuthUser>> CreateUserAsync(string userName, string surname, DateTime birthDate, string email, string password)
+        public async Task<AuthResult<AuthUser>> CreateUserAsync(string userName, 
+            string surname, 
+            DateTime birthDate,
+            string email, 
+            string password)
         {
             var user = new AuthUser
             {
@@ -74,6 +78,71 @@ namespace PBJ.AuthService.Business.Services
             {
                 Success = true,
                 Result = user
+            };
+        }
+
+        public async Task<AuthResult<AuthUser>> EditUserAsync(string email, string userName, string surname, DateTime birthDate)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return new AuthResult<AuthUser>
+                {
+                    Success = false,
+                    ErrorMessage = "User not found!"
+                };
+            }
+
+            user.UserName = userName;
+            user.Surname = surname;
+            user.BirthDate = birthDate;
+
+            var editResult = await _userManager.UpdateAsync(user);
+
+            if (!editResult.Succeeded)
+            {
+                return new AuthResult<AuthUser>
+                {
+                    Success = false,
+                    ErrorMessage = "Can't edit user now!"
+                };
+            }
+
+            return new AuthResult<AuthUser>
+            {
+                Success = true,
+                Result = user
+            };
+        }
+
+        public async Task<AuthResult<AuthUser>> EditPasswordAsync(string email, string currentPassword, string newPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return new AuthResult<AuthUser>
+                {
+                    Success = false,
+                    ErrorMessage = "User not found!"
+                };
+            }
+
+            var changeResult = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (!changeResult.Succeeded)
+            {
+                return new AuthResult<AuthUser>
+                {
+                    Success = false,
+                    ErrorMessage = "Can't change password now!"
+                };
+            }
+
+            return new AuthResult<AuthUser>
+            {
+                Success = true
             };
         }
     }

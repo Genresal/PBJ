@@ -1,4 +1,7 @@
+using System.Reflection;
 using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PBJ.AuthService.Api.RequestModels;
@@ -32,7 +35,7 @@ namespace PBJ.AuthService.Api.Extensions
 
             services.AddIdentityServer(options =>
             {
-                options.UserInteraction.LoginUrl = "/auth/login";
+                options.UserInteraction.LoginUrl = "/api/auth/login";
 
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
@@ -66,16 +69,21 @@ namespace PBJ.AuthService.Api.Extensions
         {
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/auth/login";
-                options.LogoutPath = "/auth/logout";
+                options.LoginPath = "/api/auth/login";
+                options.LogoutPath = "/api/auth/logout";
                 options.Cookie.Name = "IdentityServer.Cookies";
             });
         }
 
         public static void AddValidations(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<LoginRequestModel>, LoginValidator>();
-            services.AddScoped<IValidator<RegisterRequestModel>, RegisterValidator>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+                .AddFluentValidationAutoValidation();
+        }
+
+        public static void AddJwtBearerAuthentication(this IServiceCollection services)
+        {
+            services.AddLocalApiAuthentication();
         }
     }
 }

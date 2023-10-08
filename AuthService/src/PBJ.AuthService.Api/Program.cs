@@ -13,18 +13,24 @@ namespace PBJ.AuthService.Api
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();
+            builder.Services.AddControllers();
 
             builder.Services.AddAuthDbContext(builder.Configuration);
             builder.Services.SetupIdentity();
             builder.Services.SetupIdentityServer(builder.Configuration);
             builder.Services.SetupIdentityServerCookie();
+            builder.Services.AddJwtBearerAuthentication();
             builder.Services.AddValidations();
 
             builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+            builder.Services.AddSwaggerGen();
+
             builder.Services.MigrateDatabase();
             builder.Services.InitializeDatabase();
+
+            builder.Services.AddCors();
 
             var app = builder.Build();
 
@@ -32,7 +38,17 @@ namespace PBJ.AuthService.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseHsts();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
 
             app.UseStaticFiles();
 
@@ -44,7 +60,7 @@ namespace PBJ.AuthService.Api
 
             app.UseIdentityServer();
 
-            app.MapDefaultControllerRoute();
+            app.MapControllers();
 
             app.Run();
         }

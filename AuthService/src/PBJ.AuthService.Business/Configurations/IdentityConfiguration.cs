@@ -21,7 +21,8 @@ namespace PBJ.AuthService.Business.Configurations
             return new List<ApiScope>
             {
                 new ApiScope("smsAPI", "Access to smsAPI"),
-                new ApiScope("testApi", "Access to my external test api")
+                new ApiScope("testApi", "Access to my external test api"),
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
         }
 
@@ -64,6 +65,7 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
+                        IdentityServerConstants.LocalApi.ScopeName,
                         "smsAPI",
                     }
                 },
@@ -93,7 +95,11 @@ namespace PBJ.AuthService.Business.Configurations
                     RequireClientSecret = false,
                     RequireConsent = false,
                     RequirePkce = false,
-                    RedirectUris = { "https://www.getpostman.com/oath2/callback" },
+                    RedirectUris =
+                    {
+                        "https://www.getpostman.com/oath2/callback",
+                        "https://oauth.pstmn.io/v1/callback"
+                    },
                     PostLogoutRedirectUris = { "https://www.getpostman.com" },
                     AllowAccessTokensViaBrowser = true,
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
@@ -104,6 +110,7 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
+                        IdentityServerConstants.LocalApi.ScopeName,
                         "smsAPI",
                     }
                 },
@@ -122,9 +129,10 @@ namespace PBJ.AuthService.Business.Configurations
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
+                        IdentityServerConstants.LocalApi.ScopeName,
                         "smsAPI",
                     }
-                }
+                },
             };
         }
 

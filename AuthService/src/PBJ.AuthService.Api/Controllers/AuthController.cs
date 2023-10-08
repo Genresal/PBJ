@@ -6,7 +6,7 @@ using PBJ.AuthService.Business.Services.Abstract;
 
 namespace PBJ.AuthService.Api.Controllers
 {
-    [Route("auth")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
