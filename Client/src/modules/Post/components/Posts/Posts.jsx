@@ -1,18 +1,14 @@
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useFetching} from "../../../../hooks/useFetching.js";
 import {getByUserEmailAsync} from "../../api/getByUserEmailAsync.js";
 import PostCardList from "../PostCardList/PostCardList.jsx";
 import {createNewPostAsync} from "../../api/createNewPostAsync.js";
 import {deletePostAsync} from "../../api/deletePostAsync.js";
-import { Container } from '@mui/system';
 import CreatePostCard from "../CreatePostCard/CreatePostCard.jsx";
 import {editPostAsync} from "../../api/editPostAsync.js";
-import { PagesContext } from '../../../Provider/PagesProvider.jsx';
-import { CircularProgress, Box } from '@mui/material';
+import { CircularProgress, Box, Grid } from '@mui/material';
 
-const Posts = () => {
-    const {user} = useContext(PagesContext);
-
+const Posts = ({user}) => {
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [take, setTake] = useState(10);
@@ -28,7 +24,7 @@ const Posts = () => {
 
     useEffect(() => {
         initializePosts();
-    }, [page]);
+    }, []);
 
 
     const createNewPost = async (newPost) => {
@@ -46,6 +42,8 @@ const Posts = () => {
     const editPost = async (id, content) => {
         const response = await editPostAsync(id, content)
 
+        console.log(response)
+
         setPosts(posts.map(x =>
            x.id === id
             ? {...posts, id: id, content: response.content}
@@ -56,18 +54,18 @@ const Posts = () => {
 
     return (
         <div>
-            <Container maxWidth="lg">
+            <Grid container maxWidth="md" style={{width: 500}}>
                 <CreatePostCard createNewPost={createNewPost} user={user}/>
                 {
                     isLoading 
                     ?
-                        <Box sx={{ display: 'flex', justifyContent: "center" }}>
+                        <Grid container style={{ display: 'flex', justifyContent: "center", marginTop: 50 }}>
                             <CircularProgress />
-                        </Box>
+                        </Grid>
                     :
                         <PostCardList posts={posts} deletePost={deletePost} editPost={editPost}/>
                 }
-            </Container>
+            </Grid>
         </div>
     );
 };

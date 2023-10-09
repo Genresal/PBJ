@@ -1,16 +1,11 @@
-import classes from "./CreatePostCard.module.css"
-import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import {Button, TextField, Grid} from "@mui/material";
-import {useRef, useState} from "react";
+import {Button, TextField, Grid, Avatar} from "@mui/material";
+import {useState} from "react";
 
 const CreatePostCard = ({createNewPost, user}) => {
     const [post, setPost] = useState({content: "", userEmail: user.email});
-    const inputRef = useRef();
 
     const addPost = () => {
         createNewPost({...post});
-
-        inputRef.current.value = "";
 
         setPost({content: "", userEmail: user.email});
     }
@@ -19,20 +14,19 @@ const CreatePostCard = ({createNewPost, user}) => {
         setPost({...post, content: event.target.value})
     }
 
-
     return (
-        <Grid container  direction="row" style={{border: "1px solid lightgray", padding: 10, margin: "10px 0"}}>
+        <Grid container rowSpacing={1}  direction="row" style={{border: "1px solid lightgray", padding: 10, marginTop: "10px"}}>
             <Grid item style={{paddingRight: 10}}>
-                <AccountBoxOutlinedIcon/>
+                <Avatar>A</Avatar>
+            </Grid>
+            <Grid item style={{fontSize: 22}}>
+                {user.name}
             </Grid>
             <Grid item md={12}>
-                <Grid container direction="column" rowSpacing={1}>
-                    <Grid item style={{fontSize: 22}}>
-                        {user.name}
-                    </Grid>
-                    <Grid item >
+                <Grid container direction="column">
+                    <Grid item>
                         <TextField label="What's new?" fullWidth  multiline rows={4}
-                        onChange={(event) => handleContentChange(event)} />
+                        onChange={(event) => handleContentChange(event)} value={post.content}/>
                     </Grid>          
                 </Grid>
             </Grid>

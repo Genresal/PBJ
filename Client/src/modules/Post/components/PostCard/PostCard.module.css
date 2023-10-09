@@ -1,15 +1,4 @@
-.post_card {
-    display: flex;
-    padding: 15px;
-    border: 2px solid black;
-    margin-top: 15px;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-}
-
-.post_buttons {
-    display: flex;
-    padding-top: 10px;
+.postCard:hover {
+    background-color: #f2f0f0;
+    cursor: pointer;
 }

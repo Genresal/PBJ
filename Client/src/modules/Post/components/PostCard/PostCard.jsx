@@ -1,109 +1,129 @@
-import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader, Collapse,
-} from "@mui/material";
+import {Avatar, Button, Grid, IconButton, TextField, Popover} from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
-import {useEffect, useState} from "react";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {useFetching} from "../../../../hooks/useFetching.js";
-import {getCommentByPostId} from "../../../Comment/api/getCommentByPostId.js";
+import {useState} from "react";
+import { ConvertDate } from "../../../../shared/DateConverter.js";
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import classes from "./PostCard.module.css"
 
 const PostCard = ({post, deletePost, editPost}) => {
     const [content, setContent] = useState({content: ""});
     const [isEditing, setIsEditing] = useState(false);
-    const [expanded, setExpanded] = useState(false);
-    const [page, setPage] = useState(1);
-    const [take, setTake] = useState(2);
-    const [comments, setComments] = useState([])
+    const [anchorEl, setAnchorEl] = useState(null);
 
-    const [initializeComments, isLoading] = useFetching(async () => {
-        const data = await getCommentByPostId(post.id, page, take);
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
-        setComments([...comments, ...data.items]);
-
-        setPage(data.page);
-    })
-
-    useEffect(() => {
-        initializeComments();
-    }, [page]);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+    const handlePopoverClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
     };
 
     const handleEditButtonClick = () => {
+        setContent(post.content)
         setIsEditing(!isEditing);
+        setAnchorEl(null);
     };
 
     const handleTextChange = (event) => {
         setContent(event.target.value)
-        console.log(content)
     };
 
-    const handleEditPost = (id, content) =>{
-        editPost(id, content);
+    const handleSavePost = (content) =>{
+        editPost(post.id, content);
 
         setIsEditing(false);
     }
 
     return (
-        <Card>
-                <CardHeader>
-                    {post.createdAt}
-                </CardHeader>
-                <CardContent>
-                    {isEditing
-                        ?<textarea
-                            onChange={(event) => handleTextChange(event)}
-                        />
-                        :
-                        <p>{post.id}{post.content}</p>
-                    }
-                </CardContent>
-                <CardActions>
-                    {
-                        isEditing
-                        ?
-                            <Button variant="outlined" startIcon={<EditIcon />}
-                                    onClick={() => handleEditPost(post.id, content)}>
-                                Save
-                            </Button>
-                        :
-                            <Button variant="outlined" startIcon={<EditIcon />} onClick={handleEditButtonClick}>
-                                Edit
-                            </Button>
-                    }
-
-                    <Button variant="outlined" startIcon={<DeleteOutlineIcon />}
-                            onClick={() => deletePost(post.id)}>
-                        Delete
-                    </Button>
-                    <Button variant="outlined" onClick={handleExpandClick} endIcon={<ExpandMoreIcon/>}>
-                        Show comments
-                    </Button>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    {
-                        comments.map(comment =>
-                            <Card key={comment.id}>
-                                <CardHeader>
-                                    {comment.id}
-                                </CardHeader>
-                                <CardContent>
-                                    {comment.content}
-                                </CardContent>
-                            </Card>
-                        )
-                    }
-                </CardContent>
-            </Collapse>
-        </Card>
+        <>
+            <Grid container direction="row" style={{
+                border: "1px solid lightGray", 
+                borderTop: "none", 
+                padding: 15, 
+                flexWrap: "nowrap",
+                fontWeight: "normal"
+                }}
+                className={classes.postCard}>
+                <Grid item style={{paddingRight: 10}}>
+                    <Avatar>A</Avatar>
+                </Grid>
+                <Grid item md={12}>
+                    <Grid container direction="row" columnSpacing={2} fullWidth>
+                        <Grid item>
+                            {(post.userEmail).trim()} 
+                        </Grid>
+                        <Grid item>
+                            {ConvertDate(post.createdAt)}
+                        </Grid>
+                        <Grid container justifyContent="flex-end" md={4}>
+                            <IconButton onClick={handlePopoverClick} aria-describedby={id}>
+                                <MoreHorizIcon/>
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                    <Grid item>
+                        {isEditing
+                            ?
+                                <>
+                                    <TextField
+                                    fullWidth
+                                    multiline
+                                    value={content}
+                                    onChange={handleTextChange}
+                                    />
+                                    <Grid columnSpacing={1} container fullWidth justifyContent="flex-end">
+                                        <Grid item>
+                                            <Button onClick={() => handleSavePost(content)} variant="contained" style={{borderRadius: 30, marginTop: 10}}>
+                                                Save
+                                            </Button>
+                                        </Grid>
+                                        <Grid item>
+                                            <Button onClick={handleEditButtonClick} variant="contained" style={{borderRadius: 30, marginTop: 10}}>
+                                                Undo
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </>
+                                
+                            :
+                                <Grid item style={{ whiteSpace: "pre-wrap"}}>
+                                    {(post.content).trim()}
+                                </Grid>    
+                        }
+                    </Grid>
+                </Grid>
+            </Grid>
+            
+            <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handlePopoverClose}
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+                }}
+            >
+                <Grid container rowSpacing={1} direction="column" 
+                    style={{width: 100, padding: 5}}>
+                    <Grid item>
+                        <Button onClick={handleEditButtonClick} fullWidth startIcon={<EditIcon/>} style={{color: "black", textTransform: "none"}}>
+                            Edit
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button onClick={() => deletePost(post.id)} fullWidth startIcon={<DeleteOutlineIcon/>} style={{color: "black", textTransform: "none"}}>
+                            Delete
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Popover>
+        </>
+        
     );
 };
 
