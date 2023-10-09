@@ -16,9 +16,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.Property(x => x.Email)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasColumnType("nchar");
+                .IsRequired();
 
             builder.HasData(
                 new User

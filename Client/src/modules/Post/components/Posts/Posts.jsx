@@ -46,7 +46,7 @@ const Posts = ({user}) => {
 
         setPosts(posts.map(x =>
            x.id === id
-            ? {...posts, id: id, content: response.data.content}
+            ? {...posts, id: id, content: response.data.content, userEmail: response.data.userEmail}
            : x
 
         ));

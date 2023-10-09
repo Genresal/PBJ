@@ -43,7 +43,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasColumnType("nchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -58,7 +58,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "CommentContent1",
-                            CreatedAt = new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(2543),
+                            CreatedAt = new DateTime(2023, 10, 9, 23, 30, 54, 160, DateTimeKind.Local).AddTicks(8675),
                             PostId = 2,
                             UserEmail = "unique1@email.com"
                         },
@@ -66,7 +66,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 2,
                             Content = "CommentContent2",
-                            CreatedAt = new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(2596),
+                            CreatedAt = new DateTime(2023, 10, 9, 23, 30, 54, 160, DateTimeKind.Local).AddTicks(8690),
                             PostId = 1,
                             UserEmail = "unique2@email.com"
                         });
@@ -89,7 +89,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasColumnType("nchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -102,14 +102,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            CreatedAt = new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(9576),
+                            CreatedAt = new DateTime(2023, 10, 9, 23, 30, 54, 162, DateTimeKind.Local).AddTicks(3944),
                             UserEmail = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            CreatedAt = new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(9606),
+                            CreatedAt = new DateTime(2023, 10, 9, 23, 30, 54, 162, DateTimeKind.Local).AddTicks(3960),
                             UserEmail = "unique1@email.com"
                         });
                 });
@@ -124,8 +124,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -157,11 +156,11 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("FollowerEmail")
                         .IsRequired()
-                        .HasColumnType("nchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasColumnType("nchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 

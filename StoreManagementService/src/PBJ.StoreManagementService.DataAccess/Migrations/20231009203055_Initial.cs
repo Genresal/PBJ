@@ -19,7 +19,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nchar(50)", maxLength: 50, nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,7 +35,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "date", nullable: false),
-                    UserEmail = table.Column<string>(type: "nchar(50)", nullable: false)
+                    UserEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,8 +54,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserEmail = table.Column<string>(type: "nchar(50)", nullable: false),
-                    FollowerEmail = table.Column<string>(type: "nchar(50)", nullable: false)
+                    UserEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FollowerEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,7 +80,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nchar(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "date", nullable: false),
-                    UserEmail = table.Column<string>(type: "nchar(50)", nullable: false),
+                    UserEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -113,8 +113,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "UserEmail" },
                 values: new object[,]
                 {
-                    { 1, "PostContent1", new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(9576), "unique1@email.com" },
-                    { 2, "PostContent2", new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(9606), "unique1@email.com" }
+                    { 1, "PostContent1", new DateTime(2023, 10, 9, 23, 30, 54, 162, DateTimeKind.Local).AddTicks(3944), "unique1@email.com" },
+                    { 2, "PostContent2", new DateTime(2023, 10, 9, 23, 30, 54, 162, DateTimeKind.Local).AddTicks(3960), "unique1@email.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -131,8 +131,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "PostId", "UserEmail" },
                 values: new object[,]
                 {
-                    { 1, "CommentContent1", new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(2543), 2, "unique1@email.com" },
-                    { 2, "CommentContent2", new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(2596), 1, "unique2@email.com" }
+                    { 1, "CommentContent1", new DateTime(2023, 10, 9, 23, 30, 54, 160, DateTimeKind.Local).AddTicks(8675), 2, "unique1@email.com" },
+                    { 2, "CommentContent2", new DateTime(2023, 10, 9, 23, 30, 54, 160, DateTimeKind.Local).AddTicks(8690), 1, "unique2@email.com" }
                 });
 
             migrationBuilder.CreateIndex(
