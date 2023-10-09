@@ -45,7 +45,7 @@ namespace PBJ.StoreManagementService.Business.Services
         public async Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(string followerEmail, int page, int take)
         {
             var paginationResponse = await _userRepository.GetPaginatedAsync(page, take,
-                where: x => x.Followers!.Any(uf => uf.UserEmail == followerEmail),
+                where: x => x.Followers!.Any(uf => uf.FollowerEmail == followerEmail),
                 orderBy: x => x.Id);
 
             return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);

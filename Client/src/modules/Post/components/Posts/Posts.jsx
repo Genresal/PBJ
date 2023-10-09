@@ -6,7 +6,7 @@ import {createNewPostAsync} from "../../api/createNewPostAsync.js";
 import {deletePostAsync} from "../../api/deletePostAsync.js";
 import CreatePostCard from "../CreatePostCard/CreatePostCard.jsx";
 import {editPostAsync} from "../../api/editPostAsync.js";
-import { CircularProgress, Box, Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 
 const Posts = ({user}) => {
     const [posts, setPosts] = useState([]);
@@ -15,11 +15,11 @@ const Posts = ({user}) => {
 
 
     const [initializePosts, isLoading] = useFetching(async () => {
-        const data = await getByUserEmailAsync(user.email, page, take)
+        const response = await getByUserEmailAsync(user.email, page, take)
 
-        setPosts([...posts, ...data.items])
+        setPosts([...posts, ...response.data.items])
 
-        setPage(data.page)
+        setPage(response.data.page)
     })
 
     useEffect(() => {
@@ -46,27 +46,25 @@ const Posts = ({user}) => {
 
         setPosts(posts.map(x =>
            x.id === id
-            ? {...posts, id: id, content: response.content}
+            ? {...posts, id: id, content: response.data.content}
            : x
 
         ));
     }
 
     return (
-        <div>
-            <Grid container maxWidth="md" style={{width: 500}}>
-                <CreatePostCard createNewPost={createNewPost} user={user}/>
-                {
-                    isLoading 
-                    ?
-                        <Grid container style={{ display: 'flex', justifyContent: "center", marginTop: 50 }}>
-                            <CircularProgress />
-                        </Grid>
-                    :
-                        <PostCardList posts={posts} deletePost={deletePost} editPost={editPost}/>
-                }
-            </Grid>
-        </div>
+        <Grid container maxWidth="md" style={{width: 500}}>
+            <CreatePostCard createNewPost={createNewPost} user={user}/>
+            {
+                isLoading 
+                ?
+                    <Grid container style={{ display: 'flex', justifyContent: "center", marginTop: 50 }}>
+                        <CircularProgress />
+                    </Grid>
+                :
+                    <PostCardList posts={posts} deletePost={deletePost} editPost={editPost}/>
+            }
+        </Grid>
     );
 };
 
