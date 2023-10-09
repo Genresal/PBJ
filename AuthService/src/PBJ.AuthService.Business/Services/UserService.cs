@@ -109,6 +109,16 @@ namespace PBJ.AuthService.Business.Services
                 };
             }
 
+            var userClaims = await _userManager.GetClaimsAsync(user);
+
+            var nameClaim = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+            var surnameClaim = userClaims.FirstOrDefault(x => x.Type == "surname");
+            var birthDateClaim = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.DateOfBirth);
+
+            await _userManager.ReplaceClaimAsync(user, nameClaim!, new Claim(ClaimTypes.Name, userName));
+            await _userManager.ReplaceClaimAsync(user, surnameClaim!, new Claim("surname", surname));
+            await _userManager.ReplaceClaimAsync(user, birthDateClaim!, new Claim(ClaimTypes.DateOfBirth, birthDate.ToShortDateString()));
+
             return new AuthResult<AuthUser>
             {
                 Success = true,

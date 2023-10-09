@@ -9,6 +9,6 @@ namespace PBJ.AuthService.DataAccess.Entities
         public string Surname { get; set; } = null!;
 
         [Required] 
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; } = DateTime.UtcNow;
     }
 }

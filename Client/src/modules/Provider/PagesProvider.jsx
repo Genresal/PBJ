@@ -21,7 +21,6 @@ const userManager = new UserManager({
 
 userManager.events.addAccessTokenExpired(async () => {
     await userManager.signinSilent();
-    console.log("Token refreshed");
     userManager.getUser().then(user => console.log(user.access_token))
 });
 
@@ -30,7 +29,7 @@ export default function PagesProvider({children}) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState({
         email: "",
-        name: "",
+        userName: "",
         surname: "",
         birthDate: "",
     });
@@ -51,7 +50,7 @@ export default function PagesProvider({children}) {
 
         const decodedUser = {
             email: decodedToken[EmailClaim],
-            name: decodedToken[NameClaim],
+            userName: decodedToken[NameClaim],
             surname: decodedToken[SurnameClaim],
             birthDate: decodedToken[BirthDateClaim],
         }

@@ -38,9 +38,9 @@ export default function EditUserModal({ user, onOpen, onClose, onSave }) {
                     <Grid item>
                         <TextField
                         label="Name"
-                        name="name"
+                        name="userName"
                         fullWidth
-                        value={editedUser.name}
+                        value={editedUser.userName}
                         onChange={handleInputChange}
                         />
                     </Grid>

@@ -14,9 +14,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.Property(x => x.Content)
-                .IsRequired()
-                .HasMaxLength(255)
-                .HasColumnType("nchar");
+                .IsRequired();
 
             builder.Property(x => x.CreatedAt)
                 .IsRequired()

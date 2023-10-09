@@ -26,11 +26,11 @@ export default function UserProfile({user, saveUser}) {
         setOpenEditPasswordModal(false);
     }
     
-    const handleSaveUser = async () => {
+    const handleSaveUser = async (editedUser) => {
         const response = await editUserAsync(user.email, {
-            userName : user.name,
-            surname : user.surname,
-            birthDate : new Date(user.birthDate).toISOString()
+            userName : editedUser.userName,
+            surname : editedUser.surname,
+            birthDate : new Date(editedUser.birthDate).toISOString()
         });
 
         if(response) {
@@ -81,7 +81,7 @@ export default function UserProfile({user, saveUser}) {
                 </Grid>
                 <Grid container rowSpacing={1} direction="column" style={{paddingLeft: 15, fontSize: 15}}>
                     <Grid item style={{fontWeight: "bold", fontSize: 20}}>
-                        {user.name} {user.surname}
+                        {user.userName} {user.surname}
                     </Grid>
                     <Grid item style={{color: "gray"}}>
                         {user.email}
