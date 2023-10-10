@@ -9,7 +9,8 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories.Abstract
     {
         Task<PaginationResponse<TEntity>> GetPaginatedAsync<TProperty>(int page, int take,
             Expression<Func<TEntity, bool>>? where = null,
-            Expression<Func<TEntity, TProperty>>? orderBy = null, bool acsOrder = true);
+            Expression<Func<TEntity, TProperty>>? orderBy = null,
+            bool acsOrder = true);
 
         Task<TEntity?> GetAsync(int id);
 

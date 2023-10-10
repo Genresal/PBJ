@@ -10,6 +10,8 @@ export default function Followers({userEmail, isFollowers}) {
   const [page, setPage] = useState(1);
   const [take, setTake] = useState(10);
 
+  console.log(followers);
+
 
   const [initializeFollowers, isLoading] = useFetching(async () => {
     let response;
