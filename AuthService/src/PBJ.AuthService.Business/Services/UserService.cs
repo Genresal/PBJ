@@ -36,11 +36,13 @@ namespace PBJ.AuthService.Business.Services
             };
         }
 
-        public async Task<AuthResult<AuthUser>> CreateUserAsync(string userName, string email, string password)
+        public async Task<AuthResult<AuthUser>> CreateUserAsync(string userName, string surname, DateTime birthDate, string email, string password)
         {
             var user = new AuthUser
             {
                 UserName = userName,
+                Surname = surname,
+                BirthDate = birthDate,
                 Email = email,
             };
 

@@ -94,26 +94,6 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<UserDto>(user);
         }
 
-        public async Task<UserDto> UpdateAsync(int id, UserRequestModel userRequestModel)
-        {
-            var existingUser = await _userRepository.GetAsync(id);
-
-            if (existingUser == null)
-            {
-                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
-            }
-
-            existingUser = _mapper.Map<User>(userRequestModel);
-
-            existingUser.Id = id;
-
-            await _userRepository.UpdateAsync(existingUser);
-
-            Log.Information("Updated user: {@existingUser}", existingUser);
-
-            return _mapper.Map<UserDto>(existingUser);
-        }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var existingUser = await _userRepository.GetAsync(id);

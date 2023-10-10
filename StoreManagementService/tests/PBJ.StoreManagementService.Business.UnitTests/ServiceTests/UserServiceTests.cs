@@ -277,54 +277,6 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
                 x.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>()), Times.Once);
         }
 
-        [Theory, AutoMockData]
-        public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto(int id,
-            User user,
-            UserDto userDto,
-            UserRequestModel userRequestModel)
-        {
-            //Arrange
-            _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
-                .ReturnsAsync(user);
-
-            _mockUserRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
-
-
-            _mockMapper.Setup(x => x.Map<User>(userRequestModel)).Returns(user);
-            _mockMapper.Setup(x => x.Map<UserDto>(user)).Returns(userDto);
-
-            var userService = new UserService(_mockUserRepository.Object,
-                _mockUserFollowersRepository.Object, _mockMapper.Object);
-
-            //Act
-            var result = await userService.UpdateAsync(id, userRequestModel);
-
-            //Assert
-            _mockUserRepository.Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
-            _mockUserRepository.Verify(x => x.UpdateAsync(It.IsAny<User>()), Times.Once);
-
-            result.Should().NotBeNull().And.BeOfType<UserDto>();
-        }
-
-        [Theory, AutoMockData]
-        public async Task UpdateAsync_WhenEntityNotExists_ThrowsNotFoundException(int id,
-            UserRequestModel userRequestModel)
-        {
-            //Arrange
-            _mockUserRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
-                .ReturnsAsync(value: null);
-
-            var userService = new UserService(_mockUserRepository.Object,
-                _mockUserFollowersRepository.Object, _mockMapper.Object);
-
-            //Act
-            var act = () => userService.UpdateAsync(id, userRequestModel);
-
-            //Assert
-            await act.Should().ThrowAsync<NotFoundException>();
-
-            _mockUserRepository.Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
-        }
 
         [Theory, AutoMockData]
         public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(int id,

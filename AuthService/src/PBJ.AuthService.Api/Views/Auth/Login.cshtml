@@ -14,11 +14,9 @@
         
         <div class="password-container">
             <input type="password" placeholder="Password..." asp-for="Password" id="password">
-            <span asp-validation-for="Password"></span>
             <i class="fa fa-eye" id="togglePassword" style="margin-left: -30px;margin-top: 15px; cursor: pointer;" aria-hidden="true"></i>
         </div>
-
-        
+        <span asp-validation-for="Password"></span>
 
         <button type="submit">Login</button>
 
