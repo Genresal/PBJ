@@ -53,9 +53,10 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<UserFollowersDto>(userFollower);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(UserFollowersRequestModel requestModel)
         {
-            var existingUserFollower = await _userFollowersRepository.GetAsync(id);
+            var existingUserFollower = await _userFollowersRepository
+                .FirstOrDefaultAsync(x => x.UserEmail == requestModel.UserEmail && x.FollowerEmail == requestModel.FollowerEmail);
 
             await _userFollowersRepository.DeleteAsync(existingUserFollower);
 

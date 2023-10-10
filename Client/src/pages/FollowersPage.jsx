@@ -12,7 +12,7 @@ export default function FollowersPage() {
     <>
       <NavMenu/>
 
-      <Followers userEmail={user.email} isFollowers={location.pathname === "/followers"}/>
+      <Followers loggedUserEmail={user.email} isFollowers={location.pathname === "/followers"}/>
     </>
   )
 }

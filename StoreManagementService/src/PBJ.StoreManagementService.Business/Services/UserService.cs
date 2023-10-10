@@ -41,9 +41,9 @@ namespace PBJ.StoreManagementService.Business.Services
 
             foreach (var userDto in paginationResponseDto.Items)
             {
-                if (userDto.Followers!.Any(x => x.FollowerEmail == userEmail))
+                if (userDto.Followers!.Any(x => x.FollowerEmail != userEmail))
                 {
-                    userDto.IsFollowingRequestUser = true;
+                    userDto.IsFollowingRequestUser = false;
                 }
             }
 
@@ -52,11 +52,11 @@ namespace PBJ.StoreManagementService.Business.Services
 
         public async Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(string followerEmail, int page, int take)
         {
-            var paginationResponse = await _userRepository.GetPaginatedAsync(page, take,
-                where: x => x.Followers!.Any(uf => uf.FollowerEmail == followerEmail),
-                orderBy: x => x.Id);
+            var paginationResponse = await _userRepository.GetFollowingsAsync(followerEmail, page, take);
 
-            return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
+            var paginationResponseDto = _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
+
+            return paginationResponseDto;
         }
 
         public async Task<UserDto> GetAsync(int id)
