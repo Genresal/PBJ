@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PBJ.StoreManagementService.Business.Options;
@@ -7,12 +6,13 @@ using PBJ.StoreManagementService.Business.Producers;
 using PBJ.StoreManagementService.Business.Producers.Abstract;
 using PBJ.StoreManagementService.Business.Services;
 using PBJ.StoreManagementService.Business.Services.Abstract;
+using System.Reflection;
 
 namespace PBJ.StoreManagementService.Business.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        private static RabbitMqOptions? _rabbitMqOptions;
+        private static RabbitMqOptions _rabbitMqOptions;
 
         public static void SetupOptions(this IServiceCollection services, IConfiguration configuration)
         {

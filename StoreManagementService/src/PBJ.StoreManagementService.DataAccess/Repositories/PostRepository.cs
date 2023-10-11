@@ -8,6 +8,7 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
     {
         public PostRepository(DatabaseContext databaseContext)
             : base(databaseContext)
-        { }
+        {
+        }
     }
 }

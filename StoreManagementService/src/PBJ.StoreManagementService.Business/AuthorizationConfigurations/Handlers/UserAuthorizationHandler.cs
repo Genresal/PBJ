@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Requirements;
-using System.Security.Claims;
 using PBJ.StoreManagementService.Business.Services.Abstract;
 using PBJ.StoreManagementService.Models.User;
 using Serilog;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handlers
 {
@@ -22,29 +22,20 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserRequirement requirement)
         {
-            var token = (context.Resource as HttpContext)?.Request.Headers.Authorization.ToString().Replace("Bearer", "").Trim();
+            var token = (context.Resource as HttpContext)?.Request.Headers.Authorization.ToString().Replace("Bearer", "")
+                .Trim();
 
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                throw new UnauthorizedAccessException("Token cannot be null!");
-            }
+            if (string.IsNullOrWhiteSpace(token)) throw new UnauthorizedAccessException("Token cannot be null!");
 
             var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
 
-            if (jwtSecurityToken.Claims.First(x => x.Issuer == requirement.Issuer) == null)
-            {
-                return Task.CompletedTask;
-            }
+            if (jwtSecurityToken.Claims.First(x => x.Issuer == requirement.Issuer) == null) return Task.CompletedTask;
 
             var userName = jwtSecurityToken.Claims.First(x => x.Type == ClaimTypes.Name)?.Value;
             var email = jwtSecurityToken.Claims.First(x => x.Type == ClaimTypes.Email)?.Value;
             var role = jwtSecurityToken.Claims.First(x => x.Type == ClaimTypes.Role)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userName) && string.IsNullOrWhiteSpace(email))
-            {
-                return Task.CompletedTask;
-
-            }
+            if (string.IsNullOrWhiteSpace(userName) && string.IsNullOrWhiteSpace(email)) return Task.CompletedTask;
 
             CheckUserAsync(email!, userName!).GetAwaiter().GetResult();
 
@@ -55,10 +46,7 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
                 return Task.CompletedTask;
             }
 
-            if (requirement.Role == role)
-            {
-                context.Succeed(requirement);
-            }
+            if (requirement.Role == role) context.Succeed(requirement);
 
             return Task.CompletedTask;
         }
@@ -67,9 +55,9 @@ namespace PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handle
         {
             try
             {
-                await _userService.CreateAsync(new UserRequestModel()
+                await _userService.CreateAsync(new UserRequestModel
                 {
-                    Email = email,
+                    Email = email
                 });
             }
             catch (Exception ex)

@@ -40,7 +40,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                     UserEmail = "unique2@email.com",
                     FollowerEmail = "unique1@email.com"
                 }
-                );
+            );
         }
     }
 }

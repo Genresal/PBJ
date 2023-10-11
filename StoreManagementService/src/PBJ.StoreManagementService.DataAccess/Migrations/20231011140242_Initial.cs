@@ -113,8 +113,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "UserEmail" },
                 values: new object[,]
                 {
-                    { 1, "PostContent1", new DateTime(2023, 10, 9, 23, 30, 54, 162, DateTimeKind.Local).AddTicks(3944), "unique1@email.com" },
-                    { 2, "PostContent2", new DateTime(2023, 10, 9, 23, 30, 54, 162, DateTimeKind.Local).AddTicks(3960), "unique1@email.com" }
+                    { 1, "PostContent1", new DateTime(2023, 10, 11, 16, 2, 42, 734, DateTimeKind.Local).AddTicks(5439), "unique1@email.com" },
+                    { 2, "PostContent2", new DateTime(2023, 10, 11, 16, 2, 42, 734, DateTimeKind.Local).AddTicks(5485), "unique1@email.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -131,8 +131,8 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "PostId", "UserEmail" },
                 values: new object[,]
                 {
-                    { 1, "CommentContent1", new DateTime(2023, 10, 9, 23, 30, 54, 160, DateTimeKind.Local).AddTicks(8675), 2, "unique1@email.com" },
-                    { 2, "CommentContent2", new DateTime(2023, 10, 9, 23, 30, 54, 160, DateTimeKind.Local).AddTicks(8690), 1, "unique2@email.com" }
+                    { 1, "CommentContent1", new DateTime(2023, 10, 11, 16, 2, 42, 733, DateTimeKind.Local).AddTicks(4928), 2, "unique1@email.com" },
+                    { 2, "CommentContent2", new DateTime(2023, 10, 11, 16, 2, 42, 733, DateTimeKind.Local).AddTicks(4999), 1, "unique2@email.com" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -5,7 +5,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfiguration
 {
     public class IReadOnlyCollectionsCustomization : ISpecimenBuilder
     {
-        public object? Create(object request, ISpecimenContext context)
+        public object Create(object request, ISpecimenContext context)
         {
             if (request is PropertyInfo propertyInfo)
             {

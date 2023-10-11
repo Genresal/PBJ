@@ -19,7 +19,8 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _postService = postService;
         }
 
-        [HttpGet, Route("paginated")]
+        [HttpGet]
+        [Route("paginated")]
         public async Task<ActionResult> GetPaginatedAsync([FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _postService
@@ -28,8 +29,10 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("email")]
-        public async Task<ActionResult> GetByUserEmailAsync([FromQuery] UserRequestModel userRequestModel, [FromQuery] PaginationRequestModel requestModel)
+        [HttpGet]
+        [Route("email")]
+        public async Task<ActionResult> GetByUserEmailAsync([FromQuery] UserRequestModel userRequestModel,
+            [FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _postService
                 .GetByUserEmailAsync(userRequestModel.Email!, requestModel.Page, requestModel.Take);

@@ -18,8 +18,9 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _userFollowersService = commentService;
         }
 
-        [HttpGet, Route("paginated")]
-        public async Task<ActionResult> GetPaginatedAsync([FromQuery]PaginationRequestModel requestModel)
+        [HttpGet]
+        [Route("paginated")]
+        public async Task<ActionResult> GetPaginatedAsync([FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _userFollowersService
                 .GetPaginatedAsync(requestModel.Page, requestModel.Take);
