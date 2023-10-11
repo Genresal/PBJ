@@ -8,44 +8,14 @@ using PBJ.StoreManagementService.Api.IntegrationTests.Handlers;
 using PBJ.StoreManagementService.Models.Comment;
 using PBJ.StoreManagementService.Models.Pagination;
 using System.Net;
-using PBJ.StoreManagementService.Models.User;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class CommentControllerTests : BaseControllerTest
     {
-        [Fact]
-        public async Task GetAsync_Concurrency_ReturnsOk()
-        {
-
-            var user = await _dataManager.CreateUserAsync();
-
-            async Task<(UserDto, HttpResponseMessage)> GetUserAsync()
-            {
-                var (userDto, response) =
-                    await ExecuteWithFullResponseAsync<UserDto>($"{ApiConstants.UserApi}?id={user.Id}",
-                        HttpMethod.Get, token: JwtTokenHandler.AdminToken);
-
-                return (userDto, response);
-            }
-
-            var apiTasks = new List<Task<(UserDto item1, HttpResponseMessage item2)>>
-            {
-                GetUserAsync(),
-                GetUserAsync(),
-                GetUserAsync(),
-                GetUserAsync(),
-                GetUserAsync(),
-                GetUserAsync()
-            };
-
-            var results = await Task.WhenAll(apiTasks);
-            var res = results.Length;
-        }
-
-
-        [Theory, CustomAutoData]
+        [Theory]
+        [CustomAutoData]
         public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsOk(
             PaginationRequestModel requestModel)
         {
@@ -53,7 +23,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
-                $"{ApiConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
+                    $"{ApiConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}",
+                    HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -61,13 +32,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             paginationResponseDto!.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
         }
 
-        [Theory, CustomAutoData]
+        [Theory]
+        [CustomAutoData]
         public async Task GetPaginatedAsync_WhenTokenIsEmpty_ReturnsUnauthorized(PaginationRequestModel requestModel)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                    $"{ApiConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
+                $"{ApiConstants.CommentApi}/paginated?page={requestModel.Page}&take={requestModel.Take}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -86,7 +58,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Theory, CustomAutoData]
+        [Theory]
+        [CustomAutoData]
         public async Task GetByPostIdAsync_WhenRequestIsValid_ReturnsOk(
             PaginationRequestModel requestModel)
         {
@@ -106,7 +79,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             paginationResponseDto?.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
         }
 
-        [Theory, CustomAutoData]
+        [Theory]
+        [CustomAutoData]
         public async Task GetByPostIdAsync_WhenPostIdIsZero_ReturnsOk(
             PaginationRequestModel requestModel)
         {
@@ -123,7 +97,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             paginationResponseDto!.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<CommentDto>>();
         }
 
-        [Theory, CustomAutoData]
+        [Theory]
+        [CustomAutoData]
         public async Task GetByPostIdAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
             int postId,
             PaginationRequestModel requestModel)
@@ -167,24 +142,26 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             commentDto.Should().NotBeNull();
         }
 
-        [Theory, CustomAutoData]
+        [Theory]
+        [CustomAutoData]
         public async Task GetAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int commentId)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={commentId}",
-                    HttpMethod.Get);
+                HttpMethod.Get);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
-        [Theory, CustomAutoData]
+        [Theory]
+        [CustomAutoData]
         public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden(int commentId)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={commentId}",
-                    HttpMethod.Get, token: JwtTokenHandler.UserToken);
+                HttpMethod.Get, token: JwtTokenHandler.UserToken);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
@@ -195,7 +172,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={0}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.CommentApi}?id={0}", HttpMethod.Get,
+                    token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -229,7 +207,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (commentDto, response) = await
                 ExecuteWithFullResponseAsync<CommentDto>(ApiConstants.CommentApi,
-                    HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
+                    HttpMethod.Post, requestBody, JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -262,7 +240,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                    ApiConstants.CommentApi, HttpMethod.Post, requestBody, token: JwtTokenHandler.UserToken);
+                ApiConstants.CommentApi, HttpMethod.Post, requestBody, JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -280,7 +258,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (commentDto, response) = await ExecuteWithFullResponseAsync<CommentDto>(
-                $"{ApiConstants.CommentApi}?id={comment.Id}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.CommentApi}?id={comment.Id}", HttpMethod.Put, requestBody, JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -288,7 +266,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             commentDto?.Content.Should().NotBe(comment.Content);
         }
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task UpdateAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int commentId)
         {
             //Arrange
@@ -310,13 +289,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.CommentApi}?id={0}", HttpMethod.Put, requestBody, token: JwtTokenHandler.UserToken);
+                $"{ApiConstants.CommentApi}?id={0}", HttpMethod.Put, requestBody, JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task UpdateAsync_WhenRequestModelIsNotValid_ReturnsBadRequest(int id)
         {
             //Arrange
@@ -328,7 +308,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var response = await ExecuteWithStatusCodeAsync(
                 $"{ApiConstants.CommentApi}?id={id}", HttpMethod.Put,
-                requestBody, token: JwtTokenHandler.UserToken);
+                requestBody, JwtTokenHandler.UserToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -349,7 +329,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task DeleteAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int commentId)
         {
             //Arrange

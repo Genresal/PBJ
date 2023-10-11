@@ -12,8 +12,8 @@ namespace PBJ.StoreManagementService.Business.Services
 {
     public class UserFollowersService : IUserFollowersService
     {
-        private readonly IUserFollowersRepository _userFollowersRepository;
         private readonly IMapper _mapper;
+        private readonly IUserFollowersRepository _userFollowersRepository;
 
         public UserFollowersService(IUserFollowersRepository userFollowersRepository,
             IMapper mapper)
@@ -56,7 +56,8 @@ namespace PBJ.StoreManagementService.Business.Services
         public async Task<bool> DeleteAsync(UserFollowersRequestModel requestModel)
         {
             var existingUserFollower = await _userFollowersRepository
-                .FirstOrDefaultAsync(x => x.UserEmail == requestModel.UserEmail && x.FollowerEmail == requestModel.FollowerEmail);
+                .FirstOrDefaultAsync(x =>
+                    x.UserEmail == requestModel.UserEmail && x.FollowerEmail == requestModel.FollowerEmail);
 
             await _userFollowersRepository.DeleteAsync(existingUserFollower);
 

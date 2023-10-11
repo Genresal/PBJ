@@ -18,7 +18,8 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _userService = userService;
         }
 
-        [HttpGet, Route("paginated")]
+        [HttpGet]
+        [Route("paginated")]
         public async Task<ActionResult> GetPaginatedAsync([FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _userService
@@ -27,8 +28,9 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("followers")]
-        public async Task<ActionResult> GetFollowersAsync([FromQuery] UserRequestModel userRequestModel, 
+        [HttpGet]
+        [Route("followers")]
+        public async Task<ActionResult> GetFollowersAsync([FromQuery] UserRequestModel userRequestModel,
             [FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _userService
@@ -37,8 +39,9 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("followings")]
-        public async Task<ActionResult> GetFollowingsAsync([FromQuery] UserRequestModel followerRequestModel, 
+        [HttpGet]
+        [Route("followings")]
+        public async Task<ActionResult> GetFollowingsAsync([FromQuery] UserRequestModel followerRequestModel,
             [FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _userService
@@ -48,7 +51,8 @@ namespace PBJ.StoreManagementService.Api.Controllers
         }
 
         [Authorize(Policy = "Admin")]
-        [HttpGet, Route("email")]
+        [HttpGet]
+        [Route("email")]
         public async Task<ActionResult> GetAsync([FromQuery] UserRequestModel requestModel)
         {
             var result = await _userService.GetAsync(requestModel.Email!);

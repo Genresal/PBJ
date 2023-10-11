@@ -12,9 +12,9 @@ namespace PBJ.StoreManagementService.Business.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUserFollowersRepository _userFollowersRepository;
         private readonly IMapper _mapper;
+        private readonly IUserFollowersRepository _userFollowersRepository;
+        private readonly IUserRepository _userRepository;
 
         public UserService(IUserRepository userRepository,
             IUserFollowersRepository userFollowersRepository,
@@ -53,26 +53,14 @@ namespace PBJ.StoreManagementService.Business.Services
         public async Task<PaginationResponseDto<UserDto>> GetFollowingsAsync(string followerEmail, int page, int take)
         {
             var paginationResponse = await _userRepository.GetPaginatedAsync(page, take,
-                where: x => x.Followers!.Any(uf => uf.FollowerEmail == followerEmail),
-                orderBy: x => x.Id);
+                x => x.Followers!.Any(uf => uf.FollowerEmail == followerEmail),
+                x => x.Id);
 
             var paginationResponseDto = _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
 
             paginationResponseDto.Items.ToList().ForEach(x => x.IsFollowingRequestUser = true);
 
             return paginationResponseDto;
-        }
-
-        public async Task<UserDto> GetAsync(int id)
-        {
-            var user = await _userRepository.GetAsync(id);
-
-            if (user == null)
-            {
-                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
-            }
-
-            return _mapper.Map<UserDto>(user);
         }
 
         public async Task<UserDto> GetAsync(string email)
@@ -125,6 +113,18 @@ namespace PBJ.StoreManagementService.Business.Services
             Log.Information("Deleted user: {@existingUser}", existingUser);
 
             return true;
+        }
+
+        public async Task<UserDto> GetAsync(int id)
+        {
+            var user = await _userRepository.GetAsync(id);
+
+            if (user == null)
+            {
+                throw new NotFoundException(ExceptionMessages.USER_NOT_FOUND_MESSAGE);
+            }
+
+            return _mapper.Map<UserDto>(user);
         }
     }
 }

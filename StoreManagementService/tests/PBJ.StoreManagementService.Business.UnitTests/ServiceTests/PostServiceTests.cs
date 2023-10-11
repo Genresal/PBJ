@@ -23,7 +23,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockPostRepository = new Mock<IPostRepository>();
         }
 
-        [Theory, AutoMockData]
+        [Theory]
+        [AutoMockData]
         public async Task GetPaginatedAsync_WhenRequestIsValid_ReturnsListOfDto(
             int page,
             int take,
@@ -59,7 +60,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<PostDto>>();
         }
 
-        [Theory, AutoMockData]
+        [Theory]
+        [AutoMockData]
         public async Task GetByUserEmailAsync_WhenRequestIsValid_ReturnsListOfDto(
             string userEmail,
             int page,
@@ -87,17 +89,18 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 
             //Assert
             _mockPostRepository.Verify(x =>
-                    x.GetPaginatedAsync(It.IsAny<int>(),
-                        It.IsAny<int>(),
-                        It.IsAny<Expression<Func<Post, bool>>>(),
-                        It.IsAny<Expression<Func<Post, int>>>(),
-                        It.IsAny<bool>()), Times.Once);
+                x.GetPaginatedAsync(It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<Expression<Func<Post, bool>>>(),
+                    It.IsAny<Expression<Func<Post, int>>>(),
+                    It.IsAny<bool>()), Times.Once);
 
             result.Should().NotBeNull();
             result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<PostDto>>();
         }
 
-        [Theory, AutoMockData]
+        [Theory]
+        [AutoMockData]
         public async Task GetAsync_WhenEntityExists_ReturnsDto(int id,
             Post post,
             PostDto postDto)
@@ -140,7 +143,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
                 .Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
         }
 
-        [Theory, AutoMockData]
+        [Theory]
+        [AutoMockData]
         public async Task CreateAsync_WhenRequestIsValid_ReturnsCreatedDto(Post post,
             CreatePostRequestModel postRequestModel,
             PostDto postDto)
@@ -163,7 +167,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Should().NotBeNull().And.BeOfType<PostDto>();
         }
 
-        [Theory, AutoMockData]
+        [Theory]
+        [AutoMockData]
         public async Task UpdateAsync_WhenEntityExists_ReturnsUpdatedDto(int id,
             Post post,
             PostDto postDto,
@@ -190,7 +195,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Should().NotBeNull().And.BeOfType<PostDto>();
         }
 
-        [Theory, AutoMockData]
+        [Theory]
+        [AutoMockData]
         public async Task UpdateAsync_WhenEntityNotExists_ThrowsNotFoundException(int id,
             UpdatePostRequestModel postRequestModel)
         {
@@ -210,7 +216,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
                 .Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
         }
 
-        [Theory, AutoMockData]
+        [Theory]
+        [AutoMockData]
         public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(int id)
         {
             //Arrange

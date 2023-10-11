@@ -14,7 +14,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations
         {
             var fixture = new Fixture();
 
-            fixture.Customize(new AutoMoqCustomization() { ConfigureMembers = true });
+            fixture.Customize(new AutoMoqCustomization { ConfigureMembers = true });
 
             fixture.Customize<PaginationRequestModel>(cfg =>
                 cfg.With(x => x.Page, 1));

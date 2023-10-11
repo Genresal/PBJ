@@ -13,7 +13,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfiguration
         {
             var fixture = new Fixture();
 
-            fixture.Customize(new AutoMoqCustomization() { ConfigureMembers = true });
+            fixture.Customize(new AutoMoqCustomization { ConfigureMembers = true });
             fixture.Customizations.Add(new IReadOnlyCollectionsCustomization());
 
             fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()

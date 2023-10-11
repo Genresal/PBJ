@@ -1,5 +1,3 @@
-using MassTransit;
-using MassTransit.Futures;
 using PBJ.StoreManagementService.Api.Extensions;
 using PBJ.StoreManagementService.Api.Middlewares;
 using PBJ.StoreManagementService.Business.Extensions;
@@ -33,20 +31,14 @@ namespace PBJ.StoreManagementService.Api
 
             builder.Services.AddCors();
 
-            if (!builder.Environment.IsEnvironment("Testing"))
-            {
-                builder.Services.MigrateDatabase();
-            }
+            if (!builder.Environment.IsEnvironment("Testing")) builder.Services.MigrateDatabase();
 
             var app = builder.Build();
-            
+
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseMiddleware<LoggingMiddleware>();
 
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMS V1");
-            });
+            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMS V1"); });
 
             app.UseCors(builder =>
             {

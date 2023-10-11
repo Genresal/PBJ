@@ -1,5 +1,4 @@
 using AutoFixture;
-using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using PBJ.StoreManagementService.Api.IntegrationTests.Configuration;
@@ -27,7 +26,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
         }
 
         protected async Task<HttpResponseMessage> ExecuteWithStatusCodeAsync(string requestUri,
-            HttpMethod httpMethod, StringContent? requestBody = null, string token = "")
+            HttpMethod httpMethod, StringContent requestBody = null, string token = "")
         {
             var requestMessage = new HttpRequestMessage
             {
@@ -42,8 +41,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstra
             return response;
         }
 
-        protected async Task<(TReturn?, HttpResponseMessage)> ExecuteWithFullResponseAsync<TReturn>(string requestUri,
-            HttpMethod httpMethod, StringContent? requestBody = null, string token = "")
+        protected async Task<(TReturn, HttpResponseMessage)> ExecuteWithFullResponseAsync<TReturn>(string requestUri,
+            HttpMethod httpMethod, StringContent requestBody = null, string token = "")
         {
             var requestMessage = new HttpRequestMessage
             {

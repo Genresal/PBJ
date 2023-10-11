@@ -12,8 +12,8 @@ namespace PBJ.StoreManagementService.Business.Services
 {
     public class PostService : IPostService
     {
-        private readonly IPostRepository _postRepository;
         private readonly IMapper _mapper;
+        private readonly IPostRepository _postRepository;
 
         public PostService(IPostRepository postRepository,
             IMapper mapper)
@@ -33,7 +33,7 @@ namespace PBJ.StoreManagementService.Business.Services
         public async Task<PaginationResponseDto<PostDto>> GetByUserEmailAsync(string userEmail, int page, int take)
         {
             var paginationResponse = await _postRepository.GetPaginatedAsync(
-                page, take, where: x => x.UserEmail == userEmail, orderBy: x => x.Id);
+                page, take, x => x.UserEmail == userEmail, x => x.Id);
 
             return _mapper.Map<PaginationResponseDto<PostDto>>(paginationResponse);
         }

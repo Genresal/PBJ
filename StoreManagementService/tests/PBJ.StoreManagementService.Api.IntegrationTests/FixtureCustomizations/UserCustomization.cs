@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using Bogus;
 using PBJ.StoreManagementService.DataAccess.Entities;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations
@@ -9,7 +8,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations
         public void Customize(IFixture fixture)
         {
             fixture.Customize<User>(cfg =>
-                 cfg.Without(x => x.Id)
+                cfg.Without(x => x.Id)
                     .Without(x => x.Posts)
                     .Without(x => x.Comments)
                     .Without(x => x.Followers)

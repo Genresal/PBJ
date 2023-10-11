@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using PBJ.StoreManagementService.DataAccess.Entities;
-using System.Reflection;
 
 namespace PBJ.StoreManagementService.DataAccess.Context
 {

@@ -8,16 +8,16 @@ namespace PBJ.StoreManagementService.Models.User
     {
         public int Id { get; set; }
 
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         public bool IsFollowingRequestUser { get; set; } = false;
 
-        public IReadOnlyCollection<PostDto>? Posts { get; set; }
+        public IReadOnlyCollection<PostDto> Posts { get; set; }
 
-        public IReadOnlyCollection<CommentDto>? Comments { get; set; }
+        public IReadOnlyCollection<CommentDto> Comments { get; set; }
 
-        public IReadOnlyCollection<UserFollowersDto>? Followings { get; set; }
+        public IReadOnlyCollection<UserFollowersDto> Followings { get; set; }
 
-        public IReadOnlyCollection<UserFollowersDto>? Followers { get; set; }
+        public IReadOnlyCollection<UserFollowersDto> Followers { get; set; }
     }
 }

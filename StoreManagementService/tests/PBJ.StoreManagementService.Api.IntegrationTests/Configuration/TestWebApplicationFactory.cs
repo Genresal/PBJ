@@ -37,12 +37,12 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Configuration
         private static void AddAuthentication(IServiceCollection services)
         {
             services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = TestAuthScheme;
-                options.DefaultScheme = TestAuthScheme;
-                options.DefaultChallengeScheme = TestAuthScheme;
-            })
-            .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", options => {});
+                {
+                    options.DefaultAuthenticateScheme = TestAuthScheme;
+                    options.DefaultScheme = TestAuthScheme;
+                    options.DefaultChallengeScheme = TestAuthScheme;
+                })
+                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", options => { });
         }
 
         private static void SetupMockMassTransit(IServiceCollection services)
@@ -50,16 +50,13 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Configuration
             var descriptor = services.SingleOrDefault(x =>
                 x.ServiceType == typeof(IMessageProducer));
 
-            if (descriptor != null)
-            {
-                services.Remove(descriptor);
-            }
+            if (descriptor != null) services.Remove(descriptor);
 
-            services.AddMassTransitTestHarness(options => 
+            services.AddMassTransitTestHarness(options =>
             {
                 options.AddDelayedMessageScheduler();
 
-                options.UsingInMemory((context, config) => 
+                options.UsingInMemory((context, config) =>
                 {
                     config.UseDelayedMessageScheduler();
 
@@ -75,16 +72,13 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.Configuration
             var descriptor = services.SingleOrDefault(x =>
                 x.ServiceType == typeof(DbContextOptions<DatabaseContext>));
 
-            if (descriptor != null)
-            {
-                services.Remove(descriptor);
-            }
+            if (descriptor != null) services.Remove(descriptor);
 
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseInMemoryDatabase("pbjTest");
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            }, ServiceLifetime.Scoped);
+            });
         }
     }
 }

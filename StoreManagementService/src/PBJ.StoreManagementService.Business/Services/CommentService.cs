@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MassTransit;
 using PBJ.StoreManagementService.Business.Constants;
 using PBJ.StoreManagementService.Business.Exceptions;
 using PBJ.StoreManagementService.Business.Producers.Abstract;
@@ -16,8 +15,8 @@ namespace PBJ.StoreManagementService.Business.Services
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
         private readonly IMessageProducer _messageProducer;
+        private readonly IUserRepository _userRepository;
 
         public CommentService(ICommentRepository commentRepository,
             IMapper mapper,
@@ -40,8 +39,8 @@ namespace PBJ.StoreManagementService.Business.Services
 
         public async Task<PaginationResponseDto<CommentDto>> GetByPostIdAsync(int postId, int page, int take)
         {
-            var paginationResponse = await _commentRepository.GetPaginatedAsync<int>(
-                page, take, where: x => x.PostId == postId, orderBy: x => x.Id);
+            var paginationResponse = await _commentRepository.GetPaginatedAsync(
+                page, take, x => x.PostId == postId, x => x.Id);
 
             return _mapper.Map<PaginationResponseDto<CommentDto>>(paginationResponse);
         }

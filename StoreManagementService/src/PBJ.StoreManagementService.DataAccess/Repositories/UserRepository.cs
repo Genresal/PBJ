@@ -29,9 +29,9 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
         }
 
         protected async Task<(List<User>, int)> ExecuteQueryWithIncludeAsync<TOrder, TInclude>(int page, int take, 
-            Expression<Func<User, bool>>? where = null, 
-            Expression<Func<User, TOrder>>? orderBy = null,
-            Expression<Func<User, TInclude>>? include = null,
+            Expression<Func<User, bool>> where = null, 
+            Expression<Func<User, TOrder>> orderBy = null,
+            Expression<Func<User, TInclude>> include = null,
             bool ascOrder = true)
         {
 
