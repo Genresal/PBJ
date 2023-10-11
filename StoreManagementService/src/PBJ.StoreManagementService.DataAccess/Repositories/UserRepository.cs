@@ -28,22 +28,6 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
             };
         }
 
-        public async Task<PaginationResponse<User>> GetFollowingsAsync(string followerEmail, int page, int take)
-        {
-            var (items, count) = await ExecuteQueryWithIncludeAsync(page, take,
-                where: x => x.Followers!.Any(uf => uf.FollowerEmail == followerEmail),
-                orderBy: x => x.Id,
-                include: x => x.Followings);
-
-            return new PaginationResponse<User>
-            {
-                Page = page,
-                PageSize = take,
-                Items = items,
-                Total = count
-            };
-        }
-
         protected async Task<(List<User>, int)> ExecuteQueryWithIncludeAsync<TOrder, TInclude>(int page, int take, 
             Expression<Func<User, bool>>? where = null, 
             Expression<Func<User, TOrder>>? orderBy = null,

@@ -10,7 +10,7 @@ namespace PBJ.StoreManagementService.Models.User
 
         public string? Email { get; set; }
 
-        public bool IsFollowingRequestUser { get; set; } = true;
+        public bool IsFollowingRequestUser { get; set; } = false;
 
         public IReadOnlyCollection<PostDto>? Posts { get; set; }
 

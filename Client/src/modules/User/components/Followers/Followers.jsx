@@ -35,7 +35,7 @@ export default function Followers({loggedUserEmail, isFollowers}) {
       response = await createUserFollowerAsync(followerEmail, loggedUserEmail);
     }
     else {
-      response = await deleteUserFollowerAsync(loggedUserEmail, followerEmail);
+      response = await deleteUserFollowerAsync(followerEmail, loggedUserEmail);
     }
 
     if (response) {
@@ -45,15 +45,7 @@ export default function Followers({loggedUserEmail, isFollowers}) {
       : x))
     }
   }
-
-  const handleFollowingsClick = async (followerEmail) => {
-    const response = await deleteUserFollowerAsync(followerEmail, loggedUserEmail)
-
-    if (response) {
-      setFollowers(followers.filter(x => x.email === followerEmail))
-    }
-  }
-
+  
   useEffect(() => {
     initializeFollowers()
   }, [page, take])
@@ -72,7 +64,7 @@ export default function Followers({loggedUserEmail, isFollowers}) {
         :
           followers.map(follower => 
               <FollowerCard key={follower.email} follower={follower} 
-              handleFollowersClick={isFollowers ? handleFollowersClick : handleFollowingsClick}/>
+              handleFollowersClick={handleFollowersClick}/>
             )
       }
     </Grid>
