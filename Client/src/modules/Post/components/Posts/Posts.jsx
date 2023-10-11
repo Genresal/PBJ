@@ -6,7 +6,8 @@ import {createNewPostAsync} from "../../api/createNewPostAsync.js";
 import {deletePostAsync} from "../../api/deletePostAsync.js";
 import CreatePostCard from "../CreatePostCard/CreatePostCard.jsx";
 import {editPostAsync} from "../../api/editPostAsync.js";
-import { CircularProgress, Grid } from '@mui/material';
+import { Loader } from "../../../../UI/Loader/Loader.jsx"
+import { Grid } from '@mui/material';
 
 const Posts = ({user}) => {
     const [posts, setPosts] = useState([]);
@@ -58,11 +59,9 @@ const Posts = ({user}) => {
             {
                 isLoading 
                 ?
-                    <Grid container style={{ display: 'flex', justifyContent: "center", marginTop: 50 }}>
-                        <CircularProgress />
-                    </Grid>
+                    <Loader/>
                 :
-                    <PostCardList posts={posts} deletePost={deletePost} editPost={editPost}/>
+                    <PostCardList posts={posts} deletePost={deletePost} editPost={editPost} loggedUser={user}/>
             }
         </Grid>
     );

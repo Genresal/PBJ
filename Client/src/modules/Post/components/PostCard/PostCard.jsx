@@ -5,14 +5,20 @@ import {useState} from "react";
 import { ConvertDate } from "../../../../shared/DateConverter.js";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import classes from "./PostCard.module.css"
+import { useHistory } from 'react-router-dom';
 
-const PostCard = ({post, deletePost, editPost}) => {
+const PostCard = ({post, deletePost, editPost, isDisabled, loggedUser}) => {
     const [content, setContent] = useState({content: ""});
     const [isEditing, setIsEditing] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const history = useHistory();
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
+
+    const handleOpenPostClick = () => {
+        history.push(`/post/${post.id}`)
+    }
 
     const handlePopoverClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -40,14 +46,14 @@ const PostCard = ({post, deletePost, editPost}) => {
 
     return (
         <>
-            <Grid container direction="row" style={{
+            <Grid  onClick={!isDisabled ? handleOpenPostClick : null} container direction="row" style={{
                 border: "1px solid lightGray", 
                 borderTop: "none", 
                 padding: 15, 
                 flexWrap: "nowrap",
                 fontWeight: "normal"
                 }}
-                className={classes.postCard}>
+                className={!isDisabled ? classes.postCard : null}>
                 <Grid item style={{paddingRight: 10}}>
                     <Avatar>A</Avatar>
                 </Grid>
@@ -59,11 +65,13 @@ const PostCard = ({post, deletePost, editPost}) => {
                         <Grid item>
                             {ConvertDate(post.createdAt)}
                         </Grid>
-                        <Grid container justifyContent="flex-end" md={4}>
-                            <IconButton onClick={handlePopoverClick} aria-describedby={id}>
-                                <MoreHorizIcon/>
-                            </IconButton>
-                        </Grid>
+                        {loggedUser.email === post.userEmail && 
+                            <Grid container justifyContent="flex-end" md={4}>
+                                <IconButton onClick={handlePopoverClick} aria-describedby={id}>
+                                    <MoreHorizIcon/>
+                                </IconButton>
+                            </Grid>
+                        }
                     </Grid>
                     <Grid item>
                         {isEditing

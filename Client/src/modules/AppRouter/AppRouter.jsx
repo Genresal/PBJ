@@ -16,7 +16,6 @@ export default function AppRouter() {
                     exact={route.exact}
                 />
             )}
-            <Redirect to="/" />
         </Switch>
     )
 }
