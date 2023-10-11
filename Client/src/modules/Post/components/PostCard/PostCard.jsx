@@ -21,6 +21,8 @@ const PostCard = ({post, deletePost, editPost, isDisabled, loggedUser}) => {
     }
 
     const handlePopoverClick = (event) => {
+        event.stopPropagation();
+
         setAnchorEl(event.currentTarget);
       };
     
@@ -46,7 +48,7 @@ const PostCard = ({post, deletePost, editPost, isDisabled, loggedUser}) => {
 
     return (
         <>
-            <Grid  onClick={!isDisabled ? handleOpenPostClick : null} container direction="row" style={{
+            <Grid onClick={!isDisabled ? handleOpenPostClick : null} container direction="row" style={{
                 border: "1px solid lightGray", 
                 borderTop: "none", 
                 padding: 15, 
@@ -55,7 +57,7 @@ const PostCard = ({post, deletePost, editPost, isDisabled, loggedUser}) => {
                 }}
                 className={!isDisabled ? classes.postCard : null}>
                 <Grid item style={{paddingRight: 10}}>
-                    <Avatar>A</Avatar>
+                    <Avatar></Avatar>
                 </Grid>
                 <Grid item md={12}>
                     <Grid container direction="row" columnSpacing={2} fullWidth>
