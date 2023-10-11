@@ -10,9 +10,6 @@ namespace PBJ.AuthService.Api.Validators
             RuleFor(x => x.UserName).NotEmpty()
                 .WithMessage("Required field");
 
-            RuleFor(x => x.UserName).MinimumLength(5)
-                .WithMessage("Username must contain at least 5 characters");
-
             RuleFor(x => x.Surname).NotEmpty()
                 .WithMessage("Required field");
 
@@ -27,7 +24,7 @@ namespace PBJ.AuthService.Api.Validators
 
             RuleFor(x => x.Password)
                 .Equal(x => x.ConfirmPassword)
-                .WithMessage("Password do not Match");
+                .WithMessage("Password do not match");
 
             RuleFor(x => x.Password).NotEmpty()
                 .WithMessage("Password required");

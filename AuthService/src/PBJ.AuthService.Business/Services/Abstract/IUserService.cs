@@ -8,5 +8,9 @@ namespace PBJ.AuthService.Business.Services.Abstract
         Task<AuthResult<AuthUser>> GetUserAsync(string email);
 
         Task<AuthResult<AuthUser>> CreateUserAsync(string userName, string surname, DateTime birthDate, string email, string password);
+
+        Task<AuthResult<AuthUser>> EditUserAsync(string email, string userName, string surname, DateTime birthDate);
+
+        Task<AuthResult<AuthUser>> EditPasswordAsync(string email, string currentPassword, string newPassword);
     }
 }

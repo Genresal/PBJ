@@ -9,7 +9,6 @@ import { useContext } from "react";
 import ProfilePopover from "../Popover/ProfilePopover";
 
 const NavMenu = () => {
-
     const {user} = useContext(PagesContext)
 
     return (
@@ -24,7 +23,7 @@ const NavMenu = () => {
                 <List>
                     <Link to="/" style={{color: "black"}}>
                         <ListItem>
-                            <ListItemButton>
+                            <ListItemButton style={{borderRadius: 30}}>
                                 <ListItemIcon>
                                     <HomeOutlinedIcon />
                                 </ListItemIcon>
@@ -34,7 +33,7 @@ const NavMenu = () => {
                     </Link>
                     <Link to="/search" style={{color: "black"}}>
                         <ListItem>
-                            <ListItemButton>
+                            <ListItemButton style={{borderRadius: 30}}>
                                 <ListItemIcon>
                                     <SearchOutlinedIcon />
                                 </ListItemIcon>
@@ -44,7 +43,7 @@ const NavMenu = () => {
                     </Link>
                     <Link to="/followers" style={{color: "black"}}>
                         <ListItem>
-                            <ListItemButton>
+                            <ListItemButton style={{borderRadius: 30}}>
                                 <ListItemIcon>
                                     <PeopleAltOutlinedIcon />
                                 </ListItemIcon>
@@ -54,7 +53,7 @@ const NavMenu = () => {
                     </Link>
                     <Link to="/followings" style={{color: "black"}}>
                         <ListItem>
-                            <ListItemButton>
+                            <ListItemButton style={{borderRadius: 30}}>
                                 <ListItemIcon>
                                     <HomeOutlinedIcon />
                                 </ListItemIcon>
@@ -64,7 +63,7 @@ const NavMenu = () => {
                     </Link>
                     <Link to="/profile" style={{color: "black"}}>
                         <ListItem>
-                            <ListItemButton>
+                            <ListItemButton style={{borderRadius: 30}}>
                                 <ListItemIcon>
                                     <AccountBoxOutlinedIcon />
                                 </ListItemIcon>
@@ -74,7 +73,7 @@ const NavMenu = () => {
                     </Link>
                     <ListItem style={{position: "fixed", bottom: "10px", width: "250px"}}>
                         <ProfilePopover>
-                            <ListItemButton>
+                            <ListItemButton style={{borderRadius: 30}}>
                                 <ListItemIcon>
                                     <Avatar>A</Avatar>
                                 </ListItemIcon>

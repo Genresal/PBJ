@@ -20,7 +20,7 @@ const CreatePostCard = ({createNewPost, user}) => {
                 <Avatar>A</Avatar>
             </Grid>
             <Grid item style={{fontSize: 22}}>
-                {user.name}
+                {user.userName}
             </Grid>
             <Grid item md={12}>
                 <Grid container direction="column">
