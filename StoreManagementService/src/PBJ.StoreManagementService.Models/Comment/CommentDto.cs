@@ -7,16 +7,16 @@ namespace PBJ.StoreManagementService.Models.Comment
     {
         public int Id { get; set; }
 
-        public string? Content { get; set; }
+        public string Content { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
-        public string UserEmail { get; set; } = null!;
+        public string UserEmail { get; set; }
 
-        public UserDto? User { get; set; }
+        public UserDto User { get; set; }
 
         public int PostId { get; set; }
 
-        public PostDto? Post { get; set; }
+        public PostDto Post { get; set; }
     }
 }

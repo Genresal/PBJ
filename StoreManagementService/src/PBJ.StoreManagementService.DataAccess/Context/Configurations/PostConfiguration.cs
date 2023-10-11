@@ -40,7 +40,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                     Content = "PostContent2",
                     UserEmail = "unique1@email.com"
                 }
-                );
+            );
         }
     }
 }

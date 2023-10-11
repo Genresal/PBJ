@@ -1,21 +1,22 @@
-﻿using FluentValidation;
+﻿using System.Reflection;
+using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
 using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Handlers;
+using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Requirements;
 using PBJ.StoreManagementService.Business.Options;
 using Serilog;
 using Serilog.Events;
-using System.Reflection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Enums;
-using PBJ.StoreManagementService.Business.AuthorizationConfigurations.Requirements;
 
 namespace PBJ.StoreManagementService.Api.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        private static AuthOptions _authOptions = new();
+        private static readonly AuthOptions _authOptions = new();
 
         public static void BuildOptions(this IServiceCollection services, IConfiguration configuration)
         {
@@ -25,28 +26,29 @@ namespace PBJ.StoreManagementService.Api.Extensions
         public static void SetupAuthentication(this IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.Authority = _authOptions.Authority;
-                options.TokenValidationParameters.ValidateAudience = false;
-                options.TokenValidationParameters.ValidTypes = new[] { "at + jwt" };
-            });
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = _authOptions.Authority;
+                    options.TokenValidationParameters.ValidateAudience = false;
+                    options.TokenValidationParameters.ValidTypes = new[] { "at + jwt" };
+                });
         }
 
         public static void SetupAuthorization(this IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("User",
+                    policy =>
+                    {
+                        policy.Requirements.Add(new UserRequirement(_authOptions.Authority, Role.User.ToString()));
+                    });
 
-                options.AddPolicy("User", policy =>
-                {
-                    policy.Requirements.Add(new UserRequirement(_authOptions.Authority, Role.User.ToString()));
-                });
-
-                options.AddPolicy("Admin", policy =>
-                {
-                    policy.Requirements.Add(new UserRequirement(_authOptions.Authority, Role.Admin.ToString()));
-                });
+                options.AddPolicy("Admin",
+                    policy =>
+                    {
+                        policy.Requirements.Add(new UserRequirement(_authOptions.Authority, Role.Admin.ToString()));
+                    });
             });
 
             services.AddSingleton<IAuthorizationHandler, UserAuthorizationHandler>();
@@ -57,7 +59,7 @@ namespace PBJ.StoreManagementService.Api.Extensions
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 {
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
         }
 
@@ -113,21 +115,22 @@ namespace PBJ.StoreManagementService.Api.Extensions
                     Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = _authOptions.AuthScheme }
                 });
 
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
+                {
+                    new OpenApiSecurityScheme
                     {
-                        new OpenApiSecurityScheme
+                        Reference = new OpenApiReference
                         {
-                            Reference = new OpenApiReference {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = _authOptions.AuthScheme
-                            },
-                            Scheme = "oauth2",
-                            Name = _authOptions.AuthScheme,
-                            In = ParameterLocation.Header
+                            Type = ReferenceType.SecurityScheme,
+                            Id = _authOptions.AuthScheme
                         },
-                        new List<string>()
-                    }
+                        Scheme = "oauth2",
+                        Name = _authOptions.AuthScheme,
+                        In = ParameterLocation.Header
+                    },
+                    new List<string>()
+                }
                 });
             });
         }

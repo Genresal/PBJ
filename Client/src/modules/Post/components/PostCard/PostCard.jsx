@@ -54,7 +54,7 @@ const PostCard = ({post, deletePost, editPost}) => {
                 <Grid item md={12}>
                     <Grid container direction="row" columnSpacing={2} fullWidth>
                         <Grid item>
-                            {(post.userEmail).trim()} 
+                            {post.userEmail} 
                         </Grid>
                         <Grid item>
                             {ConvertDate(post.createdAt)}

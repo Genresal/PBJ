@@ -18,8 +18,9 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _userFollowersService = commentService;
         }
 
-        [HttpGet, Route("paginated")]
-        public async Task<ActionResult> GetPaginatedAsync([FromQuery]PaginationRequestModel requestModel)
+        [HttpGet]
+        [Route("paginated")]
+        public async Task<ActionResult> GetPaginatedAsync([FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _userFollowersService
                 .GetPaginatedAsync(requestModel.Page, requestModel.Take);
@@ -45,9 +46,9 @@ namespace PBJ.StoreManagementService.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteAsync(int id)
+        public async Task<ActionResult> DeleteAsync(UserFollowersRequestModel requestModel)
         {
-            var result = await _userFollowersService.DeleteAsync(id);
+            var result = await _userFollowersService.DeleteAsync(requestModel);
 
             return Ok(result);
         }

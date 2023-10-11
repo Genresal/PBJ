@@ -3,7 +3,7 @@
 namespace PBJ.StoreManagementService.DataAccess.Entities
 {
     public class PaginationResponse<TEntity>
-    where TEntity : BaseEntity
+        where TEntity : BaseEntity
     {
         public IEnumerable<TEntity> Items { get; set; } = new List<TEntity>();
 

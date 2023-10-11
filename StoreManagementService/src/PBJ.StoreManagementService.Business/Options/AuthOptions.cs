@@ -4,8 +4,8 @@
     {
         public const string AuthConfigurations = "AuthConfigurations";
 
-        public string Authority { get; set; } = null!;
+        public string Authority { get; set; }
 
-        public string AuthScheme { get; set; } = null!;
+        public string AuthScheme { get; set; }
     }
 }

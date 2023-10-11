@@ -21,8 +21,8 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
 
         public virtual async Task<PaginationResponse<TEntity>> GetPaginatedAsync<TProperty>(
             int page, int take,
-            Expression<Func<TEntity, bool>>? where = null,
-            Expression<Func<TEntity, TProperty>>? orderBy = null,
+            Expression<Func<TEntity, bool>> where = null,
+            Expression<Func<TEntity, TProperty>> orderBy = null,
             bool ascOrder = true)
         {
             var (items, count) = await ExecuteQueryAsync(page, take, where, orderBy, ascOrder);
@@ -36,13 +36,13 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
             };
         }
 
-        public virtual async Task<TEntity?> GetAsync(int id)
+        public virtual async Task<TEntity> GetAsync(int id)
         {
             return await _databaseContext.Set<TEntity>()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
             return await _databaseContext.Set<TEntity>()
                 .FirstOrDefaultAsync(whereExpression);
@@ -62,7 +62,7 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
             await _databaseContext.SaveChangesAsync();
         }
 
-        public virtual async Task DeleteAsync(TEntity? entity)
+        public virtual async Task DeleteAsync(TEntity entity)
         {
             _databaseContext.Set<TEntity>().Remove(entity!);
 
@@ -71,8 +71,33 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
 
         protected async Task<(List<TEntity>, int)> ExecuteQueryAsync<TProperty>(
             int page, int take,
-            Expression<Func<TEntity, bool>>? where = null,
-            Expression<Func<TEntity, TProperty>>? orderBy = null,
+            Expression<Func<TEntity, bool>> where = null,
+            Expression<Func<TEntity, TProperty>> orderBy = null,
+            bool ascOrder = true)
+        {
+            var query = _databaseContext.Set<TEntity>().AsQueryable();
+
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+
+            if (orderBy != null)
+            {
+                query = ascOrder ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
+            }
+
+            var items = await query.Skip((page - 1) * take).Take(take).ToListAsync();
+
+            var count = await query.CountAsync();
+
+            return (items, count);
+        }
+
+        protected virtual async Task<(List<TEntity>, int)> ExecuteQueryWithIncludeAsync<TOrder>(
+            int page, int take,
+            Expression<Func<TEntity, bool>> where = null,
+            Expression<Func<TEntity, TOrder>> orderBy = null,
             bool ascOrder = true)
         {
             var query = _databaseContext.Set<TEntity>().AsQueryable();

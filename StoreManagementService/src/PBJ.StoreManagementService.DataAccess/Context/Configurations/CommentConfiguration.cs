@@ -50,7 +50,7 @@ namespace PBJ.StoreManagementService.DataAccess.Context.Configurations
                     UserEmail = "unique2@email.com",
                     PostId = 1
                 }
-                );
+            );
         }
     }
 }

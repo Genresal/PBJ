@@ -12,7 +12,7 @@ using PBJ.StoreManagementService.DataAccess.Context;
 namespace PBJ.StoreManagementService.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231009093104_Initial")]
+    [Migration("20231011124919_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,7 +46,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasColumnType("nchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -61,7 +61,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "CommentContent1",
-                            CreatedAt = new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(2543),
+                            CreatedAt = new DateTime(2023, 10, 11, 14, 49, 19, 513, DateTimeKind.Local).AddTicks(1806),
                             PostId = 2,
                             UserEmail = "unique1@email.com"
                         },
@@ -69,7 +69,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 2,
                             Content = "CommentContent2",
-                            CreatedAt = new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(2596),
+                            CreatedAt = new DateTime(2023, 10, 11, 14, 49, 19, 513, DateTimeKind.Local).AddTicks(1857),
                             PostId = 1,
                             UserEmail = "unique2@email.com"
                         });
@@ -92,7 +92,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasColumnType("nchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -105,14 +105,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            CreatedAt = new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(9576),
+                            CreatedAt = new DateTime(2023, 10, 11, 14, 49, 19, 513, DateTimeKind.Local).AddTicks(9460),
                             UserEmail = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            CreatedAt = new DateTime(2023, 10, 9, 11, 31, 4, 473, DateTimeKind.Local).AddTicks(9606),
+                            CreatedAt = new DateTime(2023, 10, 11, 14, 49, 19, 513, DateTimeKind.Local).AddTicks(9479),
                             UserEmail = "unique1@email.com"
                         });
                 });
@@ -127,8 +127,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nchar");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -160,11 +159,11 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
 
                     b.Property<string>("FollowerEmail")
                         .IsRequired()
-                        .HasColumnType("nchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
-                        .HasColumnType("nchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 

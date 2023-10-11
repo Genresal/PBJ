@@ -31,7 +31,7 @@ const CreatePostCard = ({createNewPost, user}) => {
                 </Grid>
             </Grid>
             <Grid container style={{padding: 10}} justifyContent="flex-end">
-                <Button variant="contained" onClick={addPost} style={{borderRadius: 30}}>Post</Button>
+                <Button variant="contained" onClick={addPost} style={{borderRadius: 30, textTransform: "none"}}>Post</Button>
             </Grid>
         </Grid>
     );

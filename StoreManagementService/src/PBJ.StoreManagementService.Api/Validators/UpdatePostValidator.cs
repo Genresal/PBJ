@@ -7,7 +7,7 @@ namespace PBJ.StoreManagementService.Api.Validators
     {
         public UpdatePostValidator()
         {
-            RuleFor(x => x.Content).NotEmpty().NotNull().MinimumLength(30);
+            RuleFor(x => x.Content).NotEmpty().NotNull();
         }
     }
 }

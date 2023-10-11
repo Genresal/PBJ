@@ -10,13 +10,11 @@ const PostCardList = ({posts, deletePost, editPost}) => {
     }
 
     return (
-        <>
-            {posts.slice().reverse().map(post =>
-                <Grid container key={post.id} xs={12} >
-                    <PostCard  post={post} deletePost={deletePost} editPost={editPost}/>
-                </Grid>
-            )}
-        </>
+        posts.slice().reverse().map(post =>
+            <Grid container key={post.id} xs={12} >
+                <PostCard  post={post} deletePost={deletePost} editPost={editPost}/>
+            </Grid>
+        )
     );
 };
 

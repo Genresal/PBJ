@@ -11,6 +11,6 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 
         Task<UserFollowersDto> CreateAsync(UserFollowersRequestModel userFollowersRequestModel);
 
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(UserFollowersRequestModel requestModel);
     }
 }
