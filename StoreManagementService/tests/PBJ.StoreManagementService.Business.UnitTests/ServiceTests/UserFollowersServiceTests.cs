@@ -130,7 +130,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
         [Theory, AutoMockData]
-        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(int id)
+        public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(
+            UserFollowersRequestModel requestModel)
         {
             //Arrange
             _mockUserFollowersRepository
@@ -139,7 +140,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             var userFollowersService = new UserFollowersService(_mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await userFollowersService.DeleteAsync(id);
+            var result = await userFollowersService.DeleteAsync(requestModel);
 
             //Assert
             _mockUserFollowersRepository
@@ -148,8 +149,9 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Should().BeTrue();
         }
 
-        [Fact]
-        public async Task DeleteAsync_WhenEntityNotExists_ThrowsDbUpdateExceptionException()
+        [Theory, AutoMockData]
+        public async Task DeleteAsync_WhenEntityNotExists_ThrowsDbUpdateExceptionException(
+            UserFollowersRequestModel requestModel)
         {
             //Arrange
             _mockUserFollowersRepository.Setup(x =>
@@ -158,7 +160,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             var userFollowersService = new UserFollowersService(_mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var act = () => userFollowersService.DeleteAsync(1);
+            var act = () => userFollowersService.DeleteAsync(requestModel);
 
             //Assert
             await act.Should().ThrowAsync<DbUpdateException>();
