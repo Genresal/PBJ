@@ -4,9 +4,11 @@ using PBJ.StoreManagementService.Api.IntegrationTests.Constants;
 using PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests.Abstract;
 using PBJ.StoreManagementService.Api.IntegrationTests.FixtureCustomizations;
 using PBJ.StoreManagementService.Api.IntegrationTests.Handlers;
+using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.UserFollowers;
 using System.Net;
+using Bogus;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
@@ -182,10 +184,16 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             var userFollower = await _dataManager.CreateUserFollowerAsync();
 
+            var requestBody = BuildRequestBody(new UserFollowersRequestModel()
+            {
+                UserEmail = userFollower.UserEmail,
+                FollowerEmail = userFollower.FollowerEmail
+            });
+
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?id={userFollower.Id}",
-                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?userEmail={userFollower.UserEmail}&followerEmail={userFollower.FollowerEmail}",
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken, requestBody: requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -196,10 +204,18 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task DeleteAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int id)
         {
             //Arrange
+            var faker = new Faker();
+
+            var requestBody = BuildRequestBody(new UserFollowersRequestModel()
+            {
+                UserEmail = faker.Internet.Email(),
+                FollowerEmail = faker.Internet.Email()
+            });
+
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?id={id}",
-                    HttpMethod.Delete);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}",
+                    HttpMethod.Delete, requestBody: requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -209,10 +225,18 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task DeleteAsync_WhenEntityNotExists_ReturnsInternalServerError()
         {
             //Arrange
+            var faker = new Faker();
+
+            var requestBody = BuildRequestBody(new UserFollowersRequestModel()
+            {
+                UserEmail = faker.Internet.Email(),
+                FollowerEmail = faker.Internet.Email()
+            });
+
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?id={0}",
-                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
+            await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?userEmail={0}&followerEmail={0}",
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken, requestBody: requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
@@ -222,10 +246,16 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
         public async Task DeleteAsync_WhenRequestIsNotValid_ReturnsBadRequest()
         {
             //Arrange
+            var requestBody = BuildRequestBody(new UserFollowersRequestModel()
+            {
+                UserEmail = string.Empty,
+                FollowerEmail = string.Empty
+            });
+
             //Act
             var response =
-                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}?id={string.Empty}",
-                    HttpMethod.Delete, token: JwtTokenHandler.UserToken);
+                await ExecuteWithStatusCodeAsync($"{ApiConstants.UserFollowersApi}",
+                    HttpMethod.Delete, token: JwtTokenHandler.UserToken, requestBody: requestBody);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

@@ -71,11 +71,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         {
             //Arrange
             _mockUserRepository.Setup(x =>
-                    x.GetPaginatedAsync(It.IsAny<int>(),
-                        It.IsAny<int>(),
-                        It.IsAny<Expression<Func<User, bool>>>(),
-                        It.IsAny<Expression<Func<User, int>>>(),
-                        It.IsAny<bool>()))
+                    x.GetFollowersAsync(It.IsAny<string>(),
+                        It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(response);
 
             _mockMapper.Setup(x => x.Map<PaginationResponseDto<UserDto>>(
@@ -88,11 +85,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             var result = await userService.GetFollowersAsync(userEmail, page, take);
 
             //Assert
-            _mockUserRepository.Verify(x => x.GetPaginatedAsync(It.IsAny<int>(),
-                It.IsAny<int>(),
-                It.IsAny<Expression<Func<User, bool>>>(),
-                It.IsAny<Expression<Func<User, int>>>(),
-                It.IsAny<bool>()), Times.Once);
+            _mockUserRepository.Verify(x => x.GetFollowersAsync(It.IsAny<string>(),
+                It.IsAny<int>(), It.IsAny<int>()), Times.Once);
 
             result.Should().NotBeNull();
             result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();

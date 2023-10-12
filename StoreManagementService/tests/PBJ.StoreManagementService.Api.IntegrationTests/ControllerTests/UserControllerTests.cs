@@ -139,7 +139,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (paginationResponseDto, response) = await ExecuteWithFullResponseAsync<PaginationResponseDto<UserDto>>(
-                $"{ApiConstants.UserApi}/followings?email={userFollower.UserEmail}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.UserApi}/followings?email={userFollower.FollowerEmail}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert

@@ -69,7 +69,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
-                    $"{ApiConstants.CommentApi}/postId?postId={comment.PostId}&page={requestModel.Page}&take={requestModel.Take}",
+                    $"{ApiConstants.CommentApi}/post?postId={comment.PostId}&page={requestModel.Page}&take={requestModel.Take}",
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -88,7 +88,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Act
             var (paginationResponseDto, response) =
                 await ExecuteWithFullResponseAsync<PaginationResponseDto<CommentDto>>(
-                    $"{ApiConstants.CommentApi}/postId?postId={0}&page={requestModel.Page}&take={requestModel.Take}",
+                    $"{ApiConstants.CommentApi}/post?postId={0}&page={requestModel.Page}&take={requestModel.Take}",
                     HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
@@ -106,7 +106,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.CommentApi}/postId?postId={postId}&page={requestModel.Page}&take={requestModel.Take}",
+                $"{ApiConstants.CommentApi}/post?postId={postId}&page={requestModel.Page}&take={requestModel.Take}",
                 HttpMethod.Get);
 
             //Assert
@@ -119,7 +119,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.CommentApi}/postId?postId={string.Empty}&page={string.Empty}&take={string.Empty}",
+                $"{ApiConstants.CommentApi}/post?postId={string.Empty}&page={string.Empty}&take={string.Empty}",
                 HttpMethod.Get, token: JwtTokenHandler.UserToken);
 
             //Assert
