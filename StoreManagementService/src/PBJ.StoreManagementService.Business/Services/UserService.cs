@@ -25,12 +25,19 @@ namespace PBJ.StoreManagementService.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<PaginationResponseDto<UserDto>> GetPaginatedAsync(int page, int take)
+        public async Task<List<UserDto>> SearchUsersByEmailPartAsync(string emailPart, int take)
         {
-            var paginationResponse = await _userRepository
-                .GetPaginatedAsync(page, take, orderBy: x => x.Id);
+            Log.Information("Email Part {email}", emailPart);
 
-            return _mapper.Map<PaginationResponseDto<UserDto>>(paginationResponse);
+            var paginationResponse = await _userRepository
+                .GetPaginatedAsync(1, take,
+                    where: x => x.Email.ToLower().Contains(emailPart.ToLower()),
+                    orderBy: x => x.Id);
+
+            Log.Information("{items}", paginationResponse.Items);
+            
+
+            return _mapper.Map<List<UserDto>>(paginationResponse.Items);
         }
 
         public async Task<PaginationResponseDto<UserDto>> GetFollowersAsync(string userEmail, int page, int take)

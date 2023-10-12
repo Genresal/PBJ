@@ -5,7 +5,7 @@ import { getFollowingsAsync } from '../../api/getFollowingsAsync';
 import { deleteUserFollowerAsync } from "../../api/deleteUserFollowerAsync"
 import { createUserFollowerAsync } from "../../api/createUserFollowerAsync"
 import { Grid, CircularProgress } from '@mui/material';
-import FollowerCard from '../FollowerCard/FollowerCard';
+import UserCard from '../UserCard/UserCard';
 
 export default function Followers({loggedUserEmail, isFollowers}) {
   const [followers, setFollowers] = useState([]);
@@ -63,8 +63,8 @@ export default function Followers({loggedUserEmail, isFollowers}) {
           </Grid>
         :
           followers.map(follower => 
-              <FollowerCard key={follower.email} follower={follower} 
-              handleFollowersClick={handleFollowersClick}/>
+              <UserCard key={follower.email} user={follower} 
+              handleFollowersClick={handleFollowersClick} isButtonEnabled={true}/>
             )
       }
     </Grid>

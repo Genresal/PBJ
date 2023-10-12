@@ -5,7 +5,7 @@ namespace PBJ.StoreManagementService.Business.Services.Abstract
 {
     public interface IUserService
     {
-        Task<PaginationResponseDto<UserDto>> GetPaginatedAsync(int page, int take);
+        Task<List<UserDto>> SearchUsersByEmailPartAsync(string emailPart, int take);
 
         Task<PaginationResponseDto<UserDto>> GetFollowersAsync(string userEmail, int page, int take);
 
