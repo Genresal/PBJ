@@ -4,7 +4,7 @@ import { IDENTITY_USER_URL } from "../../../constants/ApiConstants"
 export const editPasswordAsync = async (email, passwordRequest) => {
 
     try {
-        const response = await axios.put(IDENTITY_USER_URL + "/password/edit", passwordRequest, {
+        const response = await axios.put(IDENTITY_USER_URL + "/password", passwordRequest, {
             params: {
                 email : email
             }

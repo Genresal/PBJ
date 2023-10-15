@@ -1,10 +1,17 @@
 import { Avatar, Button, Grid } from "@mui/material"
 import classes from "./FollowerCard.module.css"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 export default function FollowerCard({key, follower, handleFollowersClick}) {
-  return (
-    <>
-        <Grid key={key} container columnSpacing={3} className={classes.followerCard} justifyContent="space-between"
+
+    const history = useHistory();
+
+    const handleUserClick = () => {
+        history.push(`/user/${follower.email}`);
+    }
+
+    return (
+        <Grid onClick={handleUserClick} key={key} container columnSpacing={3} className={classes.followerCard} justifyContent="space-between"
         style={{border: "1px solid lightGray", borderBottom: "none", padding: 10, width: 500}}>
             <Grid item>
                 <Avatar>F</Avatar>
@@ -27,6 +34,5 @@ export default function FollowerCard({key, follower, handleFollowersClick}) {
             }
             </Grid>
         </Grid>
-    </>
-  )
+    )
 }

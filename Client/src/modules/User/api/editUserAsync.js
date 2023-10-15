@@ -3,7 +3,7 @@ import { IDENTITY_USER_URL } from "../../../constants/ApiConstants"
 
 export const editUserAsync = async (email, userRequest) => {
     try {
-        const response = await axios.put(IDENTITY_USER_URL + "/edit", userRequest,
+        const response = await axios.put(IDENTITY_USER_URL, userRequest,
         {
             params: {
                 email: email
