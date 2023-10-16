@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Box, Modal, TextField, Button, Grid } from '@mui/material';
 
-export default function EditUserModal({ user, onOpen, onClose, onSave }) {
-    const [editedUser, setEditedUser] = useState({...user})
+export default function EditUserModal({ loggedUser, onOpen, onClose, onSave }) {
+    const [editedUser, setEditedUser] = useState({...loggedUser})
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;

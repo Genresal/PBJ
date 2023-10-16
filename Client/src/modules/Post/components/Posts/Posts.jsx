@@ -9,7 +9,7 @@ import {editPostAsync} from "../../api/editPostAsync.js";
 import { Loader } from "../../../../UI/Loader/Loader.jsx"
 import { Grid } from '@mui/material';
 
-const Posts = ({user}) => {
+const Posts = ({user, isLoggedUser}) => {
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [take, setTake] = useState(10);
@@ -43,8 +43,6 @@ const Posts = ({user}) => {
     const editPost = async (id, content) => {
         const response = await editPostAsync(id, content)
 
-        console.log(response)
-
         setPosts(posts.map(x =>
            x.id === id
             ? {...posts, id: id, content: response.data.content, userEmail: response.data.userEmail}
@@ -55,13 +53,16 @@ const Posts = ({user}) => {
 
     return (
         <Grid container maxWidth="md" style={{width: 500}}>
-            <CreatePostCard createNewPost={createNewPost} user={user}/>
+            {isLoggedUser &&
+                <CreatePostCard createNewPost={createNewPost} user={user}/>
+            }
             {
                 isLoading 
                 ?
                     <Loader/>
                 :
-                    <PostCardList posts={posts} deletePost={deletePost} editPost={editPost} loggedUser={user}/>
+                    <PostCardList posts={posts} deletePost={deletePost} editPost={editPost} 
+                    userEmail={user.email} isLoggedUser={isLoggedUser}/>
             }
         </Grid>
     );

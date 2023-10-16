@@ -5,14 +5,14 @@ import Followers from '../modules/User/components/Followers/Followers'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 
 export default function FollowersPage() {
-  const {user} = useContext(PagesContext)
+  const {loggedUser} = useContext(PagesContext)
   const location = useLocation();
 
   return (
     <>
       <NavMenu/>
 
-      <Followers loggedUserEmail={user.email} isFollowers={location.pathname === "/followers"}/>
+      <Followers loggedUserEmail={loggedUser.email} isFollowers={location.pathname === "/followers"}/>
     </>
   )
 }

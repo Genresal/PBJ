@@ -69,7 +69,8 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
             //Act
             var (userFollowerDto, response) = await ExecuteWithFullResponseAsync<UserFollowersDto>(
-                $"{ApiConstants.UserFollowersApi}?id={userFollower.Id}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                $"{ApiConstants.UserFollowersApi}?userEmail={userFollower.UserEmail}&followerEmail={userFollower.FollowerEmail}", 
+                HttpMethod.Get, token: JwtTokenHandler.AdminToken);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -78,12 +79,14 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
         [Theory]
         [CustomAutoData]
-        public async Task GetAsync_WhenTokenIsEmpty_ReturnsUnauthorized(int id)
+        public async Task GetAsync_WhenTokenIsEmpty_ReturnsUnauthorized(
+            string userEmail,
+            string followerEmail)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserFollowersApi}?id={id}", HttpMethod.Get);
+                $"{ApiConstants.UserFollowersApi}?userEmail={userEmail}&followerEmail={followerEmail}", HttpMethod.Get);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -91,38 +94,17 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 
         [Theory]
         [CustomAutoData]
-        public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden(int id)
+        public async Task GetAsync_WhenEntityNotExists_ReturnsNotFound(
+            string userEmail,
+            string followerEmail)
         {
             //Arrange
             //Act
             var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserFollowersApi}?id={id}", HttpMethod.Get, token: JwtTokenHandler.UserToken);
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-        }
-
-        [Fact]
-        public async Task GetAsync_WhenEntityNotExists_ReturnsNotFound()
-        {
-            //Arrange
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserFollowersApi}?id={0}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
+                $"{ApiConstants.UserFollowersApi}?userEmail={userEmail}&followerEmail={followerEmail}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        }
-
-        [Fact]
-        public async Task GetAsync_WhenRequestIsNotValid_ReturnsBadRequest()
-        {
-            //Arrange
-            //Act
-            var response = await ExecuteWithStatusCodeAsync(
-                $"{ApiConstants.UserFollowersApi}?id={string.Empty}", HttpMethod.Get, token: JwtTokenHandler.AdminToken);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]

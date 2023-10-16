@@ -28,7 +28,13 @@ namespace PBJ.AuthService.Api.Controllers
                 return BadRequest(result.ErrorMessage);
             }
 
-            return Ok(result.Result);
+            return Ok(new
+            {
+                result.Result.Email,
+                result.Result.UserName,
+                result.Result.Surname,
+                result.Result.BirthDate
+            });
         }
 
         [HttpPut]

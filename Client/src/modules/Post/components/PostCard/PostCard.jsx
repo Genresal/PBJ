@@ -7,7 +7,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import classes from "./PostCard.module.css"
 import { useHistory } from 'react-router-dom';
 
-const PostCard = ({post, deletePost, editPost, isDisabled, loggedUser}) => {
+const PostCard = ({post, deletePost, editPost, isDisabled, userEmail, isLoggedUser}) => {
     const [content, setContent] = useState({content: ""});
     const [isEditing, setIsEditing] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -17,14 +17,14 @@ const PostCard = ({post, deletePost, editPost, isDisabled, loggedUser}) => {
     const id = open ? 'simple-popover' : undefined;
 
     const handleOpenPostClick = () => {
-        history.push(`/post/${post.id}`)
+        history.push(`/post/${userEmail}/${post.id}`)
     }
 
     const handlePopoverClick = (event) => {
         event.stopPropagation();
 
         setAnchorEl(event.currentTarget);
-      };
+    };
     
     const handlePopoverClose = () => {
         setAnchorEl(null);
@@ -67,7 +67,7 @@ const PostCard = ({post, deletePost, editPost, isDisabled, loggedUser}) => {
                         <Grid item>
                             {ConvertDate(post.createdAt)}
                         </Grid>
-                        {loggedUser.email === post.userEmail && 
+                        {isLoggedUser &&
                             <Grid container justifyContent="flex-end" md={4}>
                                 <IconButton onClick={handlePopoverClick} aria-describedby={id}>
                                     <MoreHorizIcon/>
@@ -75,7 +75,7 @@ const PostCard = ({post, deletePost, editPost, isDisabled, loggedUser}) => {
                             </Grid>
                         }
                     </Grid>
-                    <Grid item>
+                    <Grid item style={{marginTop : isLoggedUser ? 0 : 10}}>
                         {isEditing
                             ?
                                 <>

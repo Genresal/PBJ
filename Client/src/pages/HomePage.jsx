@@ -5,13 +5,13 @@ import { PagesContext } from "../modules/Provider/PagesProvider"
 
 export default function HomePage() {
 
-  const {user} = useContext(PagesContext)
+  const {loggedUser} = useContext(PagesContext)
   
   return (
     <>
       <NavMenu/>
 
-      <Posts user={user}/>
+      <Posts user={loggedUser} isLoggedUser={true}/>
     </>
   )
 }

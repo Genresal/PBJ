@@ -28,11 +28,10 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [Authorize(Policy = "Admin")]
         [HttpGet]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult> GetAsync(string userEmail, string followerEmail)
         {
-            var result = await _userFollowersService.GetAsync(id);
+            var result = await _userFollowersService.GetAsync(userEmail, followerEmail);
 
             return Ok(result);
         }

@@ -4,13 +4,13 @@ import { PagesContext } from '../modules/Provider/PagesProvider';
 import UserProfile from '../modules/User/components/UserProfile/UserProfile';
 
 export default function ProfilePage() {
-    const {user, setUser} = useContext(PagesContext);
+    const {loggedUser, setLoggedUser} = useContext(PagesContext);
 
     return (
         <>
             <NavMenu/>
 
-            <UserProfile user={user} saveUser={setUser}/>
+            <UserProfile loggedUser={loggedUser} saveLoggedUserUser={setLoggedUser}/>
         </>
     )
 }

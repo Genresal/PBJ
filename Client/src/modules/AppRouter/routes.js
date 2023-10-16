@@ -13,8 +13,8 @@ export const privateRoutes = [
     { path: "/profile", component: ProfilePage, exact: true },
     { path: "/followers", component: FollowersPage, exact: true },
     { path: "/followings", component: FollowersPage, exact: true },
-    { path: "/post/:postId", component: PostPage, exact: false },
-    { path: "/user/:email", component: UserPage, exact: false }
+    { path: "/post/:userEmail/:postId", component: PostPage, exact: false },
+    { path: "/:email", component: UserPage, exact: false }
 ]
 
 export const publicRoutes = [

@@ -9,7 +9,7 @@ import { useContext } from "react";
 import ProfilePopover from "../Popover/ProfilePopover";
 
 const NavMenu = () => {
-    const {user} = useContext(PagesContext)
+    const {loggedUser} = useContext(PagesContext)
 
     return (
         <div>
@@ -72,15 +72,15 @@ const NavMenu = () => {
                         </ListItem>
                     </Link>
                     <ListItem style={{position: "fixed", bottom: "10px", width: "250px"}}>
-                        <ProfilePopover>
+                        <ProfilePopover loggedUser={loggedUser}>
                             <ListItemButton style={{borderRadius: 30}}>
                                 <ListItemIcon>
                                     <Avatar>A</Avatar>
                                 </ListItemIcon>
                                 <ListItemText>
                                     <Grid container direction="column" justifyContent="left">
-                                        <Grid item style={{fontWeight: "bold"}}>{user.name}</Grid>
-                                        <Grid item style={{fontSize: 13}}>{user.email}</Grid>
+                                        <Grid item style={{fontWeight: "bold"}}>{loggedUser.userName}</Grid>
+                                        <Grid item style={{fontSize: 13}}>{loggedUser.email}</Grid>
                                     </Grid>
                                 </ListItemText>
                             </ListItemButton>
