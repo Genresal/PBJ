@@ -58,7 +58,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "CommentContent1",
-                            CreatedAt = new DateTime(2023, 10, 9, 23, 30, 54, 160, DateTimeKind.Local).AddTicks(8675),
+                            CreatedAt = new DateTime(2023, 10, 11, 16, 2, 42, 733, DateTimeKind.Local).AddTicks(4928),
                             PostId = 2,
                             UserEmail = "unique1@email.com"
                         },
@@ -66,7 +66,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 2,
                             Content = "CommentContent2",
-                            CreatedAt = new DateTime(2023, 10, 9, 23, 30, 54, 160, DateTimeKind.Local).AddTicks(8690),
+                            CreatedAt = new DateTime(2023, 10, 11, 16, 2, 42, 733, DateTimeKind.Local).AddTicks(4999),
                             PostId = 1,
                             UserEmail = "unique2@email.com"
                         });
@@ -102,14 +102,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            CreatedAt = new DateTime(2023, 10, 9, 23, 30, 54, 162, DateTimeKind.Local).AddTicks(3944),
+                            CreatedAt = new DateTime(2023, 10, 11, 16, 2, 42, 734, DateTimeKind.Local).AddTicks(5439),
                             UserEmail = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            CreatedAt = new DateTime(2023, 10, 9, 23, 30, 54, 162, DateTimeKind.Local).AddTicks(3960),
+                            CreatedAt = new DateTime(2023, 10, 11, 16, 2, 42, 734, DateTimeKind.Local).AddTicks(5485),
                             UserEmail = "unique1@email.com"
                         });
                 });

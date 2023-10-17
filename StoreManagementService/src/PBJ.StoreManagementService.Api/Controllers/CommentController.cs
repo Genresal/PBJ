@@ -18,8 +18,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet]
-        [Route("paginated")]
+        [HttpGet, Route("paginated")]
         public async Task<ActionResult> GetPaginatedAsync([FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _commentService
@@ -28,8 +27,7 @@ namespace PBJ.StoreManagementService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("postId")]
+        [HttpGet, Route("post")]
         public async Task<ActionResult> GetByPostId(int postId, [FromQuery] PaginationRequestModel requestModel)
         {
             var result = await _commentService

@@ -93,30 +93,5 @@ namespace PBJ.StoreManagementService.DataAccess.Repositories
 
             return (items, count);
         }
-
-        protected virtual async Task<(List<TEntity>, int)> ExecuteQueryWithIncludeAsync<TOrder>(
-            int page, int take,
-            Expression<Func<TEntity, bool>> where = null,
-            Expression<Func<TEntity, TOrder>> orderBy = null,
-            bool ascOrder = true)
-        {
-            var query = _databaseContext.Set<TEntity>().AsQueryable();
-
-            if (where != null)
-            {
-                query = query.Where(where);
-            }
-
-            if (orderBy != null)
-            {
-                query = ascOrder ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
-            }
-
-            var items = await query.Skip((page - 1) * take).Take(take).ToListAsync();
-
-            var count = await query.CountAsync();
-
-            return (items, count);
-        }
     }
 }

@@ -12,7 +12,7 @@ using PBJ.StoreManagementService.DataAccess.Context;
 namespace PBJ.StoreManagementService.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231011124919_Initial")]
+    [Migration("20231011140242_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -61,7 +61,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "CommentContent1",
-                            CreatedAt = new DateTime(2023, 10, 11, 14, 49, 19, 513, DateTimeKind.Local).AddTicks(1806),
+                            CreatedAt = new DateTime(2023, 10, 11, 16, 2, 42, 733, DateTimeKind.Local).AddTicks(4928),
                             PostId = 2,
                             UserEmail = "unique1@email.com"
                         },
@@ -69,7 +69,7 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 2,
                             Content = "CommentContent2",
-                            CreatedAt = new DateTime(2023, 10, 11, 14, 49, 19, 513, DateTimeKind.Local).AddTicks(1857),
+                            CreatedAt = new DateTime(2023, 10, 11, 16, 2, 42, 733, DateTimeKind.Local).AddTicks(4999),
                             PostId = 1,
                             UserEmail = "unique2@email.com"
                         });
@@ -105,14 +105,14 @@ namespace PBJ.StoreManagementService.DataAccess.Migrations
                         {
                             Id = 1,
                             Content = "PostContent1",
-                            CreatedAt = new DateTime(2023, 10, 11, 14, 49, 19, 513, DateTimeKind.Local).AddTicks(9460),
+                            CreatedAt = new DateTime(2023, 10, 11, 16, 2, 42, 734, DateTimeKind.Local).AddTicks(5439),
                             UserEmail = "unique1@email.com"
                         },
                         new
                         {
                             Id = 2,
                             Content = "PostContent2",
-                            CreatedAt = new DateTime(2023, 10, 11, 14, 49, 19, 513, DateTimeKind.Local).AddTicks(9479),
+                            CreatedAt = new DateTime(2023, 10, 11, 16, 2, 42, 734, DateTimeKind.Local).AddTicks(5485),
                             UserEmail = "unique1@email.com"
                         });
                 });

@@ -12,12 +12,12 @@ namespace PBJ.StoreManagementService.Models.User
 
         public bool IsFollowingRequestUser { get; set; } = false;
 
-        public IReadOnlyCollection<PostDto> Posts { get; set; }
+        public ICollection<PostDto> Posts { get; set; }
 
-        public IReadOnlyCollection<CommentDto> Comments { get; set; }
+        public ICollection<CommentDto> Comments { get; set; }
 
-        public IReadOnlyCollection<UserFollowersDto> Followings { get; set; }
+        public ICollection<UserFollowersDto> Followings { get; set; }
 
-        public IReadOnlyCollection<UserFollowersDto> Followers { get; set; }
+        public ICollection<UserFollowersDto> Followers { get; set; }
     }
 }

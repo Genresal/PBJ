@@ -7,17 +7,17 @@ using PBJ.StoreManagementService.Business.UnitTests.AutoFixtureConfigurations;
 using PBJ.StoreManagementService.Business.UnitTests.ServiceTests.Abstract;
 using PBJ.StoreManagementService.DataAccess.Entities;
 using PBJ.StoreManagementService.DataAccess.Repositories.Abstract;
-using PBJ.StoreManagementService.Models.Pagination;
 using PBJ.StoreManagementService.Models.User;
 using System.Linq.Expressions;
+using PBJ.StoreManagementService.Models.Pagination;
 using Xunit;
 
 namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 {
     public class UserServiceTests : BaseServiceTests
     {
-        private readonly Mock<IUserFollowersRepository> _mockUserFollowersRepository;
         private readonly Mock<IUserRepository> _mockUserRepository;
+        private readonly Mock<IUserFollowersRepository> _mockUserFollowersRepository;
 
         public UserServiceTests()
         {
@@ -25,8 +25,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockUserFollowersRepository = new Mock<IUserFollowersRepository>();
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task GetAmountAsync_WhenEntitiesExists_ReturnsListOfDto(
             int page,
             int take,
@@ -62,8 +61,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsListOfDto(
             string userEmail,
             int page,
@@ -73,11 +71,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         {
             //Arrange
             _mockUserRepository.Setup(x =>
-                    x.GetPaginatedAsync(It.IsAny<int>(),
-                        It.IsAny<int>(),
-                        It.IsAny<Expression<Func<User, bool>>>(),
-                        It.IsAny<Expression<Func<User, int>>>(),
-                        It.IsAny<bool>()))
+                    x.GetFollowersAsync(It.IsAny<string>(),
+                        It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(response);
 
             _mockMapper.Setup(x => x.Map<PaginationResponseDto<UserDto>>(
@@ -90,18 +85,14 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             var result = await userService.GetFollowersAsync(userEmail, page, take);
 
             //Assert
-            _mockUserRepository.Verify(x => x.GetPaginatedAsync(It.IsAny<int>(),
-                It.IsAny<int>(),
-                It.IsAny<Expression<Func<User, bool>>>(),
-                It.IsAny<Expression<Func<User, int>>>(),
-                It.IsAny<bool>()), Times.Once);
+            _mockUserRepository.Verify(x => x.GetFollowersAsync(It.IsAny<string>(),
+                It.IsAny<int>(), It.IsAny<int>()), Times.Once);
 
             result.Should().NotBeNull();
             result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task GetFollowingsAsync_WhenRequestIsValid_ReturnsListOfDto(
             string followerEmail,
             int page,
@@ -137,8 +128,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task GetAsync_WhenEntityExists_ReturnsDto(int id,
             User user,
             UserDto userDto)
@@ -161,8 +151,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Should().NotBeNull().And.BeOfType<UserDto>();
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task GetAsync_WhenEntityNotExists_ThrowsNotFoundException(int id)
         {
             //Arrange
@@ -181,8 +170,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             _mockUserRepository.Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task GetByEmailAsync_WhenEntityExists_ReturnsDto(string email,
             User user,
             UserDto userDto)
@@ -207,8 +195,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Should().NotBeNull().And.BeOfType<UserDto>();
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task GetByEmailAsync_WhenEntityNotExists_ThrowsNotFoundException(string email)
         {
             //Arrange
@@ -230,8 +217,8 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
 
-        [Theory]
-        [AutoMockData]
+
+        [Theory, AutoMockData]
         public async Task CreateAsync_WhenEntityNotExists_ReturnsCreatedDto(
             User user,
             UserDto userDto,
@@ -259,8 +246,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Should().NotBeNull().And.BeOfType<UserDto>();
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task CreateAsync_WhenEntityExists_ThrowsAlreadyExistsException(
             User user,
             UserRequestModel userRequestModel)
@@ -286,8 +272,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task DeleteAsync_WhenEntityExists_ReturnsTrue(int id,
             User user)
         {
@@ -315,8 +300,7 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [AutoMockData]
+        [Theory, AutoMockData]
         public async Task DeleteAsync_WhenEntityNotExists_ThrowsDbUpdateExceptionException(int id)
         {
             //Arrange

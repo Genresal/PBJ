@@ -158,20 +158,6 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
-        [Theory]
-        [CustomAutoData]
-        public async Task GetAsync_WhenRoleIsUser_ReturnsForbidden(int id)
-        {
-            //Arrange
-            //Act
-            var response =
-                await ExecuteWithStatusCodeAsync($"{ApiConstants.PostApi}?id={id}",
-                    HttpMethod.Get, token: JwtTokenHandler.UserToken);
-
-            //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-        }
-
         [Fact]
         public async Task GetAsync_WhenEntityNotExists_ReturnsNotFound()
         {

@@ -12,6 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  padding: none;
 }
 
 a {
@@ -24,7 +25,6 @@ a:hover {
 }
 
 body {
-  margin: 0;
   display: flex;
   min-width: 320px;
   min-height: 100vh;
