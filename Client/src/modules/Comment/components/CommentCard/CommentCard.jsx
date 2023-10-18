@@ -4,14 +4,9 @@ import { ConvertDate } from '../../../../shared/DateConverter'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useContext } from 'react';
-import { PagesContext } from '../../../Provider/PagesProvider';
 
 
 export default function CommentCard({isOwner, comment, userEmail, editComment, deleteComment}) {
-
-    console.log(isOwner)
-    const {loggedUser} = useContext(PagesContext)
     const [content, setContent] = useState({content: ""});
     const [isEditing, setIsEditing] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);

@@ -41,12 +41,14 @@ export const Comments = ({postId, userEmail}) => {
     const handleCreateComment = async () => {
         const response = await createCommentAsync(commentContent, loggedUser.email, postId);
 
+        console.log(response)
+
         if (response) {
             setComments([...comments, response.data]);
 
             setCommentContent("");
 
-            setIsCommenting(prev => !prev);
+           setIsCommenting(prev => !prev);
         }
     }
 
