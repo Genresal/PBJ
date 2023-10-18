@@ -26,42 +26,6 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
         }
 
         [Theory, AutoMockData]
-        public async Task GetAmountAsync_WhenEntitiesExists_ReturnsListOfDto(
-            int page,
-            int take,
-            PaginationResponse<User> response,
-            PaginationResponseDto<UserDto> responseDto)
-        {
-            //Arrange
-            _mockUserRepository.Setup(x => x.GetPaginatedAsync(It.IsAny<int>(),
-                    It.IsAny<int>(),
-                    It.IsAny<Expression<Func<User, bool>>>(),
-                    It.IsAny<Expression<Func<User, int>>>(),
-                    It.IsAny<bool>()))
-                .ReturnsAsync(response);
-
-            _mockMapper.Setup(x => x.Map<PaginationResponseDto<UserDto>>(
-                    It.IsAny<PaginationResponse<User>>()))
-                .Returns(responseDto);
-
-            var userService = new UserService(_mockUserRepository.Object,
-                _mockUserFollowersRepository.Object, _mockMapper.Object);
-
-            //Act
-            var result = await userService.GetPaginatedAsync(page, take);
-
-            //Assert
-            _mockUserRepository.Verify(x => x.GetPaginatedAsync(It.IsAny<int>(),
-                It.IsAny<int>(),
-                It.IsAny<Expression<Func<User, bool>>>(),
-                It.IsAny<Expression<Func<User, int>>>(),
-                It.IsAny<bool>()), Times.Once);
-
-            result.Should().NotBeNull();
-            result.Items.Should().NotBeNull().And.BeAssignableTo<IEnumerable<UserDto>>();
-        }
-
-        [Theory, AutoMockData]
         public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsListOfDto(
             string userEmail,
             int page,

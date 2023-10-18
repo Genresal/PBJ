@@ -31,7 +31,7 @@ const NavMenu = () => {
                             </ListItemButton>
                         </ListItem>
                     </Link>
-                    <Link to="/search" style={{color: "black"}}>
+                    <Link to="/explore" style={{color: "black"}}>
                         <ListItem>
                             <ListItemButton style={{borderRadius: 30}}>
                                 <ListItemIcon>

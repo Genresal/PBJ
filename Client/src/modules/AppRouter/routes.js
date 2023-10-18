@@ -1,4 +1,5 @@
 import CallbackPage from "../../pages/CallbackPage";
+import ExplorePage from "../../pages/ExplorePage";
 import FollowersPage from "../../pages/FollowersPage";
 import HomePage from "../../pages/HomePage";
 import PostPage from "../../pages/PostPage";
@@ -12,6 +13,7 @@ export const privateRoutes = [
     { path: "/profile", component: ProfilePage, exact: true },
     { path: "/followers", component: FollowersPage, exact: true },
     { path: "/followings", component: FollowersPage, exact: true },
+    { path: "/explore", component: ExplorePage, exact: true },
     { path: "/post/:postId", component: PostPage, exact: false }
 ]
 
