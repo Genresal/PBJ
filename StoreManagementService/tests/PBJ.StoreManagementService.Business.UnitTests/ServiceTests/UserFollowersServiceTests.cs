@@ -63,12 +63,14 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
 
         [Theory]
         [AutoMockData]
-        public async Task GetAsync_WhenEntityExists_ReturnsDto(int id,
+        public async Task GetAsync_WhenEntityExists_ReturnsDto(
+            string userEmail,
+            string followerEmail,
             UserFollowers userFollowers,
             UserFollowersDto userFollowersDto)
         {
             //Arrange
-            _mockUserFollowersRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
+            _mockUserFollowersRepository.Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<UserFollowers, bool>>>()))
                 .ReturnsAsync(userFollowers);
 
             _mockMapper.Setup(x => x.Map<UserFollowersDto>(userFollowers)).Returns(userFollowersDto);
@@ -76,33 +78,35 @@ namespace PBJ.StoreManagementService.Business.UnitTests.ServiceTests
             var userFollowersService = new UserFollowersService(_mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var result = await userFollowersService.GetAsync(id);
+            var result = await userFollowersService.GetAsync(userEmail, followerEmail);
 
             //Assert
             _mockUserFollowersRepository
-                .Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
+                .Verify(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<UserFollowers, bool>>>()), Times.Once);
 
             result.Should().NotBeNull().And.BeOfType<UserFollowersDto>();
         }
 
         [Theory]
         [AutoMockData]
-        public async Task GetAsync_WhenEntityNotExists_ThrowsNotFoundException(int id)
+        public async Task GetAsync_WhenEntityNotExists_ThrowsNotFoundException(
+            string userEmail,
+            string followerEmail)
         {
             //Arrange
-            _mockUserFollowersRepository.Setup(x => x.GetAsync(It.IsAny<int>()))
+            _mockUserFollowersRepository.Setup(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<UserFollowers, bool>>>()))
                 .ReturnsAsync(value: null);
 
             var userFollowersService = new UserFollowersService(_mockUserFollowersRepository.Object, _mockMapper.Object);
 
             //Act
-            var act = () => userFollowersService.GetAsync(id);
+            var act = () => userFollowersService.GetAsync(userEmail, followerEmail);
 
             //Assert
             await act.Should().ThrowAsync<NotFoundException>();
 
             _mockUserFollowersRepository
-                .Verify(x => x.GetAsync(It.IsAny<int>()), Times.Once);
+                .Verify(x => x.FirstOrDefaultAsync(It.IsAny<Expression<Func<UserFollowers, bool>>>()), Times.Once);
         }
 
         [Theory]

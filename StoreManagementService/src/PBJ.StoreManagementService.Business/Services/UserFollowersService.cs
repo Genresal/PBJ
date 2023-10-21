@@ -30,9 +30,10 @@ namespace PBJ.StoreManagementService.Business.Services
             return _mapper.Map<PaginationResponseDto<UserFollowersDto>>(paginationResponse);
         }
 
-        public async Task<UserFollowersDto> GetAsync(int id)
+        public async Task<UserFollowersDto> GetAsync(string userEmail, string followerEmail)
         {
-            var userFollower = await _userFollowersRepository.GetAsync(id);
+            var userFollower = await _userFollowersRepository
+                .FirstOrDefaultAsync(x => x.UserEmail == userEmail && x.FollowerEmail == followerEmail);
 
             if (userFollower == null)
             {

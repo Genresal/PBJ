@@ -6,7 +6,7 @@ import EditUserModal from '../EditUserModal/EditUserModal'
 import { editPasswordAsync } from '../../api/editPasswordAsync';
 import EditPasswordModal from '../EditPasswordModal/EditPasswordModal';
 
-export default function UserProfile({user, saveUser}) {
+export default function UserProfile({loggedUser, saveLoggedUserUser}) {
     const [openEditUserModal, setOpenEditUserModal] = useState(false);
     const [openEditPasswordModal, setOpenEditPasswordModal] = useState(false);
 
@@ -27,19 +27,19 @@ export default function UserProfile({user, saveUser}) {
     }
     
     const handleSaveUser = async (editedUser) => {
-        const response = await editUserAsync(user.email, {
+        const response = await editUserAsync(loggedUser.email, {
             userName : editedUser.userName,
             surname : editedUser.surname,
             birthDate : new Date(editedUser.birthDate).toISOString()
         });
 
         if(response) {
-            saveUser(editedUser);
+            saveLoggedUserUser(editedUser);
         }
     };
 
     const handleSavePassword = async (passwordRequest) => {
-        const response  = await editPasswordAsync(user.email, passwordRequest)
+        const response  = await editPasswordAsync(loggedUser.email, passwordRequest)
 
         if (response) {
             console.log("Password changed successfully");
@@ -81,19 +81,19 @@ export default function UserProfile({user, saveUser}) {
                 </Grid>
                 <Grid container rowSpacing={1} direction="column" style={{paddingLeft: 15, fontSize: 15}}>
                     <Grid item style={{fontWeight: "bold", fontSize: 20}}>
-                        {user.userName} {user.surname}
+                        {loggedUser.userName} {loggedUser.surname}
                     </Grid>
                     <Grid item style={{color: "gray"}}>
-                        {user.email}
+                        {loggedUser.email}
                     </Grid>
                     <Grid item>
-                        <CalendarMonthIcon style={{fontSize: 15, marginRight: 5}}/>{user.birthDate}
+                        <CalendarMonthIcon style={{fontSize: 15, marginRight: 5}}/>{loggedUser.birthDate}
                     </Grid>
                 </Grid>
             </Grid>
 
             <EditUserModal
-                user={user}
+                loggedUser={loggedUser}
                 onOpen={openEditUserModal}
                 onClose={handleCloseEditUserModal}
                 onSave={handleSaveUser}

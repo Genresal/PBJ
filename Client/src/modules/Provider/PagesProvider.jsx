@@ -27,7 +27,7 @@ userManager.events.addAccessTokenExpired(async () => {
 export default function PagesProvider({children}) {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState({
+    const [loggedUser, setLoggedUser] = useState({
         email: "",
         userName: "",
         surname: "",
@@ -38,8 +38,8 @@ export default function PagesProvider({children}) {
         isAuthenticated,
         setIsAuthenticated,
         userManager,
-        user,
-        setUser
+        loggedUser,
+        setLoggedUser
     }
 
     const getUser = (access_token) => {
@@ -65,7 +65,7 @@ export default function PagesProvider({children}) {
                 
                 axios.defaults.headers.common["Authorization"] = `Bearer ${userInfo.access_token}`;
 
-                setUser(getUser(userInfo.access_token));
+                setLoggedUser(getUser(userInfo.access_token));
             }
         })
     }, [])

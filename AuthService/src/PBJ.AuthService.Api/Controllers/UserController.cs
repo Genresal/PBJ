@@ -18,7 +18,26 @@ namespace PBJ.AuthService.Api.Controllers
             _userService = userService;
         }
 
-        [HttpPut, Route("edit")]
+        [HttpGet]
+        public async Task<ActionResult> GetUserAsync(string email)
+        {
+            var result = await _userService.GetUserAsync(email);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return Ok(new
+            {
+                result.Result.Email,
+                result.Result.UserName,
+                result.Result.Surname,
+                result.Result.BirthDate
+            });
+        }
+
+        [HttpPut]
         public async Task<ActionResult> EditUserAsync(string email, [FromBody] EditUserRequestModel requestModel)
         {
             var result = await _userService.EditUserAsync(email, 
@@ -32,7 +51,7 @@ namespace PBJ.AuthService.Api.Controllers
             return Ok(result.Result);
         }
 
-        [HttpPut, Route("password/edit")]
+        [HttpPut, Route("password")]
         public async Task<ActionResult> EditPasswordAsync(string email, EditPasswordRequestModel requestModel)
         {
             var result = await _userService.EditPasswordAsync(email,

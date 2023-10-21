@@ -15,6 +15,7 @@ namespace PBJ.StoreManagementService.Api.IntegrationTests.ControllerTests
 {
     public class UserControllerTests : BaseControllerTest
     {
+
         [Theory]
         [CustomAutoData]
         public async Task GetFollowersAsync_WhenRequestIsValid_ReturnsOk(
